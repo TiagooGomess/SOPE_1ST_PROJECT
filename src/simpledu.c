@@ -54,10 +54,46 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
             int size;
             if (sscanf(argv[i + 1], "%d", &size) != 1) {
                 // verificar os caracteres compatíveis e converter esses caracteres para inteiro
-
-                // TODO
-
-                return 0;
+                char* sizeString = malloc(2*sizeof(char));
+                if (sscanf(argv[i + 1], "%s", sizeString) != 1) {
+                    return 0;
+                }
+                if (strcmp(sizeString, "kB") == 0) {
+                    size = 1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "KB") == 0) {
+                    size = 1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "k") == 0) {
+                    size = 1024;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "K") == 0) {
+                    size = 1024;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "mB") == 0) {
+                    size = 1000*1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "MB") == 0) {
+                    size = 1000*1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "m") == 0) {
+                    size = 1024*1024;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "M") == 0) {
+                    size = 1024*1024;
+                    jumpIteration = 1;
+                }
+                // Consideramos que não há compatibilidade com tamanhos iguais ou superiores ao GB.
+                else {
+                    return 0;
+                }
             }
             else {
                 jumpIteration = 1;
@@ -68,10 +104,46 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
             int size;
             if (sscanf(argv[i], "-B%d", &size) != 1) {
                 // verificar os caracteres compatíveis e converter esses caracteres para inteiro
-
-                // TODO
-
-                return 0;
+                char* sizeString = malloc(2*sizeof(char));
+                if (sscanf(argv[i], "-B%s", sizeString) != 1) {
+                    return 0;
+                }
+                if (strcmp(sizeString, "kB") == 0) {
+                    size = 1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "KB") == 0) {
+                    size = 1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "k") == 0) {
+                    size = 1024;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "K") == 0) {
+                    size = 1024;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "mB") == 0) {
+                    size = 1000*1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "MB") == 0) {
+                    size = 1000*1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "m") == 0) {
+                    size = 1024*1024;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "M") == 0) {
+                    size = 1024*1024;
+                    jumpIteration = 1;
+                }
+                // Consideramos que não há compatibilidade com tamanhos iguais ou superiores ao GB.
+                else {
+                    return 0;
+                }
             }
             arguments->blockSize = size;
         }
@@ -79,10 +151,46 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
             int size;
             if (sscanf(argv[i], "--block-size=%d", &size) != 1) {
                 // verificar os caracteres compatíveis e converter esses caracteres para inteiro
-
-                // TODO
-
-                return 0;
+                char* sizeString = malloc(2*sizeof(char));
+                if (sscanf(argv[i], "--block-size=%s", sizeString) != 1) {
+                    return 0;
+                }
+                if (strcmp(sizeString, "kB") == 0) {
+                    size = 1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "KB") == 0) {
+                    size = 1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "k") == 0) {
+                    size = 1024;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "K") == 0) {
+                    size = 1024;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "mB") == 0) {
+                    size = 1000*1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "MB") == 0) {
+                    size = 1000*1000;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "m") == 0) {
+                    size = 1024*1024;
+                    jumpIteration = 1;
+                }
+                else if (strcmp(sizeString, "M") == 0) {
+                    size = 1024*1024;
+                    jumpIteration = 1;
+                }
+                // Consideramos que não há compatibilidade com tamanhos iguais ou superiores ao GB.
+                else {
+                    return 0;
+                }
             }
             arguments->blockSize = size;
         }
@@ -103,6 +211,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
             arguments->maxDepth = depth;
         }
         else {
+            printf("I'm quiting2!\n");
             return 0;
         }
     }
