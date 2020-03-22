@@ -1,19 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 /**
- * Se um elemento da struct foi especificado nos argumentos da linha de comandos,
- * fica a 1 na struct Arguments, senão fica a 0.
+ * Se um elemento da struct não foi especificado nos argumentos da linha de comandos, fica
+ * a 0 ou com um valor default. Caso seja especificado, fica a 1 ou com o valor especificado.
  */
 typedef struct {
-    int all;
-    int bytes;
-    int blockSize;
-    int countLinks;
-    int dereference;
-    int separateDirs;
-    int maxDepth;
+    int all; /* 0 or 1*/
+    int bytes; /* 0 or 1*/
+    int blockSize; /* número de bytes default do tamanho dos blocks, ou então um valor especificado */
+    int countLinks; /* 0 or 1*/
+    int dereference; /* 0 or 1*/
+    int separateDirs; /* 0 or 1*/
+    int maxDepth; /* número de níveis de profundidade (default = INT_MAX) */
 } Arguments;
 
 /**
@@ -22,11 +23,11 @@ typedef struct {
 void initializeArgumentsStruct(Arguments* arguments) {
     arguments->all = 0;
     arguments->bytes = 0;
-    arguments->blockSize = 0;
+    arguments->blockSize = 1024;
     arguments->countLinks = 1;
     arguments->dereference = 0;
     arguments->separateDirs = 0;
-    arguments->maxDepth = 0;
+    arguments->maxDepth = INT_MAX;
 }
 
 /**
@@ -61,9 +62,11 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
         else if (strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "--separate-dirs") == 0) {
             arguments->separateDirs = 1;
         }
-        else if (strcmp(argv[i], "--max-depth=") == 0) {
-            arguments->bytes = 1;
-            // Temos que mudar esta condição para aceitar um inteiro a seguir ao igual, sem espaço.
+        else if (strstr(argv[i], "--max-depth=") != NULL) {
+            int depth;
+            if (sscanf(argv[i], "--max-depth=%d", &depth) != 1)
+                return 0;
+            arguments->maxDepth = depth;
         }
         else {
             return 0;
@@ -87,5 +90,7 @@ int main(int argc, char* argv[]) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
         exit(2);
     }
+
+    printf("\nMAX DEPTH: %d\n", arguments.maxDepth);
 
 }
