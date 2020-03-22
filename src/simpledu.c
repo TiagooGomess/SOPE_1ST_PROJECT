@@ -35,22 +35,56 @@ void initializeArgumentsStruct(Arguments* arguments) {
  * Retorna 1 se está tudo OK, 0 caso haja algum erro.
  */
 int checkArguments(Arguments* arguments, int argc, char* argv[]) {
+    int jumpIteration = 0;
     for (int i = 1; i < argc; i++) {
+        if (jumpIteration) {
+            jumpIteration = 0;
+            continue;
+        }
         if (strcmp(argv[i], "-a") == 0 || strcmp(argv[i], "--all") == 0) {
             arguments->all = 1;
         }
         else if (strcmp(argv[i], "-b") == 0 || strcmp(argv[i], "--bytes") == 0) {
             arguments->bytes = 1;
         }
-        else if (strcmp(argv[i], "-B") == 0 || strcmp(argv[i], "--block-size=") == 0) {
-            arguments->blockSize = 1;
-            /* 
-            --> Precisamos de verificar qual o número ou caracteres que vêm depois de -B, sendo que pode ou não
-            haver espaços.
-            --> O mesmo se aplica para a segunda condição do if, já que só funciona da forma "--block-size=N",
-            sendo N o size; precisamos, portanto, de testar se argv[i] começa pela sub-string "--block-size=", 
-            e verificar qual / quais o(s) algarismo(s) ou caracteres (kB, K, MB, etc.) vêm a seguir ao "=" 
-            */
+        else if (strcmp(argv[i], "-B") == 0) { // com espaço entre o -B e o número de bytes            
+            if (i + 1 >= argc) { // se não tiver próximo argumento
+                return 0;
+            }
+            int size;
+            if (sscanf(argv[i + 1], "%d", &size) != 1) {
+                // verificar os caracteres compatíveis e converter esses caracteres para inteiro
+
+                // TODO
+
+                return 0;
+            }
+            else {
+                jumpIteration = 1;
+            }
+            arguments->blockSize = size;
+        }
+        else if (strstr(argv[i], "-B") != NULL) { // sem espaço entre o -B e o número de bytes
+            int size;
+            if (sscanf(argv[i], "-B%d", &size) != 1) {
+                // verificar os caracteres compatíveis e converter esses caracteres para inteiro
+
+                // TODO
+
+                return 0;
+            }
+            arguments->blockSize = size;
+        }
+        else if (strstr(argv[i], "--block-size=") != NULL) {
+            int size;
+            if (sscanf(argv[i], "--block-size=%d", &size) != 1) {
+                // verificar os caracteres compatíveis e converter esses caracteres para inteiro
+
+                // TODO
+
+                return 0;
+            }
+            arguments->blockSize = size;
         }
         else if (strcmp(argv[i], "-l") == 0 || strcmp(argv[i], "--count-links") == 0) {
             arguments->countLinks = 1;
@@ -91,6 +125,6 @@ int main(int argc, char* argv[]) {
         exit(2);
     }
 
-    printf("\nMAX DEPTH: %d\n", arguments.maxDepth);
+    printf("\nBLOCK SIZE: %d\n", arguments.blockSize);
 
 }
