@@ -31,6 +31,42 @@ void initializeArgumentsStruct(Arguments* arguments) {
 }
 
 /**
+ * Verifica se os caracteres do tamanho dos blocos são compatíveis (k, K, kB, KB, m, M, mB, MB)
+ * Retorna o tamanho em bytes que os caracteres representam, e 0 caso os caracteres não sejam compatíteis.
+ */
+int checkCompatibleCharactersSize(int* size, char* sizeString) {
+    if (strcmp(sizeString, "kB") == 0) {
+        *size = 1000;
+    }
+    else if (strcmp(sizeString, "KB") == 0) {
+        *size = 1000;
+    }
+    else if (strcmp(sizeString, "k") == 0) {
+        *size = 1024;
+    }
+    else if (strcmp(sizeString, "K") == 0) {
+        *size = 1024;
+    }
+    else if (strcmp(sizeString, "mB") == 0) {
+        *size = 1000*1000;
+    }
+    else if (strcmp(sizeString, "MB") == 0) {
+        *size = 1000*1000;
+    }
+    else if (strcmp(sizeString, "m") == 0) {
+        *size = 1024*1024;
+    }
+    else if (strcmp(sizeString, "M") == 0) {
+        *size = 1024*1024;
+    }
+    // Consideramos que não há compatibilidade com tamanhos iguais ou superiores ao GB.
+    else {
+        return 0;
+    }
+    return *size;
+}
+
+/**
  * Verifica se os argumentos passados na linha de comandos estão corretos.
  * Retorna 1 se está tudo OK, 0 caso haja algum erro.
  */
@@ -58,42 +94,9 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 if (sscanf(argv[i + 1], "%s", sizeString) != 1) {
                     return 0;
                 }
-                if (strcmp(sizeString, "kB") == 0) {
-                    size = 1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "KB") == 0) {
-                    size = 1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "k") == 0) {
-                    size = 1024;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "K") == 0) {
-                    size = 1024;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "mB") == 0) {
-                    size = 1000*1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "MB") == 0) {
-                    size = 1000*1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "m") == 0) {
-                    size = 1024*1024;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "M") == 0) {
-                    size = 1024*1024;
-                    jumpIteration = 1;
-                }
-                // Consideramos que não há compatibilidade com tamanhos iguais ou superiores ao GB.
-                else {
+                if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                }
+                jumpIteration = 1;
             }
             else {
                 jumpIteration = 1;
@@ -108,42 +111,8 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 if (sscanf(argv[i], "-B%s", sizeString) != 1) {
                     return 0;
                 }
-                if (strcmp(sizeString, "kB") == 0) {
-                    size = 1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "KB") == 0) {
-                    size = 1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "k") == 0) {
-                    size = 1024;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "K") == 0) {
-                    size = 1024;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "mB") == 0) {
-                    size = 1000*1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "MB") == 0) {
-                    size = 1000*1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "m") == 0) {
-                    size = 1024*1024;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "M") == 0) {
-                    size = 1024*1024;
-                    jumpIteration = 1;
-                }
-                // Consideramos que não há compatibilidade com tamanhos iguais ou superiores ao GB.
-                else {
+                if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                }
             }
             arguments->blockSize = size;
         }
@@ -155,42 +124,8 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 if (sscanf(argv[i], "--block-size=%s", sizeString) != 1) {
                     return 0;
                 }
-                if (strcmp(sizeString, "kB") == 0) {
-                    size = 1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "KB") == 0) {
-                    size = 1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "k") == 0) {
-                    size = 1024;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "K") == 0) {
-                    size = 1024;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "mB") == 0) {
-                    size = 1000*1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "MB") == 0) {
-                    size = 1000*1000;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "m") == 0) {
-                    size = 1024*1024;
-                    jumpIteration = 1;
-                }
-                else if (strcmp(sizeString, "M") == 0) {
-                    size = 1024*1024;
-                    jumpIteration = 1;
-                }
-                // Consideramos que não há compatibilidade com tamanhos iguais ou superiores ao GB.
-                else {
+                if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                }
             }
             arguments->blockSize = size;
         }
@@ -201,7 +136,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
         else if (strcmp(argv[i], "-L") == 0 || strcmp(argv[i], "--dereference") == 0) {
             arguments->dereference = 1;
         }
-        else if (strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "--separate-dirs") == 0) {
+        else if (strcmp(argv[i], "-S") == 0 || strcmp(argv[i], "--separate-dirs") == 0) {
             arguments->separateDirs = 1;
         }
         else if (strstr(argv[i], "--max-depth=") != NULL) {
@@ -211,7 +146,6 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
             arguments->maxDepth = depth;
         }
         else {
-            printf("I'm quiting2!\n");
             return 0;
         }
     }
@@ -234,6 +168,13 @@ int main(int argc, char* argv[]) {
         exit(2);
     }
 
+    // TESTED :)
     printf("\nBLOCK SIZE: %d\n", arguments.blockSize);
+    printf("\nALL: %d\n", arguments.all);
+    printf("\nBYTES: %d\n", arguments.bytes);
+    printf("\nCOUNT LINKS: %d\n", arguments.countLinks);
+    printf("\nDEREFERENCE: %d\n", arguments.dereference);
+    printf("\nSEPARATE DIRS: %d\n", arguments.separateDirs);
+    printf("\nMAX DEPTH: %d\n", arguments.maxDepth);
 
 }
