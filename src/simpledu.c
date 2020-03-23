@@ -4,11 +4,12 @@
 #include <limits.h>
 #include <sys/stat.h>
 
-#define PATH_MAX_LEN 50
+#define PATH_MAX_LEN 256
+#define FILENAME_MAX_LEN 64
 #define DEFAULT_BLOCK_SIZE 1024
 
 /**
- * Se um elemento da struct não foi especificado nos argumentos da linha de comandos, fica
+ * Se um elemento do tipo int da struct não foi especificado nos argumentos da linha de comandos, fica
  * a 0 ou com um valor default. Caso seja especificado, fica a 1 ou com o valor especificado.
  */
 typedef struct {
@@ -20,6 +21,7 @@ typedef struct {
     int separateDirs; /* 0 or 1*/
     int maxDepth; /* número de níveis de profundidade (default = INT_MAX) */
     char* path; /* caminho inicial (default = .) */
+    char* log_filename; /* nome da variável de ambiente LOG_FILENAME */
 } Arguments;
 
 /**
@@ -35,6 +37,8 @@ void initializeArgumentsStruct(Arguments* arguments) {
     arguments->maxDepth = INT_MAX;
     arguments->path = malloc(PATH_MAX_LEN + 1);
     arguments->path = ".";
+    arguments->log_filename = malloc(FILENAME_MAX_LEN + 1);
+    arguments->log_filename = "";
 }
 
 /**
@@ -89,6 +93,7 @@ int isDirectory(const char *path) {
  * Retorna 1 se está tudo OK, 0 caso haja algum erro.
  */
 int checkArguments(Arguments* arguments, int argc, char* argv[]) {
+    arguments->log_filename = getenv("LOG_FILENAME");
     int jumpIteration = 0;
     for (int i = 1; i < argc; i++) {
         if (jumpIteration) {
@@ -202,5 +207,8 @@ int main(int argc, char* argv[]) {
     printf("\nSEPARATE DIRS: %d\n", arguments.separateDirs);
     printf("\nMAX DEPTH: %d\n", arguments.maxDepth);
     printf("\nPATH: %s\n", arguments.path);
+    printf("\nLOG_FILENAME: %s\n", arguments.log_filename); /* antes de correr o programa, escrever o comando:
+                                                                export LOG_FILENAME=log.txt 
+                                                                Escrever um programa BASH que faça isso */
 
 }
