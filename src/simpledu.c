@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <sys/stat.h>
+
+#define PATH_MAX_LEN 50
+#define DEFAULT_BLOCK_SIZE 1024
 
 /**
  * Se um elemento da struct não foi especificado nos argumentos da linha de comandos, fica
@@ -15,6 +19,7 @@ typedef struct {
     int dereference; /* 0 or 1*/
     int separateDirs; /* 0 or 1*/
     int maxDepth; /* número de níveis de profundidade (default = INT_MAX) */
+    char* path; /* caminho inicial (default = .) */
 } Arguments;
 
 /**
@@ -23,11 +28,13 @@ typedef struct {
 void initializeArgumentsStruct(Arguments* arguments) {
     arguments->all = 0;
     arguments->bytes = 0;
-    arguments->blockSize = 1024;
+    arguments->blockSize = DEFAULT_BLOCK_SIZE;
     arguments->countLinks = 1;
     arguments->dereference = 0;
     arguments->separateDirs = 0;
     arguments->maxDepth = INT_MAX;
+    arguments->path = malloc(PATH_MAX_LEN + 1);
+    arguments->path = ".";
 }
 
 /**
@@ -67,6 +74,17 @@ int checkCompatibleCharactersSize(int* size, char* sizeString) {
 }
 
 /**
+ * Verifica se um determinado path é um diretório válido.
+ * Retorna 1 caso seja diretório, 0 caso contrário.
+ */
+int isDirectory(const char *path) {
+    struct stat statbuf;
+    if (stat(path, &statbuf) != 0)
+        return 0;
+    return S_ISDIR(statbuf.st_mode);
+}
+
+/**
  * Verifica se os argumentos passados na linha de comandos estão corretos.
  * Retorna 1 se está tudo OK, 0 caso haja algum erro.
  */
@@ -96,11 +114,8 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                jumpIteration = 1;
             }
-            else {
-                jumpIteration = 1;
-            }
+            jumpIteration = 1;
             arguments->blockSize = size;
         }
         else if (strstr(argv[i], "-B") != NULL) { // sem espaço entre o -B e o número de bytes
@@ -145,6 +160,16 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 return 0;
             arguments->maxDepth = depth;
         }
+        else if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) {
+            // se passarmos ~ como path, é convertido automaticamente para "/home/user" 
+            if (isDirectory(argv[i])) {
+                arguments->path = argv[i];
+            }
+            else {
+                fprintf(stderr, "\n%s is not a directory!\n\n", argv[i]);
+                return 0;
+            }
+        }
         else {
             return 0;
         }
@@ -176,5 +201,6 @@ int main(int argc, char* argv[]) {
     printf("\nDEREFERENCE: %d\n", arguments.dereference);
     printf("\nSEPARATE DIRS: %d\n", arguments.separateDirs);
     printf("\nMAX DEPTH: %d\n", arguments.maxDepth);
+    printf("\nPATH: %s\n", arguments.path);
 
 }
