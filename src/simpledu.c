@@ -208,7 +208,16 @@ int main(int argc, char* argv[]) {
     printf("\nMAX DEPTH: %d\n", arguments.maxDepth);
     printf("\nPATH: %s\n", arguments.path);
     printf("\nLOG_FILENAME: %s\n", arguments.log_filename); /* antes de correr o programa, escrever o comando:
-                                                                export LOG_FILENAME=log.txt 
-                                                                Escrever um programa BASH que faça isso */
+                                                                export LOG_FILENAME=log.txt */
 
+    FILE* log_file;
+    if (arguments.log_filename != NULL) { // criar o ficheiro de registo dos processos
+        log_file = fopen(arguments.log_filename, "w");
+    }
+    else {
+        fprintf(stderr, "\nMust set the ambient variable LOG_FILENAME!\n");
+    }
+
+    fclose(log_file);
+    exit(0);
 }
