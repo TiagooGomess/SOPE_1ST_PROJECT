@@ -196,8 +196,14 @@ int convertFromBytesToBlocks(int numBytes, int blockSize) { // ISTO NÃO ESTÁ B
 
 
 
+int recursionCount = 0;
 
-void executeRecursiveFunction(Arguments arguments) {
+void executeRecursiveFunction(Arguments arguments) { // SHITTY FUNCTION WITHOUT FORKS AND VERY UGLY
+
+    if (arguments.maxDepth <= recursionCount) {
+        return;
+    }
+
     DIR* dir;
     if ((dir = opendir(arguments.path)) == NULL) {
         perror(arguments.path);
@@ -225,6 +231,7 @@ void executeRecursiveFunction(Arguments arguments) {
                 printf("%-25d%12s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
                 arguments.path = dentry->d_name;
                 printf("\n-------RECURSION---------\n");
+                recursionCount++;
                 executeRecursiveFunction(arguments);
             }
         }
@@ -238,6 +245,7 @@ void executeRecursiveFunction(Arguments arguments) {
                 printf("%-25d%12s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
                 arguments.path = dentry->d_name;
                 printf("\n-------RECURSION---------\n");
+                recursionCount++;
                 executeRecursiveFunction(arguments);
             }
         }
@@ -286,7 +294,6 @@ int main(int argc, char* argv[]) {
 
     
     executeRecursiveFunction(arguments);
-
 
 
     fclose(log_file);
