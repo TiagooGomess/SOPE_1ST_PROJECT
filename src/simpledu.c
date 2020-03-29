@@ -221,9 +221,10 @@ void executeRecursiveFunction(Arguments arguments) {
                     printf("%-25d%12s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
                 }
             }
-            if (S_ISDIR(stat_entry.st_mode) && !strcmp(arguments.path, ".") && !strcmp(arguments.path, "..")) {
+            if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
                 printf("%-25d%12s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
                 arguments.path = dentry->d_name;
+                printf("\n-------RECURSION---------\n");
                 executeRecursiveFunction(arguments);
             }
         }
@@ -233,9 +234,10 @@ void executeRecursiveFunction(Arguments arguments) {
                     printf("%-25d%12s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
                 }
             }
-            if (S_ISDIR(stat_entry.st_mode) && !strcmp(arguments.path, ".") && !strcmp(arguments.path, "..")) {
+            if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
                 printf("%-25d%12s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
                 arguments.path = dentry->d_name;
+                printf("\n-------RECURSION---------\n");
                 executeRecursiveFunction(arguments);
             }
         }
