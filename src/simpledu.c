@@ -3,6 +3,9 @@
 #include <string.h>
 #include <limits.h>
 #include <sys/stat.h>
+#include <dirent.h> 
+#include <errno.h>
+#include <unistd.h>
 
 #define PATH_MAX_LEN 256
 #define FILENAME_MAX_LEN 64
@@ -182,6 +185,14 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
     return 1;
 }
 
+/**
+ * Converte de número de bytes para número de blocos, de acordo com o blockSize atual.
+ * Retorna o número de blocos.
+ */
+int convertFromBytesToBlocks(int numBytes, int blockSize) { // ISTO NÃO ESTÁ BEM (COMPAREM COM O DU)
+    return numBytes / blockSize;
+}
+
 int main(int argc, char* argv[]) {
 
     if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
@@ -199,7 +210,7 @@ int main(int argc, char* argv[]) {
     }
 
     // TESTED :)
-    printf("\nBLOCK SIZE: %d\n", arguments.blockSize);
+    /*printf("\nBLOCK SIZE: %d\n", arguments.blockSize);
     printf("\nALL: %d\n", arguments.all);
     printf("\nBYTES: %d\n", arguments.bytes);
     printf("\nCOUNT LINKS: %d\n", arguments.countLinks);
@@ -207,7 +218,7 @@ int main(int argc, char* argv[]) {
     printf("\nSEPARATE DIRS: %d\n", arguments.separateDirs);
     printf("\nMAX DEPTH: %d\n", arguments.maxDepth);
     printf("\nPATH: %s\n", arguments.path);
-    printf("\nLOG_FILENAME: %s\n", arguments.log_filename); /* antes de correr o programa, escrever o comando:
+    printf("\nLOG_FILENAME: %s\n", arguments.log_filename);*/ /* antes de correr o programa, escrever o comando:
                                                                 export LOG_FILENAME=log.txt */
 
     FILE* log_file;
@@ -216,7 +227,52 @@ int main(int argc, char* argv[]) {
     }
     else {
         fprintf(stderr, "\nMust set the ambient variable LOG_FILENAME!\n");
+        exit(3);
     }
+
+    DIR* dir;
+    if ((dir = opendir(arguments.path)) == NULL) {
+        perror(arguments.path);
+        exit(4);
+    }
+    chdir(arguments.path);
+    
+    struct dirent *dentry;
+    struct stat stat_entry;
+    char filename[FILENAME_MAX_LEN];
+    while ((dentry = readdir(dir)) != NULL) {
+
+        filename[0] = '.';
+        filename[1] = '/';
+        filename[2] = '\0';
+
+        stat(dentry->d_name, &stat_entry);
+        if (arguments.bytes) { // mostrar o tamanho em bytes
+            if (arguments.all) {
+                if (S_ISREG(stat_entry.st_mode)) {
+                    printf("%-25d%12s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
+                }
+            }
+            if (S_ISDIR(stat_entry.st_mode)) {
+                printf("%-25d%12s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
+            }
+        }
+        else { // mostrar o tamanho em blocos
+            if (arguments.all) {
+                if (S_ISREG(stat_entry.st_mode)) {
+                    printf("%-25d%12s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
+                }
+            }
+            if (S_ISDIR(stat_entry.st_mode)) {
+                printf("%-25d%12s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
+            }
+        }
+        
+        
+    } 
+
+
+
 
     fclose(log_file);
     exit(0);
