@@ -224,13 +224,16 @@ void executeRecursiveFunction(Arguments arguments) { // SHITTY FUNCTION WITHOUT 
         if (arguments.bytes) { // mostrar o tamanho em bytes
             if (arguments.all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
-                    printf("%-25d%12s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
+                    printf("%-d\t%-s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
                 }
             }
             if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
-                printf("%-25d%12s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
+                printf("%-d\t%-s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
                 arguments.path = dentry->d_name;
-                printf("\n-------RECURSION---------\n");
+               
+
+                
+                //printf("\n-------RECURSION---------\n");
                 recursionCount++;
                 executeRecursiveFunction(arguments);
             }
@@ -238,13 +241,15 @@ void executeRecursiveFunction(Arguments arguments) { // SHITTY FUNCTION WITHOUT 
         else { // mostrar o tamanho em blocos (CORRIGIR FUNÇÃO convertFromBytesToBlocks)
             if (arguments.all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
-                    printf("%-25d%12s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
+                    printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
                 }
             }
             if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
-                printf("%-25d%12s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
+                printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
                 arguments.path = dentry->d_name;
-                printf("\n-------RECURSION---------\n");
+
+                
+                //printf("\n-------RECURSION---------\n");
                 recursionCount++;
                 executeRecursiveFunction(arguments);
             }
@@ -282,20 +287,21 @@ int main(int argc, char* argv[]) {
     printf("\nPATH: %s\n", arguments.path);
     printf("\nLOG_FILENAME: %s\n", arguments.log_filename);*/ /* antes de correr o programa, escrever o comando:
                                                                 export LOG_FILENAME=log.txt */
-
+    /*
     FILE* log_file;
     if (arguments.log_filename != NULL) { // criar o ficheiro de registo dos processos
         log_file = fopen(arguments.log_filename, "w");
     }
     else {
         fprintf(stderr, "\nMust set the ambient variable LOG_FILENAME!\n");
-        exit(3);
+        //exit(3);
     }
+    */
 
     
     executeRecursiveFunction(arguments);
 
 
-    fclose(log_file);
+    //fclose(log_file);
     exit(0);
 }
