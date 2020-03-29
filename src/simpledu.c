@@ -3,6 +3,10 @@
 #include <string.h>
 #include <limits.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <time.h>
 
 #define PATH_MAX_LEN 256
 #define FILENAME_MAX_LEN 64
@@ -22,6 +26,7 @@ typedef struct {
     int maxDepth; /* número de níveis de profundidade (default = INT_MAX) */
     char* path; /* caminho inicial (default = .) */
     char* log_filename; /* nome da variável de ambiente LOG_FILENAME */
+    clock_t timeElapsed;
 } Arguments;
 
 /**
@@ -39,6 +44,7 @@ void initializeArgumentsStruct(Arguments* arguments) {
     arguments->path = ".";
     arguments->log_filename = malloc(FILENAME_MAX_LEN + 1);
     arguments->log_filename = "";
+    arguments->timeElapsed = clock();
 }
 
 /**
@@ -111,6 +117,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 return 0;
             }
             int size;
+            
             if (sscanf(argv[i + 1], "%d", &size) != 1) {
                 // verificar os caracteres compatíveis e converter esses caracteres para inteiro
                 char* sizeString = malloc(2*sizeof(char));
@@ -182,6 +189,10 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
     return 1;
 }
 
+int beginSearch(Arguments* arguments, FILE* log_file) {
+
+}
+
 int main(int argc, char* argv[]) {
 
     if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
@@ -217,6 +228,8 @@ int main(int argc, char* argv[]) {
     else {
         fprintf(stderr, "\nMust set the ambient variable LOG_FILENAME!\n");
     }
+
+    beginSearch(&arguments, &log_file);
 
     fclose(log_file);
     exit(0);
