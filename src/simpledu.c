@@ -193,6 +193,58 @@ int convertFromBytesToBlocks(int numBytes, int blockSize) { // ISTO NÃO ESTÁ B
     return numBytes / blockSize;
 }
 
+
+
+
+
+void executeRecursiveFunction(Arguments arguments) {
+    DIR* dir;
+    if ((dir = opendir(arguments.path)) == NULL) {
+        perror(arguments.path);
+        exit(4);
+    }
+    chdir(arguments.path);
+    
+    struct dirent *dentry;
+    struct stat stat_entry;
+    char filename[FILENAME_MAX_LEN];
+    while ((dentry = readdir(dir)) != NULL) {
+
+        filename[0] = '.';
+        filename[1] = '/';
+        filename[2] = '\0';
+
+        stat(dentry->d_name, &stat_entry);
+        if (arguments.bytes) { // mostrar o tamanho em bytes
+            if (arguments.all) { // mostar também ficheiros regulares
+                if (S_ISREG(stat_entry.st_mode)) {
+                    printf("%-25d%12s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
+                }
+            }
+            if (S_ISDIR(stat_entry.st_mode) && !strcmp(arguments.path, ".") && !strcmp(arguments.path, "..")) {
+                printf("%-25d%12s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
+                arguments.path = dentry->d_name;
+                executeRecursiveFunction(arguments);
+            }
+        }
+        else { // mostrar o tamanho em blocos (CORRIGIR FUNÇÃO convertFromBytesToBlocks)
+            if (arguments.all) { // mostar também ficheiros regulares
+                if (S_ISREG(stat_entry.st_mode)) {
+                    printf("%-25d%12s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
+                }
+            }
+            if (S_ISDIR(stat_entry.st_mode) && !strcmp(arguments.path, ".") && !strcmp(arguments.path, "..")) {
+                printf("%-25d%12s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
+                arguments.path = dentry->d_name;
+                executeRecursiveFunction(arguments);
+            }
+        }
+        
+    } 
+}
+
+
+
 int main(int argc, char* argv[]) {
 
     if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
@@ -230,47 +282,8 @@ int main(int argc, char* argv[]) {
         exit(3);
     }
 
-    DIR* dir;
-    if ((dir = opendir(arguments.path)) == NULL) {
-        perror(arguments.path);
-        exit(4);
-    }
-    chdir(arguments.path);
     
-    struct dirent *dentry;
-    struct stat stat_entry;
-    char filename[FILENAME_MAX_LEN];
-    while ((dentry = readdir(dir)) != NULL) {
-
-        filename[0] = '.';
-        filename[1] = '/';
-        filename[2] = '\0';
-
-        stat(dentry->d_name, &stat_entry);
-        if (arguments.bytes) { // mostrar o tamanho em bytes
-            if (arguments.all) {
-                if (S_ISREG(stat_entry.st_mode)) {
-                    printf("%-25d%12s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
-                }
-            }
-            if (S_ISDIR(stat_entry.st_mode)) {
-                printf("%-25d%12s\n", (int)stat_entry.st_size, strcat(filename, dentry->d_name));
-            }
-        }
-        else { // mostrar o tamanho em blocos
-            if (arguments.all) {
-                if (S_ISREG(stat_entry.st_mode)) {
-                    printf("%-25d%12s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
-                }
-            }
-            if (S_ISDIR(stat_entry.st_mode)) {
-                printf("%-25d%12s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
-            }
-        }
-        
-        
-    } 
-
+    executeRecursiveFunction(arguments);
 
 
 
