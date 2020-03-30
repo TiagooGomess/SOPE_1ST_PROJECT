@@ -15,6 +15,29 @@
 #define FILENAME_MAX_LEN 512
 #define DEFAULT_BLOCK_SIZE 1024
 
+FILE* log_file;
+
+enum log_action {
+    CREATE, EXIT, RECV_SIGNAL, SEND_SIGNAL, RECV_PIPE, SEND_PIPE, ENTRY
+};
+
+char *getLogActionName(enum log_action action) {
+    switch (action) {
+        case CREATE: return "CREATE";
+        case EXIT: return "EXIT";
+        case RECV_SIGNAL: return "RECV_SIGNAL";
+        case SEND_SIGNAL: return "SEND_SIGNAL";
+        case RECV_PIPE: return "RECV_PIPE";
+        case SEND_PIPE: return "SEND_PIPE";
+        case ENTRY: return "ENTRY";
+    }
+}
+
+int logInfo(int instant, int pid, enum log_action action, char *info) {
+    fprintf(log_file, "%d - %d - %s - %s", instant, pid, getLogActionName(action), info);
+}
+
+
 /**
  * Se um elemento do tipo int da struct não foi especificado nos argumentos da linha de comandos, fica
  * a 0 ou com um valor default. Caso seja especificado, fica a 1 ou com o valor especificado.
@@ -47,6 +70,7 @@ void initializeArgumentsStruct(Arguments* arguments) {
     arguments->log_filename = malloc(FILENAME_MAX_LEN + 1);
     arguments->log_filename = "";
 }
+
 
 /**
  * Verifica se os caracteres do tamanho dos blocos são compatíveis (k, K, kB, KB, m, M, mB, MB)
@@ -193,8 +217,9 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
  * Converte de número de bytes para número de blocos, de acordo com o blockSize atual.
  * Retorna o número de blocos.
  */
-int convertFromBytesToBlocks(int numBytes, int blockSize) { // ISTO NÃO ESTÁ BEM (COMPAREM COM O DU)
-    return numBytes / blockSize;
+int convertFromBytesToBlocks(long int numBytes, int blockSize) { // ISTO NÃO ESTÁ BEM (COMPAREM COM O DU)
+    // printf("\nnumBytes:%ld, blockSize:%d\n\n", numBytes, blockSize);
+    return (numBytes / blockSize) + 1;
 }
 
 void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LEN]) {
@@ -251,11 +276,25 @@ void executeDU(Arguments* arguments, char* programPath) {
         filename[1] = '/';
         filename[2] = '\0';*/   
 
-        stat(filename, &stat_entry);
+        if (arguments->dereference) 
+            stat(filename, &stat_entry);
+        else
+            lstat(filename, &stat_entry);
+        
         if (arguments->bytes) { // mostrar o tamanho em bytes
             if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {                   
                     printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);
+                    continue;
+                }
+                if (S_ISLNK(stat_entry.st_mode)) {
+                    /* char *linkedfile = malloc(FILENAME_MAX_LEN);
+                    int sizelinkedfile = readlink(filename, linkedfile, FILENAME_MAX_LEN);
+                    if (sizelinkedfile == -1) {
+                        perror("readlink function");
+                        exit(1);
+                    } */ 
+                    printf("0\t%-s\n"/* -> %-s, (int)stat_entry.st_size,*/ ,filename/*, linkedfile*/);
                     continue;
                 }
             }
@@ -263,7 +302,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                 printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);
                 
                 //printf("\n-------FORKING---------\n");
-                
+                if (arguments->maxDepth == 0) continue;
                 if((pid = fork()) > 0) { // Parent (Waits for his childs)
                     continue;
                 }
@@ -297,9 +336,19 @@ void executeDU(Arguments* arguments, char* programPath) {
                 if (S_ISREG(stat_entry.st_mode)) {
                     printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
                 }
+                if (S_ISLNK(stat_entry.st_mode)) {
+                    /* char *linkedfile = malloc(FILENAME_MAX_LEN);
+                    int sizelinkedfile = readlink(filename, linkedfile, FILENAME_MAX_LEN);
+                    if (sizelinkedfile == -1) {
+                        perror("readlink function");
+                        exit(1);
+                    } */ 
+                    printf("0\t%-s\n"/* -> %-s*/, /*convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize),*/ filename/*, linkedfile*/);
+                    continue;
+                }
             }
             if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
-                printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
+                printf("%-d\t%-s\n", convertFromBytesToBlocks(stat_entry.st_size, arguments->blockSize), filename);
                 //printf("\n-------FORKING---------\n");
                 
                 if((pid = fork()) > 0) { // Parent (Waits for his childs)
@@ -333,18 +382,20 @@ void executeDU(Arguments* arguments, char* programPath) {
     }   
     int status;
     while((pid = wait(&status)) != -1) {
-        printf("Son with PID:%d has terminated!\n", pid);
+        // printf("Son with PID:%d has terminated!\n", pid);
     }
     exit(0);
 }
 
 int main(int argc, char* argv[]) {
-
     if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
         exit(1);
     }
     
+    system("export LOG_FILENAME=log.txt");
+
+
     Arguments arguments;
 
     initializeArgumentsStruct(&arguments);
@@ -367,14 +418,16 @@ int main(int argc, char* argv[]) {
                                                                 export LOG_FILENAME=log.txt */
     /*
     FILE* log_file;
-    if (arguments.log_filename != NULL) { // criar o ficheiro de registo dos processos
-        log_file = fopen(arguments.log_filename, "w");
-    }
+
     else {
         fprintf(stderr, "\nMust set the ambient variable LOG_FILENAME!\n");
         //exit(3);
     }
     */
+
+    if (arguments.log_filename != NULL) { // criar o ficheiro de registo dos processos
+        log_file = fopen(arguments.log_filename, "w");
+    }
 
     executeDU(&arguments, argv[0]);     
     // executeRecursiveFunction(arguments);
