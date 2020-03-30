@@ -292,21 +292,44 @@ void executeDU(Arguments* arguments, char* programPath) {
                 }
             }
         }
-        /*else { // mostrar o tamanho em blocos (CORRIGIR FUNÇÃO convertFromBytesToBlocks)
-            if (arguments.all) { // mostar também ficheiros regulares
+        else { // mostrar o tamanho em blocos (CORRIGIR FUNÇÃO convertFromBytesToBlocks)
+            if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
-                    printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
+                    printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
                 }
             }
             if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
-                printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
-                arguments.path = dentry->d_name;
-
-                
+                printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
                 //printf("\n-------FORKING---------\n");
-                executeRecursiveFunction(arguments);
+                
+                if((pid = fork()) > 0) { // Parent (Waits for his childs)
+                    continue;
+                }
+                else if(pid == 0) { // Child (Analises another directory)
+                    
+                    //char programExecutionPath[PATH_MAX_LEN];
+                    //getcwd(arguments->path, PATH_MAX_LEN);                  
+                    //sprintf(programExecutionPath, "%s/%s", arguments->path, programPath); // Absolute path to program (argv[0)])
+
+                    char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
+                    args[0] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[0] = programPath;
+                    args[1] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[1] = "-l";
+                    args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[2] = filename;
+
+                    reproduceArgumentsToExec(arguments, args);
+                    // printf("\n--- %s | %s ---\n", args[0], args[2]);
+                    execv(args[0], &args[0]);
+                    printf("Error captured while executing execv call!\n");
+                    exit(6);
+                }
+                else {
+                    perror("Fork error has occurred!\n");
+                }
             }
-        }*/
+        }
     }   
     int status;
     while((pid = wait(&status)) != -1) {
