@@ -3,13 +3,16 @@
 #include <string.h>
 #include <limits.h>
 #include <sys/stat.h>
-#include <sys/types.h>
+#include <dirent.h> 
+#include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <time.h>
+#include <wait.h>
 
-#define PATH_MAX_LEN 256
-#define FILENAME_MAX_LEN 64
+
+
+#define PATH_MAX_LEN 512
+#define FILENAME_MAX_LEN 512
 #define DEFAULT_BLOCK_SIZE 1024
 
 /**
@@ -26,7 +29,6 @@ typedef struct {
     int maxDepth; /* número de níveis de profundidade (default = INT_MAX) */
     char* path; /* caminho inicial (default = .) */
     char* log_filename; /* nome da variável de ambiente LOG_FILENAME */
-    clock_t timeElapsed;
 } Arguments;
 
 /**
@@ -44,7 +46,6 @@ void initializeArgumentsStruct(Arguments* arguments) {
     arguments->path = ".";
     arguments->log_filename = malloc(FILENAME_MAX_LEN + 1);
     arguments->log_filename = "";
-    arguments->timeElapsed = clock();
 }
 
 /**
@@ -117,7 +118,6 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 return 0;
             }
             int size;
-            
             if (sscanf(argv[i + 1], "%d", &size) != 1) {
                 // verificar os caracteres compatíveis e converter esses caracteres para inteiro
                 char* sizeString = malloc(2*sizeof(char));
@@ -189,8 +189,130 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
     return 1;
 }
 
-int beginSearch(Arguments* arguments, FILE* log_file) {
+/**
+ * Converte de número de bytes para número de blocos, de acordo com o blockSize atual.
+ * Retorna o número de blocos.
+ */
+int convertFromBytesToBlocks(int numBytes, int blockSize) { // ISTO NÃO ESTÁ BEM (COMPAREM COM O DU)
+    return numBytes / blockSize;
+}
 
+void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LEN]) {
+    int index = 3;
+    char auxArg[PATH_MAX_LEN];
+
+    if(arguments->all) {
+        argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+        strcpy(argsToExec[index++], "-a");
+    }
+    if(arguments->bytes) {
+        argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+        strcpy(argsToExec[index++], "-b");       
+    }    
+    if(arguments->blockSize) {   
+        argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+        sprintf(auxArg, "-B%d", arguments->blockSize);  
+        strcpy(argsToExec[index++], auxArg);   
+    }  
+    if(arguments->dereference) {
+        argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+        strcpy(argsToExec[index++], "-L"); 
+    }    
+    if(arguments->separateDirs) {
+        argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+        strcpy(argsToExec[index++], "-S"); 
+    }
+    if(arguments->maxDepth) {
+        argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+        sprintf(auxArg, "--max-depth=%d", arguments->maxDepth - 1);
+        strcpy(argsToExec[index++], auxArg); 
+    }
+    argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+    argsToExec[index] = NULL;
+    
+}
+
+void executeDU(Arguments* arguments, char* programPath) {
+    DIR * dir;
+    pid_t pid;
+
+    if ((dir = opendir(arguments->path)) == NULL) {
+        perror(arguments->path);
+        exit(4);
+    }
+
+    struct dirent *dentry;
+    struct stat stat_entry;
+    char filename[FILENAME_MAX_LEN];
+    while ((dentry = readdir(dir)) != NULL) {
+        sprintf(filename, "%s/%s", arguments->path, dentry->d_name);
+        
+        /*filename[0] = arguments->path;
+        filename[1] = '/';
+        filename[2] = '\0';*/   
+
+        stat(filename, &stat_entry);
+        if (arguments->bytes) { // mostrar o tamanho em bytes
+            if (arguments->all) { // mostar também ficheiros regulares
+                if (S_ISREG(stat_entry.st_mode)) {                   
+                    printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);
+                    continue;
+                }
+            }
+            if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
+                printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);
+                
+                //printf("\n-------FORKING---------\n");
+                
+                if((pid = fork()) > 0) { // Parent (Waits for his childs)
+                    continue;
+                }
+                else if(pid == 0) { // Child (Analises another directory)
+                    
+                    //char programExecutionPath[PATH_MAX_LEN];
+                    //getcwd(arguments->path, PATH_MAX_LEN);                  
+                    //sprintf(programExecutionPath, "%s/%s", arguments->path, programPath); // Absolute path to program (argv[0)])
+
+                    char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
+                    args[0] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[0] = programPath;
+                    args[1] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[1] = "-l";
+                    args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[2] = filename;
+
+                    reproduceArgumentsToExec(arguments, args);
+                    // printf("\n--- %s | %s ---\n", args[0], args[2]);
+                    execv(args[0], &args[0]);
+                    printf("Error captured while executing execv call!\n");
+                    exit(6);
+                }
+                else {
+                    perror("Fork error has occurred!\n");
+                }
+            }
+        }
+        /*else { // mostrar o tamanho em blocos (CORRIGIR FUNÇÃO convertFromBytesToBlocks)
+            if (arguments.all) { // mostar também ficheiros regulares
+                if (S_ISREG(stat_entry.st_mode)) {
+                    printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
+                }
+            }
+            if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
+                printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments.blockSize), strcat(filename, dentry->d_name));
+                arguments.path = dentry->d_name;
+
+                
+                //printf("\n-------FORKING---------\n");
+                executeRecursiveFunction(arguments);
+            }
+        }*/
+    }   
+    int status;
+    while((pid = wait(&status)) != -1) {
+        printf("Son with PID:%d has terminated!\n", pid);
+    }
+    exit(0);
 }
 
 int main(int argc, char* argv[]) {
@@ -210,7 +332,7 @@ int main(int argc, char* argv[]) {
     }
 
     // TESTED :)
-    printf("\nBLOCK SIZE: %d\n", arguments.blockSize);
+    /*printf("\nBLOCK SIZE: %d\n", arguments.blockSize);
     printf("\nALL: %d\n", arguments.all);
     printf("\nBYTES: %d\n", arguments.bytes);
     printf("\nCOUNT LINKS: %d\n", arguments.countLinks);
@@ -218,19 +340,23 @@ int main(int argc, char* argv[]) {
     printf("\nSEPARATE DIRS: %d\n", arguments.separateDirs);
     printf("\nMAX DEPTH: %d\n", arguments.maxDepth);
     printf("\nPATH: %s\n", arguments.path);
-    printf("\nLOG_FILENAME: %s\n", arguments.log_filename); /* antes de correr o programa, escrever o comando:
+    printf("\nLOG_FILENAME: %s\n", arguments.log_filename);*/ /* antes de correr o programa, escrever o comando:
                                                                 export LOG_FILENAME=log.txt */
-
+    /*
     FILE* log_file;
     if (arguments.log_filename != NULL) { // criar o ficheiro de registo dos processos
         log_file = fopen(arguments.log_filename, "w");
     }
     else {
         fprintf(stderr, "\nMust set the ambient variable LOG_FILENAME!\n");
+        //exit(3);
     }
+    */
 
-    beginSearch(&arguments, &log_file);
+    executeDU(&arguments, argv[0]);     
+    // executeRecursiveFunction(arguments);
 
-    fclose(log_file);
+
+    //fclose(log_file);
     exit(0);
 }
