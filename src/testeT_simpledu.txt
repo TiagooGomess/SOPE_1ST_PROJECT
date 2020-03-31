@@ -1,46 +1,4 @@
 4096	./test
 4096	./test1
 4096	./test1/test2
-4096	./test1/test2/test2 (copy)
-4096	./test1/test2/test2 (copy)/test2 (another copy)
-4096	./test1/test2/test2 (copy)/test2 (another copy)/test2 (3rd copy)
-4096	./test1/test2/test2 (copy)/test2 (another copy)/test2 (3rd copy)/test2 (4th copy)
-4096	./test1/test2/test2 (copy)/test2 (another copy)/test2 (3rd copy)/test2 (4th copy)/test2 (5th copy)
-4096	./test1/test2/test2 (copy)/test2 (another copy)/test2 (3rd copy)/test2 (4th copy)/test2 (5th copy)/test2 (6th copy)
-4096	./test1/test2/test2 (copy)/test2 (another copy)/test2 (3rd copy)/test2 (4th copy)/test2 (5th copy)/test2 (7th copy)
-4096	./test1/test2/test2 (copy)/test2 (another copy)/test2 (3rd copy)/test2 (4th copy)/test2 (5th copy)/test2 (8th copy)
 4096	./test/numbers
-4096	./test/numbers/src
-4096	./test/numbers/src/main
-4096	./test/numbers/src/main/java
-4096	./test/numbers/src/main/java/com
-4096	./test/numbers/src/main/java/com/aor
-4096	./test/numbers/src/main/java/com/aor/numbers
-4096	./test/numbers/src/test
-4096	./test/numbers/src/test/java
-4096	./test/numbers/src/test/java/com
-4096	./test/numbers/src/test/java/com/aor
-4096	./test/numbers/src/test/java/com/aor/numbers
-Son with PID:13602 has terminated!
-Son with PID:13603 has terminated!
-Son with PID:13604 has terminated!
-Son with PID:13605 has terminated!
-Son with PID:13606 has terminated!
-Son with PID:13607 has terminated!
-Son with PID:13608 has terminated!
-Son with PID:13609 has terminated!
-Son with PID:13610 has terminated!
-Son with PID:13611 has terminated!
-Son with PID:13612 has terminated!
-Son with PID:13613 has terminated!
-Son with PID:13614 has terminated!
-Son with PID:13615 has terminated!
-Son with PID:13616 has terminated!
-Son with PID:13617 has terminated!
-Son with PID:13618 has terminated!
-Son with PID:13619 has terminated!
-Son with PID:13620 has terminated!
-Son with PID:13621 has terminated!
-Son with PID:13622 has terminated!
-Son with PID:13623 has terminated!
-Son with PID:13624 has terminated!

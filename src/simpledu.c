@@ -31,9 +31,10 @@ char *getLogActionName(enum log_action action) {
         case SEND_PIPE: return "SEND_PIPE";
         case ENTRY: return "ENTRY";
     }
+    return "";
 }
 
-int logInfo(int instant, int pid, enum log_action action, char *info) {
+void logInfo(int instant, int pid, enum log_action action, char *info) {
     fprintf(log_file, "%d - %d - %s - %s", instant, pid, getLogActionName(action), info);
 }
 
@@ -302,7 +303,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                 printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);
                 
                 //printf("\n-------FORKING---------\n");
-                if (arguments->maxDepth == 0) continue;
+                if (arguments->maxDepth == 1) return;
                 if((pid = fork()) > 0) { // Parent (Waits for his childs)
                     continue;
                 }
