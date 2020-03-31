@@ -9,8 +9,6 @@
 #include <fcntl.h>
 #include <wait.h>
 
-
-
 #define PATH_MAX_LEN 512
 #define FILENAME_MAX_LEN 512
 #define DEFAULT_BLOCK_SIZE 1024
@@ -172,7 +170,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
             int size;
             if (sscanf(argv[i], "--block-size=%d", &size) != 1) {
                 // verificar os caracteres compatíveis e converter esses caracteres para inteiro
-                char* sizeString = malloc(2*sizeof(char));
+                char* sizeString = malloc(2*sizeof(char) + 1);
                 if (sscanf(argv[i], "--block-size=%s", sizeString) != 1) {
                     return 0;
                 }
@@ -303,7 +301,8 @@ void executeDU(Arguments* arguments, char* programPath) {
                 printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);
                 
                 //printf("\n-------FORKING---------\n");
-                if (arguments->maxDepth == 1) return;
+                if (arguments->maxDepth == 1) continue;
+                
                 if((pid = fork()) > 0) { // Parent (Waits for his childs)
                     continue;
                 }
@@ -352,6 +351,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                 printf("%-d\t%-s\n", convertFromBytesToBlocks(stat_entry.st_size, arguments->blockSize), filename);
                 //printf("\n-------FORKING---------\n");
                 
+                if (arguments->maxDepth == 1) continue;
                 if((pid = fork()) > 0) { // Parent (Waits for his childs)
                     continue;
                 }
