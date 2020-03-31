@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <wait.h>
+#include <math.h> 
 
 #define PATH_MAX_LEN 512
 #define FILENAME_MAX_LEN 512
@@ -218,7 +219,10 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
  */
 int convertFromBytesToBlocks(long int numBytes, int blockSize) { // ISTO NÃO ESTÁ BEM (COMPAREM COM O DU)
     // printf("\nnumBytes:%ld, blockSize:%d\n\n", numBytes, blockSize);
-    return (numBytes / blockSize) + 1;
+    if(numBytes % 4096 == 0)
+        return ceil(numBytes / (float) blockSize);
+    else return ceil((float) (4096 * (numBytes / 4096) + 4096) / (float) blockSize);
+    
 }
 
 void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LEN]) {
