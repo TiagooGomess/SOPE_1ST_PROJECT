@@ -8,7 +8,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <wait.h>
-#include <math.h> 
+#include <math.h>
+#include <ctype.h>
 
 // -> Correct du -b -B 2 | du -B 2 -b <--
 
@@ -130,6 +131,22 @@ int isDirectory(const char *path) {
     return S_ISDIR(statbuf.st_mode);
 }
 
+
+/**
+ * Converte uma string para uppercase.
+ * Retorna a string em uppercase.
+ */
+char* strupr(char* s) {
+    size_t len = strlen(s);
+    char s_up[len];
+    for (int i = 0; i < len; i++) {
+        s_up[i] = toupper(s[i]);
+    }
+    s = s_up;
+    return s;
+}
+
+
 /**
  * Verifica se os argumentos passados na linha de comandos estão corretos.
  * Retorna 1 se está tudo OK, 0 caso haja algum erro.
@@ -161,7 +178,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                arguments->blockSizeString = sizeString;
+                arguments->blockSizeString = strupr(sizeString);
             }
             jumpIteration = 1;
             arguments->blockSize = size;
@@ -176,7 +193,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                arguments->blockSizeString = sizeString;
+                arguments->blockSizeString = strupr(sizeString);
             }
             arguments->blockSize = size;
         }
@@ -547,7 +564,6 @@ int main(int argc, char* argv[]) {
     
     system("export LOG_FILENAME=log.txt");
 
-
     Arguments arguments;
 
     initializeArgumentsStruct(&arguments);
@@ -583,7 +599,9 @@ int main(int argc, char* argv[]) {
         log_file = fopen(arguments.log_filename, "w");
     }
 
-    executeDU(&arguments, argv[0]);     
+    executeDU(&arguments, argv[0]);
+
+    
 
     //fclose(log_file);
     exit(0);
