@@ -226,8 +226,22 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 return 0;
             arguments->maxDepth = depth;
         }
-        else if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) {
+        else /*if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) */{
             // se passarmos ~ como path, é convertido automaticamente para "/home/user" 
+            
+            if (argv[i][0] != '-' && argv[i][0] != '.') {
+                char tmp[] = "./";
+                char* tmpArgv = (char*) malloc((PATH_MAX_LEN+2)*sizeof(char));
+                sprintf(tmpArgv, "%s%s", tmp, argv[i]);
+                if (isDirectory(tmpArgv)) {
+                    arguments->path = tmpArgv;
+                    continue;
+                }
+                else {
+                    fprintf(stderr, "\n%s is not a directory!\n\n", tmpArgv);
+                    return 0;
+                }
+            }
             if (isDirectory(argv[i])) {
                 arguments->path = argv[i];
             }
@@ -235,9 +249,6 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 fprintf(stderr, "\n%s is not a directory!\n\n", argv[i]);
                 return 0;
             }
-        }
-        else {
-            return 0;
         }
     }
     return 1;
