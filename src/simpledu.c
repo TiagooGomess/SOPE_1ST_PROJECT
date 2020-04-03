@@ -132,21 +132,10 @@ int isDirectory(const char *path) {
 }
 
 
-<<<<<<< HEAD
 int ceiling(float num) {
     return (int)(num + 0.5);
 }
 
-/**
- * Muda todos os carteres de uma string para maisculas.
- * Retorna a nova string.
- */
-char *toUpperString(char *str) {
-    for (int i = 0; str[i] != 0; i++) {
-        str[i] = toupper(str[i]);
-    }
-    return str;
-=======
 /**
  * Converte uma string para uppercase.
  * Retorna a string em uppercase.
@@ -159,7 +148,6 @@ char* strupr(char* s) {
     }
     s = s_up;
     return s;
->>>>>>> e19aae0522c886e96711c20c0a7e76c1788b5b08
 }
 
 
@@ -194,11 +182,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-<<<<<<< HEAD
-                arguments->blockSizeString = toUpperString(sizeString);
-=======
                 arguments->blockSizeString = strupr(sizeString);
->>>>>>> e19aae0522c886e96711c20c0a7e76c1788b5b08
             }
             jumpIteration = 1;
             arguments->blockSize = size;
@@ -213,11 +197,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-<<<<<<< HEAD
-                arguments->blockSizeString = toUpperString(sizeString);
-=======
                 arguments->blockSizeString = strupr(sizeString);
->>>>>>> e19aae0522c886e96711c20c0a7e76c1788b5b08
             }
             arguments->blockSize = size;
         }
