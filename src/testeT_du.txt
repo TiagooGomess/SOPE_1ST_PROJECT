@@ -1,7 +1,5 @@
-260	.
+264	.
 4	./init.sh
-0	./linkTest
-0	./log.txt
 24	./simpledu
 24	./simpledu.c
 120	./test
@@ -10,7 +8,7 @@
 4	./test/aggregatorLink
 4	./test/dedJava
 4	./teste.sh
-0	./testeT_du.txt
+4	./testeT_du.txt
 4	./testeT_simpledu.txt
 4	./test/ListAggregator.java
 4	./test/ListDeduplicator.java

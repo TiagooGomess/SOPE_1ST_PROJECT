@@ -8,7 +8,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <wait.h>
-#include <math.h> 
+#include <math.h>
+#include <ctype.h>
 
 // -> Correct du -b -B 2 | du -B 2 -b <--
 
@@ -130,6 +131,23 @@ int isDirectory(const char *path) {
     return S_ISDIR(statbuf.st_mode);
 }
 
+
+int ceiling(float num) {
+    return (int)(num + 0.5);
+}
+
+/**
+ * Muda todos os carteres de uma string para maisculas.
+ * Retorna a nova string.
+ */
+char *toUpperString(char *str) {
+    for (int i = 0; str[i] != 0; i++) {
+        str[i] = toupper(str[i]);
+    }
+    return str;
+}
+
+
 /**
  * Verifica se os argumentos passados na linha de comandos estão corretos.
  * Retorna 1 se está tudo OK, 0 caso haja algum erro.
@@ -161,7 +179,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                arguments->blockSizeString = sizeString;
+                arguments->blockSizeString = toUpperString(sizeString);
             }
             jumpIteration = 1;
             arguments->blockSize = size;
@@ -176,7 +194,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                arguments->blockSizeString = sizeString;
+                arguments->blockSizeString = toUpperString(sizeString);
             }
             arguments->blockSize = size;
         }
@@ -237,9 +255,9 @@ int blockSizeIsString(Arguments* arguments) {
 int convertFromBytesToBlocks(long int numBytes, int blockSize) { // ISTO NÃO ESTÁ BEM (COMPAREM COM O DU)
     // printf("\nnumBytes:%ld, blockSize:%d\n\n", numBytes, blockSize);
     if(numBytes % 4096 == 0)
-        return ceil(numBytes / (float) blockSize);
-    else return ceil((float) (4096 * (numBytes / 4096) + 4096) / (float) blockSize);
-    
+        return ceiling(numBytes / (float) blockSize);
+    else return ceiling((float) (4096 * (numBytes / 4096) + 4096) / (float) blockSize);
+
 }
 
 void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LEN]) {
@@ -382,17 +400,16 @@ void executeDU(Arguments* arguments, char* programPath) {
         exit(4);
     }
 
+
     struct dirent *dentry;
     struct stat stat_entry;
     char filename[FILENAME_MAX_LEN];
     while ((dentry = readdir(dir)) != NULL) {
         sprintf(filename, "%s/%s", arguments->path, dentry->d_name); 
-
         if (arguments->dereference) 
             stat(filename, &stat_entry);
         else
             lstat(filename, &stat_entry);
-        
         if (arguments->bytes) { // mostrar o tamanho em bytes
             if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
@@ -424,13 +441,24 @@ void executeDU(Arguments* arguments, char* programPath) {
                     continue;
                 }
             }
-            if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
+            if (S_ISDIR(stat_entry.st_mode)/* && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)*/) {
                 //printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);     
                 //printSizeAndLocation(arguments, (int)stat_entry.st_size, filename, 0);
 
+                printf("%s\n", filename);
+
+                if (!arguments->separateDirs) currentDirSize += (int)stat_entry.st_size;
 
                 //printf("\n-------FORKING---------\n");
-                if (arguments->maxDepth == 1) continue;
+                if (arguments->maxDepth == 1) {
+                    if (blockSizeIsString(arguments)) {
+                        printf("%-d%s\t%-s\n", (int)stat_entry.st_size, arguments->blockSizeString, filename);
+                    }
+                    else {
+                        printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);
+                    }
+                    continue;
+                };
                 
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
 
@@ -465,7 +493,6 @@ void executeDU(Arguments* arguments, char* programPath) {
             if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
                     currentDirSize += (int) stat_entry.st_size;
-                    //printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
                     if (blockSizeIsString(arguments)) {
                         printf("%-d%s\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), arguments->blockSizeString, filename);
                     }   
@@ -500,10 +527,21 @@ void executeDU(Arguments* arguments, char* programPath) {
                 
 
                 //printSizeAndLocation(arguments, convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename, 0);
-                
-                
+
+
+                if (!arguments->separateDirs) currentDirSize += (int)stat_entry.st_size;
+
                 //printf("\n-------FORKING---------\n");
-                
+                if (arguments->maxDepth == 1) {
+                    if (blockSizeIsString(arguments)) {
+                        printf("%-d%s\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), arguments->blockSizeString, filename);
+                    }
+                    else {
+                        printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
+                    }
+                    continue;
+                };
+
                 if (arguments->maxDepth == 1) continue;
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
                     
