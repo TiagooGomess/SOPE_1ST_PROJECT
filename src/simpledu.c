@@ -132,10 +132,6 @@ int isDirectory(const char *path) {
 }
 
 
-int ceiling(float num) {
-    return (int)(num + 0.5);
-}
-
 /**
  * Converte uma string para uppercase.
  * Retorna a string em uppercase.
@@ -258,9 +254,9 @@ int blockSizeIsString(Arguments* arguments) {
 int convertFromBytesToBlocks(long int numBytes, int blockSize) { // ISTO NÃO ESTÁ BEM (COMPAREM COM O DU)
     // printf("\nnumBytes:%ld, blockSize:%d\n\n", numBytes, blockSize);
     if(numBytes % 4096 == 0)
-        return ceiling(numBytes / (float) blockSize);
-    else return ceiling((float) (4096 * (numBytes / 4096) + 4096) / (float) blockSize);
-
+        return ceil(numBytes / (float) blockSize);
+    else return ceil((float) (4096 * (numBytes / 4096) + 4096) / (float) blockSize);
+    
 }
 
 void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LEN]) {
@@ -403,16 +399,17 @@ void executeDU(Arguments* arguments, char* programPath) {
         exit(4);
     }
 
-
     struct dirent *dentry;
     struct stat stat_entry;
     char filename[FILENAME_MAX_LEN];
     while ((dentry = readdir(dir)) != NULL) {
         sprintf(filename, "%s/%s", arguments->path, dentry->d_name); 
+
         if (arguments->dereference) 
             stat(filename, &stat_entry);
         else
             lstat(filename, &stat_entry);
+        
         if (arguments->bytes) { // mostrar o tamanho em bytes
             if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
@@ -435,33 +432,22 @@ void executeDU(Arguments* arguments, char* programPath) {
                         exit(1);
                     } */ 
                     if (blockSizeIsString(arguments)) {
-                        printf("0%s\t%-s\n", arguments->blockSizeString, filename);
+                        printf("%-d%s\t%-s\n", (int) stat_entry.st_size, arguments->blockSizeString, filename);
                     }   
                     else {
-                        printf("0\t%-s\n", filename);
+                        printf("%-d\t%-s\n",(int) stat_entry.st_size, filename);
                     }
                     //printSizeAndLocation(arguments, (int)stat_entry.st_size, filename, 1);
                     continue;
                 }
             }
-            if (S_ISDIR(stat_entry.st_mode)/* && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)*/) {
+            if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
                 //printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);     
                 //printSizeAndLocation(arguments, (int)stat_entry.st_size, filename, 0);
-
-                printf("%s\n", filename);
-
-                if (!arguments->separateDirs) currentDirSize += (int)stat_entry.st_size;
+                //printf("--%s--\n", arguments->path);
 
                 //printf("\n-------FORKING---------\n");
-                if (arguments->maxDepth == 1) {
-                    if (blockSizeIsString(arguments)) {
-                        printf("%-d%s\t%-s\n", (int)stat_entry.st_size, arguments->blockSizeString, filename);
-                    }
-                    else {
-                        printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);
-                    }
-                    continue;
-                };
+                if (arguments->maxDepth == 1) continue;
                 
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
 
@@ -496,6 +482,7 @@ void executeDU(Arguments* arguments, char* programPath) {
             if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
                     currentDirSize += (int) stat_entry.st_size;
+                    //printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
                     if (blockSizeIsString(arguments)) {
                         printf("%-d%s\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), arguments->blockSizeString, filename);
                     }   
@@ -514,10 +501,10 @@ void executeDU(Arguments* arguments, char* programPath) {
                     } */ 
                     
                      if (blockSizeIsString(arguments)) {
-                        printf("0%s\t%-s\n", arguments->blockSizeString, filename);
+                        printf("%-d%s\t%-s\n", (int) stat_entry.st_size, arguments->blockSizeString, filename);
                     }   
                     else {
-                        printf("0\t%-s\n",filename);
+                        printf("%-d\t%-s\n",(int) stat_entry.st_size, filename);
                     } 
                     
                     //printSizeAndLocation(arguments, convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename, 1);
@@ -530,21 +517,10 @@ void executeDU(Arguments* arguments, char* programPath) {
                 
 
                 //printSizeAndLocation(arguments, convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename, 0);
-
-
-                if (!arguments->separateDirs) currentDirSize += (int)stat_entry.st_size;
-
+                
+                
                 //printf("\n-------FORKING---------\n");
-                if (arguments->maxDepth == 1) {
-                    if (blockSizeIsString(arguments)) {
-                        printf("%-d%s\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), arguments->blockSizeString, filename);
-                    }
-                    else {
-                        printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
-                    }
-                    continue;
-                };
-
+                
                 if (arguments->maxDepth == 1) continue;
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
                     
