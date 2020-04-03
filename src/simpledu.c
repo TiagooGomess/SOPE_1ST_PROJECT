@@ -132,6 +132,7 @@ int isDirectory(const char *path) {
 }
 
 
+<<<<<<< HEAD
 int ceiling(float num) {
     return (int)(num + 0.5);
 }
@@ -145,6 +146,20 @@ char *toUpperString(char *str) {
         str[i] = toupper(str[i]);
     }
     return str;
+=======
+/**
+ * Converte uma string para uppercase.
+ * Retorna a string em uppercase.
+ */
+char* strupr(char* s) {
+    size_t len = strlen(s);
+    char s_up[len];
+    for (int i = 0; i < len; i++) {
+        s_up[i] = toupper(s[i]);
+    }
+    s = s_up;
+    return s;
+>>>>>>> e19aae0522c886e96711c20c0a7e76c1788b5b08
 }
 
 
@@ -179,7 +194,11 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
+<<<<<<< HEAD
                 arguments->blockSizeString = toUpperString(sizeString);
+=======
+                arguments->blockSizeString = strupr(sizeString);
+>>>>>>> e19aae0522c886e96711c20c0a7e76c1788b5b08
             }
             jumpIteration = 1;
             arguments->blockSize = size;
@@ -194,7 +213,11 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
+<<<<<<< HEAD
                 arguments->blockSizeString = toUpperString(sizeString);
+=======
+                arguments->blockSizeString = strupr(sizeString);
+>>>>>>> e19aae0522c886e96711c20c0a7e76c1788b5b08
             }
             arguments->blockSize = size;
         }
@@ -585,7 +608,6 @@ int main(int argc, char* argv[]) {
     
     system("export LOG_FILENAME=log.txt");
 
-
     Arguments arguments;
 
     initializeArgumentsStruct(&arguments);
@@ -621,7 +643,9 @@ int main(int argc, char* argv[]) {
         log_file = fopen(arguments.log_filename, "w");
     }
 
-    executeDU(&arguments, argv[0]);     
+    executeDU(&arguments, argv[0]);
+
+    
 
     //fclose(log_file);
     exit(0);

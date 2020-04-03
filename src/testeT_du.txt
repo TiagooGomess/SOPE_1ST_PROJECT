@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 264	.
 4	./init.sh
 24	./simpledu
@@ -18,3 +19,19 @@
 4	./test/testeT_du.txt
 4	./test/testeT_simpledu.txt
 4	./test/testLink
+=======
+119kB	./test
+0kB	./test/aggregatorLink
+5kB	./test/dedJava
+5kB	./test/ListAggregator.java
+5kB	./test/ListDeduplicator.java
+5kB	./test/ListSorter.java
+91kB	./test/numbers
+5kB	./test/numbers/build.gradle
+5kB	./test/numbers/settings.gradle
+78kB	./test/numbers/src
+0kB	./test/settingsLink
+5kB	./test/testeT_du.txt
+5kB	./test/testeT_simpledu.txt
+0kB	./test/testLink
+>>>>>>> e19aae0522c886e96711c20c0a7e76c1788b5b08
