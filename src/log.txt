@@ -1,0 +1,2 @@
+2020 Apr 4 13:20:56.389 - 888 - CREATE - ./simpledu -l ./test/numbers -a -B 1024 --max-depth=2147483646 
+2020 Apr 4 13:20:56.394 - 886 - EXIT - 0
