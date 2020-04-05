@@ -10,11 +10,8 @@
 #include <wait.h>
 #include <math.h>
 #include <ctype.h>
-<<<<<<< HEAD
 #include <stdbool.h>
-=======
 #include <sys/time.h>
->>>>>>> log
 
 // -> Correct du -b -B 2 | du -B 2 -b <--
 
@@ -346,21 +343,9 @@ void verifyWritingPipe() {
     }
 }
 
-<<<<<<< HEAD
 void STDIN_ToPipeRead(int* readFds, int* fd, int* readIndex) {
     readFds[(*readIndex)++] = fd[READ];
     close(fd[WRITE]);
-=======
-void STDIN_ToPipeRead(int* fd) {
-    if(STDIN_FILENO != fd[READ]) {
-        if(dup2(fd[READ], STDIN_FILENO) != STDIN_FILENO) {
-            fprintf(stderr,"An error occurred while completing the operation 1!\n");
-            logInfo(getpid(), EXIT, "2");
-            exit(2);
-        }
-        close(fd[READ]);
-    }
->>>>>>> log
 }
 
 void PIPEFN_ToPipeWrite(int* fd) {
@@ -501,11 +486,9 @@ void executeDU(Arguments* arguments, char* programPath) {
                 pipe(fd);
                 
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
-<<<<<<< HEAD
                     
                     // Direct READ side of PIPE to STDIN_FILE_NO
                     STDIN_ToPipeRead(readFds, fd, &readIndex);
-=======
                     char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
                     args[0] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
                     args[0] = programPath;
@@ -516,7 +499,6 @@ void executeDU(Arguments* arguments, char* programPath) {
                     reproduceArgumentsToExec(arguments, args);
                     
                     logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
->>>>>>> log
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -598,10 +580,8 @@ void executeDU(Arguments* arguments, char* programPath) {
                 
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
                     
-<<<<<<< HEAD
                     // Direct READ side of PIPE to STDIN_FILE_NO
                     STDIN_ToPipeRead(readFds, fd, &readIndex);
-=======
                     char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
                     args[0] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
                     args[0] = programPath;
@@ -611,7 +591,6 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[2] = filename;
                     reproduceArgumentsToExec(arguments, args);
                     logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
->>>>>>> log
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -641,12 +620,8 @@ void executeDU(Arguments* arguments, char* programPath) {
         }
     }  
 
-<<<<<<< HEAD
     terminateProcess(currentDirSize, arguments, readFds, readIndex);
 
-=======
-    terminateProcess(currentDirSize, arguments, fd);
->>>>>>> log
 }
 
 int main(int argc, char* argv[]) {
