@@ -15,7 +15,7 @@
 
 #define BLOCK_SIZE_MAX_LEN 2
 #define PATH_MAX_LEN 512
-#define FILENAME_MAX_LEN 300
+#define FILENAME_MAX_LEN 512
 #define DEFAULT_BLOCK_SIZE 1024
 #define SINGLE_ARG_LEN 5
 #define PIPE_FILE_NO 3
@@ -70,7 +70,7 @@ typedef struct {
 void initializeArgumentsStruct(Arguments* arguments) {
     arguments->all = 0;
     arguments->bytes = 0;
-    arguments->blockSize = 1;
+    arguments->blockSize = DEFAULT_BLOCK_SIZE;
     arguments->blockSizeString = malloc(BLOCK_SIZE_MAX_LEN + 1);
     arguments->blockSizeString = "";
     arguments->countLinks = 1;
@@ -226,8 +226,22 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 return 0;
             arguments->maxDepth = depth;
         }
-        else if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) {
+        else /*if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) */{
             // se passarmos ~ como path, é convertido automaticamente para "/home/user" 
+            
+            if (argv[i][0] != '-' && argv[i][0] != '.') {
+                char tmp[] = "./";
+                char* tmpArgv = (char*) malloc((PATH_MAX_LEN+2)*sizeof(char));
+                sprintf(tmpArgv, "%s%s", tmp, argv[i]);
+                if (isDirectory(tmpArgv)) {
+                    arguments->path = tmpArgv;
+                    continue;
+                }
+                else {
+                    fprintf(stderr, "\n%s is not a directory!\n\n", tmpArgv);
+                    return 0;
+                }
+            }
             if (isDirectory(argv[i])) {
                 arguments->path = argv[i];
             }
@@ -235,9 +249,6 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 fprintf(stderr, "\n%s is not a directory!\n\n", argv[i]);
                 return 0;
             }
-        }
-        else {
-            return 0;
         }
     }
     return 1;
@@ -316,13 +327,17 @@ void verifyWritingPipe() {
     }
 }
 
-void STDIN_ToPipeRead(int* readFds, int* fd, int* readIndex) {
-    readFds[(*readIndex)++] = fd[READ];
-    close(fd[WRITE]);
+void STDIN_ToPipeRead(int* fd) {
+    if(STDIN_FILENO != fd[READ]) {
+        if(dup2(fd[READ], STDIN_FILENO) != STDIN_FILENO) {
+            fprintf(stderr,"An error occurred while completing the operation 1!\n");
+            exit(2);
+        }
+        close(fd[READ]);
+    }
 }
 
 void PIPEFN_ToPipeWrite(int* fd) {
-
     if(PIPE_FILE_NO != fd[WRITE]) {
         if(dup2(fd[WRITE], PIPE_FILE_NO) != PIPE_FILE_NO) {
             fprintf(stderr, "An error occurred while completing the operation 2!\n");
@@ -332,47 +347,31 @@ void PIPEFN_ToPipeWrite(int* fd) {
     }
 }
 
-void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, int readIndex) {
+void terminateProcess(int currentDirSize, Arguments* arguments, int* fd) {
     char toSend[PATH_MAX_LEN];
     char toRead[PATH_MAX_LEN];
-
     int tempSize;
 
-    int bytesRead;
+    int status;
     pid_t exitPid;
 
-    for(int index = 0; index < readIndex; index++) {
-        exitPid = wait(NULL);
-        if((bytesRead = read(readFds[index], toRead, PATH_MAX_LEN)) != 0 && exitPid != -1) { // Read SIZE \t PATH
-            //printf("%s", toRead);
-            sscanf(toRead, "%d%s", &tempSize, toSend); // Read SIZE
-            currentDirSize += tempSize;                    
-            //printf("%d | %s | %d\n", tempSize, toSend, exitPid);
-            /*int tmp = (int) ceil(tempSize / (float) arguments->blockSize);
-            memcpy(toRead,  &tmp, sizeof(int));
-            memcpy(toRead + sizeof(int), "\t", 1);
-            memcpy(toRead + sizeof(int) + 1, arguments->path, strlen(arguments->path) + 1);*/    
-            
-            
-            sprintf(toRead, "%-d\t%-s\n", (int) ceil(tempSize / (float) arguments->blockSize), arguments->path); // Reconstruct PATH
-            printf("%s", toRead);
-            fflush(stdout);
-        }   
-        
-        close(readFds[index]);
+    while((exitPid = wait(&status)) != -1) {
+        fgets(toRead, PATH_MAX_LEN, stdin); // Read SIZE \t PATH
+        printf("%s", toRead);
+        sscanf(toRead, "%d", &tempSize); // Read SIZE
+        currentDirSize += tempSize; // Update currentDirSize
+        //printf("Son with PID:%d has terminated!\n", exitPid);
     }
-   
-    
-
-    sprintf(toSend, "%-d\t%-s\n", currentDirSize, arguments->path); // Reconstruct PATH
-
-    write(PIPE_FILE_NO, toSend, strlen(toSend) + 1);    
-    close(PIPE_FILE_NO);
-
-
+    close(fd[WRITE]);
+    if (blockSizeIsString(arguments)) {
+        sprintf(toSend, "%-d%s\t%-s\n", currentDirSize, arguments->blockSizeString, arguments->path); // Reconstruct PATH
+    }
+    else 
+        sprintf(toSend, "%-d\t%-s\n", currentDirSize, arguments->path); // Reconstruct PATH
+    write(PIPE_FILE_NO, toSend, strlen(toSend) + 1); 
 }
 
-/*void printSizeAndLocation(Arguments* arguments, int size, char* filename, int isLink) {
+void printSizeAndLocation(Arguments* arguments, int size, char* filename, int isLink) {
     if (isLink) {
         if (blockSizeIsString(arguments)) {
             printf("0%s\t%-s\n", arguments->blockSizeString, filename);
@@ -389,13 +388,21 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
             printf("%-d\t%-s\n", size, filename);
         }
     }
-}*/
+}
 
 void executeDU(Arguments* arguments, char* programPath) {
     DIR * dir;
-    int pidIndex = 0, currentDirSize = 4096, readIndex = 0;
+    int pidIndex = 0;
     pid_t pids[MAX_FORKS_LEN];
-    int readFds[MAX_FORKS_LEN];
+    int currentDirSize = 4096;
+
+    int fd[2];
+
+    // Create pipe for connection PARENT -> SON's
+    pipe(fd);
+
+    // Direct READ side of PIPE to STDIN_FILE_NO
+    STDIN_ToPipeRead(fd);
 
 
     if ((dir = opendir(arguments->path)) == NULL) {
@@ -452,16 +459,9 @@ void executeDU(Arguments* arguments, char* programPath) {
 
                 //printf("\n-------FORKING---------\n");
                 if (arguments->maxDepth == 1) continue;
-
-                int fd[2];
-
-                // Create pipe for connection PARENT -> SON
-                pipe(fd);
                 
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
-                    
-                    // Direct READ side of PIPE to STDIN_FILE_NO
-                    STDIN_ToPipeRead(readFds, fd, &readIndex);
+
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -492,18 +492,18 @@ void executeDU(Arguments* arguments, char* programPath) {
         else { // mostrar o tamanho em blocos (CORRIGIR FUNÇÃO convertFromBytesToBlocks)
             if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
-                    currentDirSize += convertFromBytesToBlocks((int)stat_entry.st_size, 1);
+                    currentDirSize += (int) stat_entry.st_size;
                     //printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
                     if (blockSizeIsString(arguments)) {
-                        printf("%-d%s\t%-s\n", (int) ceil(convertFromBytesToBlocks((int)stat_entry.st_size, 1) / arguments->blockSize), arguments->blockSizeString, filename);
+                        printf("%-d%s\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), arguments->blockSizeString, filename);
                     }   
                     else {
-                        printf("%-d\t%-s\n", (int )ceil(convertFromBytesToBlocks((int)stat_entry.st_size, 1) / arguments->blockSize), filename);
+                        printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
                     }
                     //printSizeAndLocation(arguments, convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename, 0);
                 }
                 if (S_ISLNK(stat_entry.st_mode)) {
-                    currentDirSize += 0;
+                    currentDirSize += (int) stat_entry.st_size;
                     /* char *linkedfile = malloc(FILENAME_MAX_LEN);
                     int sizelinkedfile = readlink(filename, linkedfile, FILENAME_MAX_LEN);
                     if (sizelinkedfile == -1) {
@@ -511,11 +511,11 @@ void executeDU(Arguments* arguments, char* programPath) {
                         exit(1);
                     } */ 
                     
-                    if (blockSizeIsString(arguments)) {
-                        printf("0%s\t%-s\n", arguments->blockSizeString, filename);
+                     if (blockSizeIsString(arguments)) {
+                        printf("%-d%s\t%-s\n", (int) stat_entry.st_size, arguments->blockSizeString, filename);
                     }   
                     else {
-                        printf("0\t%-s\n", filename);
+                        printf("%-d\t%-s\n",(int) stat_entry.st_size, filename);
                     } 
                     
                     //printSizeAndLocation(arguments, convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename, 1);
@@ -533,16 +533,8 @@ void executeDU(Arguments* arguments, char* programPath) {
                 //printf("\n-------FORKING---------\n");
                 
                 if (arguments->maxDepth == 1) continue;
-
-                int fd[2];
-
-                // Create pipe for connection PARENT -> SON
-                pipe(fd);
-                
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
                     
-                    // Direct READ side of PIPE to STDIN_FILE_NO
-                    STDIN_ToPipeRead(readFds, fd, &readIndex);
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -570,8 +562,9 @@ void executeDU(Arguments* arguments, char* programPath) {
         }
     }  
 
-    terminateProcess(currentDirSize, arguments, readFds, readIndex);
+    terminateProcess(currentDirSize, arguments, fd);
 
+    exit(0);
 }
 
 int main(int argc, char* argv[]) {
