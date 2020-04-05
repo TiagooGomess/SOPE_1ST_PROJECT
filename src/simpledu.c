@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include <time.h>
 #include <sys/time.h>
+#include <time.h>
 
 // -> Correct du -b -B 2 | du -B 2 -b <--
 
@@ -63,7 +64,7 @@ void logInfo(int pid, enum log_action action, char *info) {
     str_instant[6] = str_instant[5];
     str_instant[5] = str_instant[4];
     str_instant[4] = ' ';
-    str_instant[str_size - 6] = ':';
+    str_instant[str_size - 6] = '.';
     str_instant[str_size - 5] = 0;
     int mili_s = (t.tv_usec / 1000) % 1000;
     char mili[4];
@@ -73,14 +74,15 @@ void logInfo(int pid, enum log_action action, char *info) {
         sprintf(mili, "00%d", mili_s);
     else
         sprintf(mili, "%d", mili_s);
-    strcat(str_instant, mili);    
-    fprintf(log_file, "%s - %d - %s - %s", str_instant, pid, getLogActionName(action), info);
+    strcat(str_instant, mili);
+    fprintf(log_file, "%s - %d - %s - %s\n", str_instant, pid, getLogActionName(action), info);
 }
 
 char *strArrToStr(char *arr[]) {
-    char *str = malloc(512);
+    char *str = malloc(4096);
     for (int i = 0; arr[i] != NULL; i++) {
         strcat(str, arr[i]);
+        strcat(str, " ");
     }
     return str;
 }
@@ -254,7 +256,22 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 return 0;
             arguments->maxDepth = depth;
         }
-        else if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) {
+        else /*if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) */{
+            // se passarmos ~ como path, é convertido automaticamente para "/home/user" 	            
+
+            if (argv[i][0] != '-' && argv[i][0] != '.') {
+                char tmp[] = "./";
+                char* tmpArgv = (char*) malloc((PATH_MAX_LEN+2)*sizeof(char));
+                sprintf(tmpArgv, "%s%s", tmp, argv[i]);
+                if (isDirectory(tmpArgv)) {
+                    arguments->path = tmpArgv;
+                    continue;
+                }
+                else {
+                    fprintf(stderr, "\n%s is not a directory!\n\n", tmpArgv);
+                    return 0;
+                }
+            }
             // se passarmos ~ como path, é convertido automaticamente para "/home/user" 
             if (isDirectory(argv[i])) {
                 arguments->path = argv[i];
@@ -263,9 +280,6 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 fprintf(stderr, "\n%s is not a directory!\n\n", argv[i]);
                 return 0;
             }
-        }
-        else {
-            return 0;
         }
     }
     return 1;
@@ -354,7 +368,7 @@ void PIPEFN_ToPipeWrite(int* fd) {
     if(PIPE_FILE_NO != fd[WRITE]) {
         if(dup2(fd[WRITE], PIPE_FILE_NO) != PIPE_FILE_NO) {
             fprintf(stderr, "An error occurred while completing the operation 2!\n");
-            // logInfo(getpid(), EXIT, "2");
+            logInfo(getpid(), EXIT, "2");
             exit(2);
         }
         close(fd[WRITE]);
@@ -425,7 +439,7 @@ void executeDU(Arguments* arguments, char* programPath) {
 
     if ((dir = opendir(arguments->path)) == NULL) {
         perror(arguments->path);
-        // logInfo(getpid(), EXIT, "4");
+        logInfo(getpid(), EXIT, "4");
 
         exit(4);
     }
@@ -443,7 +457,7 @@ void executeDU(Arguments* arguments, char* programPath) {
         
         if (arguments->bytes) { // mostrar o tamanho em bytes
             if (arguments->all) { // mostar também ficheiros regulares
-                if (S_ISREG(stat_entry.st_mode)) {
+                if (S_ISREG(stat_entry.st_mode) && strcmp(filename, "./log.")) {
                     currentDirSize += (int) stat_entry.st_size;
                     
                     if (blockSizeIsString(arguments)) {
@@ -499,7 +513,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[2] = filename;
                     reproduceArgumentsToExec(arguments, args);
                     
-                    // logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
+                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -520,7 +534,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     // printf("\n--- %s | %s ---\n", args[0], args[2]);
                     execv(args[0], &args[0]);
                     printf("Error captured while executing execv call!\n");
-                    //logInfo(getpid(), EXIT, "6");            
+                    logInfo(getpid(), EXIT, "6");            
                     exit(6);
                 }
                 else {
@@ -591,7 +605,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
                     args[2] = filename;
                     reproduceArgumentsToExec(arguments, args);
-                    //logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
+                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -610,7 +624,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     // printf("\n--- %s | %s ---\n", args[0], args[2]);
                     execv(args[0], &args[0]);
                     printf("Error captured while executing execv call!\n");
-                    //logInfo(getpid(), EXIT, "6");
+                    logInfo(getpid(), EXIT, "6");
                     
                     exit(6);
                 }
@@ -622,13 +636,14 @@ void executeDU(Arguments* arguments, char* programPath) {
     }  
 
     terminateProcess(currentDirSize, arguments, readFds, readIndex);
+    logInfo(getpid(), EXIT, "0");
 
 }
 
 int main(int argc, char* argv[]) {
     if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
-        //logInfo(getpid(), EXIT, "1");        
+        logInfo(getpid(), EXIT, "1");        
         exit(1);
     }
     
@@ -640,40 +655,22 @@ int main(int argc, char* argv[]) {
 
     if (!checkArguments(&arguments, argc, argv)) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
-        //logInfo(getpid(), EXIT, "2");
+        logInfo(getpid(), EXIT, "2");
         exit(2);
     }
 
     verifyWritingPipe();
 
-    // TESTED :)
-    /*printf("\nBLOCK SIZE: %d\n", arguments.blockSize);
-    printf("\nALL: %d\n", arguments.all);
-    printf("\nBYTES: %d\n", arguments.bytes);
-    printf("\nCOUNT LINKS: %d\n", arguments.countLinks);
-    printf("\nDEREFERENCE: %d\n", arguments.dereference);
-    printf("\nSEPARATE DIRS: %d\n", arguments.separateDirs);
-    printf("\nMAX DEPTH: %d\n", arguments.maxDepth);
-    printf("\nPATH: %s\n", arguments.path);
-    printf("\nLOG_FILENAME: %s\n", arguments.log_filename);*/ /* antes de correr o programa, escrever o comando:
-                                                                export LOG_FILENAME=log.txt */
-    /*
-    FILE* log_file;
+    // if (arguments.log_filename != NULL) { // criar o ficheiro de registo dos processos
+    //     log_file = fopen(arguments.log_filename, "w");
+    // }
 
-    else {
-        fprintf(stderr, "\nMust set the ambient variable LOG_FILENAME!\n");
-        //exit(3);
-    }
-    */
-
-    if (arguments.log_filename != NULL) { // criar o ficheiro de registo dos processos
-        log_file = fopen(arguments.log_filename, "w");
-    }
+    log_file = fopen("log.txt", "w");
 
     executeDU(&arguments, argv[0]);
 
     
-    //logInfo(getpid(), EXIT, "0");
+    logInfo(getpid(), EXIT, "0");
     exit(0);
 }
 
