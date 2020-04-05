@@ -10,12 +10,13 @@
 #include <wait.h>
 #include <math.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 // -> Correct du -b -B 2 | du -B 2 -b <--
 
 #define BLOCK_SIZE_MAX_LEN 2
 #define PATH_MAX_LEN 512
-#define FILENAME_MAX_LEN 512
+#define FILENAME_MAX_LEN 300
 #define DEFAULT_BLOCK_SIZE 1024
 #define SINGLE_ARG_LEN 5
 #define PIPE_FILE_NO 3
@@ -70,7 +71,7 @@ typedef struct {
 void initializeArgumentsStruct(Arguments* arguments) {
     arguments->all = 0;
     arguments->bytes = 0;
-    arguments->blockSize = DEFAULT_BLOCK_SIZE;
+    arguments->blockSize = 1;
     arguments->blockSizeString = malloc(BLOCK_SIZE_MAX_LEN + 1);
     arguments->blockSizeString = "";
     arguments->countLinks = 1;
@@ -94,21 +95,25 @@ int checkCompatibleCharactersSize(int* size, char* sizeString) {
     }
     else if (strcmp(sizeString, "KB") == 0) {
         *size = 1000;
+        strcpy(sizeString, "kB");
     }
     else if (strcmp(sizeString, "k") == 0) {
         *size = 1024;
+        strcpy(sizeString, "K");
     }
     else if (strcmp(sizeString, "K") == 0) {
         *size = 1024;
     }
     else if (strcmp(sizeString, "mB") == 0) {
         *size = 1000*1000;
+        strcpy(sizeString, "MB");
     }
     else if (strcmp(sizeString, "MB") == 0) {
         *size = 1000*1000;
     }
     else if (strcmp(sizeString, "m") == 0) {
         *size = 1024*1024;
+        strcpy(sizeString, "M");
     }
     else if (strcmp(sizeString, "M") == 0) {
         *size = 1024*1024;
@@ -117,6 +122,7 @@ int checkCompatibleCharactersSize(int* size, char* sizeString) {
     else {
         return 0;
     }
+
     return *size;
 }
 
@@ -130,22 +136,6 @@ int isDirectory(const char *path) {
         return 0;
     return S_ISDIR(statbuf.st_mode);
 }
-
-
-/**
- * Converte uma string para uppercase.
- * Retorna a string em uppercase.
- */
-char* strupr(char* s) {
-    size_t len = strlen(s);
-    char s_up[len];
-    for (int i = 0; i < len; i++) {
-        s_up[i] = toupper(s[i]);
-    }
-    s = s_up;
-    return s;
-}
-
 
 /**
  * Verifica se os argumentos passados na linha de comandos estão corretos.
@@ -178,7 +168,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                arguments->blockSizeString = strupr(sizeString);
+                arguments->blockSizeString = sizeString;
             }
             jumpIteration = 1;
             arguments->blockSize = size;
@@ -193,7 +183,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                arguments->blockSizeString = strupr(sizeString);
+                arguments->blockSizeString = sizeString;
             }
             arguments->blockSize = size;
         }
@@ -207,6 +197,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
+                arguments->blockSizeString = sizeString;  
             }
             arguments->blockSize = size;
         }
@@ -334,37 +325,41 @@ void PIPEFN_ToPipeWrite(int* fd) {
 
 void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, int readIndex) {
     char toSend[PATH_MAX_LEN];
-    char toRead[PATH_MAX_LEN];
+    char toRead[1024];
+
     int tempSize;
 
-    int status;
     int bytesRead;
-    //pid_t exitPid;
+    pid_t exitPid;
 
     for(int index = 0; index < readIndex; index++) {
-        //exitPid = wait(&status);
-        wait(&status);
-        // printf("Son with PID:%d has terminated!\n", exitPid);
-        if((bytesRead = read(readFds[index], toRead, PATH_MAX_LEN)) != 0) { // Read SIZE \t PATH
-            printf("%s", toRead);
-            sscanf(toRead, "%d", &tempSize); // Read SIZE
-            currentDirSize += tempSize; // Update currentDirSize
+        exitPid = wait(NULL);
+        if((bytesRead = read(readFds[index], toRead, PATH_MAX_LEN)) != 0 && exitPid != -1) { // Read SIZE \t PATH
+            //printf("%s", toRead);
+            sscanf(toRead, "%d%s", &tempSize, toSend); // Read SIZE
+            currentDirSize += tempSize;                    
+            
+            
+            sprintf(toRead, "%-d%s\t%-s\n", (int) ceil(tempSize / (float) arguments->blockSize), arguments->blockSizeString, toSend); // Reconstruct PATH
+            write(STDOUT_FILENO, toRead, strlen(toRead) + 1);
         }   
+        
         close(readFds[index]);
     }
-
-    if (blockSizeIsString(arguments)) {
-        sprintf(toSend, "%-d%s\t%-s\n", currentDirSize, arguments->blockSizeString, arguments->path); // Reconstruct PATH
-    }
-    else 
+   
+    
+    if(getpid() == getpgrp())
+        sprintf(toSend, "%-d%s\t%-s\n", (int) ceil(currentDirSize / (float) arguments->blockSize), arguments->blockSizeString, arguments->path); // Reconstruct PATH
+    else
         sprintf(toSend, "%-d\t%-s\n", currentDirSize, arguments->path); // Reconstruct PATH
 
     write(PIPE_FILE_NO, toSend, strlen(toSend) + 1); 
     close(PIPE_FILE_NO);
 
+
 }
 
-void printSizeAndLocation(Arguments* arguments, int size, char* filename, int isLink) {
+/*void printSizeAndLocation(Arguments* arguments, int size, char* filename, int isLink) {
     if (isLink) {
         if (blockSizeIsString(arguments)) {
             printf("0%s\t%-s\n", arguments->blockSizeString, filename);
@@ -381,7 +376,7 @@ void printSizeAndLocation(Arguments* arguments, int size, char* filename, int is
             printf("%-d\t%-s\n", size, filename);
         }
     }
-}
+}*/
 
 void executeDU(Arguments* arguments, char* programPath) {
     DIR * dir;
@@ -484,18 +479,19 @@ void executeDU(Arguments* arguments, char* programPath) {
         else { // mostrar o tamanho em blocos (CORRIGIR FUNÇÃO convertFromBytesToBlocks)
             if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
-                    currentDirSize += convertFromBytesToBlocks((int) stat_entry.st_size, arguments->blockSize);
+                    currentDirSize += convertFromBytesToBlocks((int)stat_entry.st_size, 1);
                     //printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
+
                     if (blockSizeIsString(arguments)) {
-                        printf("%-d%s\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), arguments->blockSizeString, filename);
+                        printf("%-d%s\t%-s\n", (int) ceil(convertFromBytesToBlocks((int)stat_entry.st_size, 1) / (float) arguments->blockSize), arguments->blockSizeString, filename);
                     }   
                     else {
-                        printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
+                        printf("%-d\t%-s\n", (int )ceil(convertFromBytesToBlocks((int)stat_entry.st_size, 1) /  (float) arguments->blockSize), filename);
                     }
                     //printSizeAndLocation(arguments, convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename, 0);
                 }
                 if (S_ISLNK(stat_entry.st_mode)) {
-                    currentDirSize += convertFromBytesToBlocks((int) stat_entry.st_size, arguments->blockSize);
+                    currentDirSize += 0;
                     /* char *linkedfile = malloc(FILENAME_MAX_LEN);
                     int sizelinkedfile = readlink(filename, linkedfile, FILENAME_MAX_LEN);
                     if (sizelinkedfile == -1) {
@@ -503,11 +499,11 @@ void executeDU(Arguments* arguments, char* programPath) {
                         exit(1);
                     } */ 
                     
-                     if (blockSizeIsString(arguments)) {
-                        printf("%-d%s\t%-s\n", convertFromBytesToBlocks((int) stat_entry.st_size, arguments->blockSize), arguments->blockSizeString, filename);
+                    if (blockSizeIsString(arguments)) {
+                        printf("0%s\t%-s\n", arguments->blockSizeString, filename);
                     }   
                     else {
-                        printf("%-d\t%-s\n",convertFromBytesToBlocks((int) stat_entry.st_size, arguments->blockSize), filename);
+                        printf("0\t%-s\n", filename);
                     } 
                     
                     //printSizeAndLocation(arguments, convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename, 1);
@@ -564,7 +560,6 @@ void executeDU(Arguments* arguments, char* programPath) {
 
     terminateProcess(currentDirSize, arguments, readFds, readIndex);
 
-    exit(0);
 }
 
 int main(int argc, char* argv[]) {
