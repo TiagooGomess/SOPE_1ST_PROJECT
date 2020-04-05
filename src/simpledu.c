@@ -64,7 +64,7 @@ void logInfo(int pid, enum log_action action, char *info) {
     str_instant[6] = str_instant[5];
     str_instant[5] = str_instant[4];
     str_instant[4] = ' ';
-    str_instant[str_size - 6] = '.';
+    str_instant[str_size - 6] = ':';
     str_instant[str_size - 5] = 0;
     int mili_s = (t.tv_usec / 1000) % 1000;
     char mili[4];
