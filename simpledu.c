@@ -10,14 +10,12 @@
 #include <wait.h>
 #include <math.h>
 #include <ctype.h>
-#include <stdbool.h>
-#include <sys/time.h>
 
 // -> Correct du -b -B 2 | du -B 2 -b <--
 
 #define BLOCK_SIZE_MAX_LEN 2
 #define PATH_MAX_LEN 512
-#define FILENAME_MAX_LEN 300
+#define FILENAME_MAX_LEN 512
 #define DEFAULT_BLOCK_SIZE 1024
 #define SINGLE_ARG_LEN 5
 #define PIPE_FILE_NO 3
@@ -44,45 +42,10 @@ char *getLogActionName(enum log_action action) {
     return "";
 }
 
-/**
- * Regista uma ação no log_file.
- */
-void logInfo(int pid, enum log_action action, char *info) {
-    struct timeval t;
-    time_t a;
-    time(&a);
-    gettimeofday(&t, NULL);
-    char * str_instant = ctime(&a);
-    int str_size = strlen(str_instant);
-    str_instant[0] = str_instant[str_size - 5];
-    str_instant[1] = str_instant[str_size - 4];
-    str_instant[2] = str_instant[str_size - 3];
-    str_instant[3] = str_instant[str_size - 2];
-    str_instant[7] = str_instant[6];
-    str_instant[6] = str_instant[5];
-    str_instant[5] = str_instant[4];
-    str_instant[4] = ' ';
-    str_instant[str_size - 6] = ':';
-    str_instant[str_size - 5] = 0;
-    int mili_s = (t.tv_usec / 1000) % 1000;
-    char mili[4];
-    if (mili_s < 100)
-        sprintf(mili, "0%d", mili_s);
-    else if (mili_s < 10)
-        sprintf(mili, "00%d", mili_s);
-    else
-        sprintf(mili, "%d", mili_s);
-    strcat(str_instant, mili);    
-    fprintf(log_file, "%s - %d - %s - %s", str_instant, pid, getLogActionName(action), info);
+void logInfo(int instant, int pid, enum log_action action, char *info) {
+    fprintf(log_file, "%d - %d - %s - %s", instant, pid, getLogActionName(action), info);
 }
 
-char *strArrToStr(char *arr[]) {
-    char *str = malloc(512);
-    for (int i = 0; arr[i] != NULL; i++) {
-        strcat(str, arr[i]);
-    }
-    return str;
-}
 
 /**
  * Se um elemento do tipo int da struct não foi especificado nos argumentos da linha de comandos, fica
@@ -107,7 +70,7 @@ typedef struct {
 void initializeArgumentsStruct(Arguments* arguments) {
     arguments->all = 0;
     arguments->bytes = 0;
-    arguments->blockSize = 1;
+    arguments->blockSize = DEFAULT_BLOCK_SIZE;
     arguments->blockSizeString = malloc(BLOCK_SIZE_MAX_LEN + 1);
     arguments->blockSizeString = "";
     arguments->countLinks = 1;
@@ -131,25 +94,21 @@ int checkCompatibleCharactersSize(int* size, char* sizeString) {
     }
     else if (strcmp(sizeString, "KB") == 0) {
         *size = 1000;
-        strcpy(sizeString, "kB");
     }
     else if (strcmp(sizeString, "k") == 0) {
         *size = 1024;
-        strcpy(sizeString, "K");
     }
     else if (strcmp(sizeString, "K") == 0) {
         *size = 1024;
     }
     else if (strcmp(sizeString, "mB") == 0) {
         *size = 1000*1000;
-        strcpy(sizeString, "MB");
     }
     else if (strcmp(sizeString, "MB") == 0) {
         *size = 1000*1000;
     }
     else if (strcmp(sizeString, "m") == 0) {
         *size = 1024*1024;
-        strcpy(sizeString, "M");
     }
     else if (strcmp(sizeString, "M") == 0) {
         *size = 1024*1024;
@@ -158,7 +117,6 @@ int checkCompatibleCharactersSize(int* size, char* sizeString) {
     else {
         return 0;
     }
-
     return *size;
 }
 
@@ -172,6 +130,22 @@ int isDirectory(const char *path) {
         return 0;
     return S_ISDIR(statbuf.st_mode);
 }
+
+
+/**
+ * Converte uma string para uppercase.
+ * Retorna a string em uppercase.
+ */
+char* strupr(char* s) {
+    size_t len = strlen(s);
+    char s_up[len];
+    for (int i = 0; i < len; i++) {
+        s_up[i] = toupper(s[i]);
+    }
+    s = s_up;
+    return s;
+}
+
 
 /**
  * Verifica se os argumentos passados na linha de comandos estão corretos.
@@ -204,7 +178,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                arguments->blockSizeString = sizeString;
+                arguments->blockSizeString = strupr(sizeString);
             }
             jumpIteration = 1;
             arguments->blockSize = size;
@@ -219,7 +193,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                arguments->blockSizeString = sizeString;
+                arguments->blockSizeString = strupr(sizeString);
             }
             arguments->blockSize = size;
         }
@@ -233,7 +207,6 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 }
                 if (!checkCompatibleCharactersSize(&size, sizeString))
                     return 0;
-                arguments->blockSizeString = sizeString;  
             }
             arguments->blockSize = size;
         }
@@ -253,8 +226,22 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 return 0;
             arguments->maxDepth = depth;
         }
-        else if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) {
+        else /*if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) */{
             // se passarmos ~ como path, é convertido automaticamente para "/home/user" 
+            
+            if (argv[i][0] != '-' && argv[i][0] != '.') {
+                char tmp[] = "./";
+                char* tmpArgv = (char*) malloc((PATH_MAX_LEN+2)*sizeof(char));
+                sprintf(tmpArgv, "%s%s", tmp, argv[i]);
+                if (isDirectory(tmpArgv)) {
+                    arguments->path = tmpArgv;
+                    continue;
+                }
+                else {
+                    fprintf(stderr, "\n%s is not a directory!\n\n", tmpArgv);
+                    return 0;
+                }
+            }
             if (isDirectory(argv[i])) {
                 arguments->path = argv[i];
             }
@@ -263,9 +250,6 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
                 return 0;
             }
         }
-        else {
-            return 0;
-        }
     }
     return 1;
 }
@@ -273,7 +257,6 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
 int blockSizeIsString(Arguments* arguments) {
     return (strlen(arguments->blockSizeString) == 1) || (strlen(arguments->blockSizeString) == 2);
 }
-
 
 /**
  * Converte de número de bytes para número de blocos, de acordo com o blockSize atual.
@@ -290,6 +273,7 @@ int convertFromBytesToBlocks(long int numBytes, int blockSize) { // ISTO NÃO ES
 void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LEN]) {
     int index = 3;
     char auxArg[PATH_MAX_LEN];
+
     if(arguments->all) {
         argsToExec[index] = (char *) malloc(SINGLE_ARG_LEN * sizeof(char));
         strcpy(argsToExec[index++], "-a");
@@ -333,7 +317,7 @@ void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LE
     }
     argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
     argsToExec[index] = NULL;
-
+    
 }
 
 void verifyWritingPipe() {
@@ -343,60 +327,51 @@ void verifyWritingPipe() {
     }
 }
 
-void STDIN_ToPipeRead(int* readFds, int* fd, int* readIndex) {
-    readFds[(*readIndex)++] = fd[READ];
-    close(fd[WRITE]);
+void STDIN_ToPipeRead(int* fd) {
+    if(STDIN_FILENO != fd[READ]) {
+        if(dup2(fd[READ], STDIN_FILENO) != STDIN_FILENO) {
+            fprintf(stderr,"An error occurred while completing the operation 1!\n");
+            exit(2);
+        }
+        close(fd[READ]);
+    }
 }
 
 void PIPEFN_ToPipeWrite(int* fd) {
-
     if(PIPE_FILE_NO != fd[WRITE]) {
         if(dup2(fd[WRITE], PIPE_FILE_NO) != PIPE_FILE_NO) {
             fprintf(stderr, "An error occurred while completing the operation 2!\n");
-            logInfo(getpid(), EXIT, "2");
             exit(2);
         }
         close(fd[WRITE]);
     }
 }
 
-void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, int readIndex) {
+void terminateProcess(int currentDirSize, Arguments* arguments, int* fd) {
     char toSend[PATH_MAX_LEN];
-    char toRead[1024];
-
+    char toRead[PATH_MAX_LEN];
     int tempSize;
 
-    int bytesRead;
+    int status;
     pid_t exitPid;
 
-    for(int index = 0; index < readIndex; index++) {
-        exitPid = wait(NULL);
-        if((bytesRead = read(readFds[index], toRead, PATH_MAX_LEN)) != 0 && exitPid != -1) { // Read SIZE \t PATH
-            //printf("%s", toRead);
-            sscanf(toRead, "%d%s", &tempSize, toSend); // Read SIZE
-            currentDirSize += tempSize;                    
-            
-            
-            sprintf(toRead, "%-d%s\t%-s\n", (int) ceil(tempSize / (float) arguments->blockSize), arguments->blockSizeString, toSend); // Reconstruct PATH
-            write(STDOUT_FILENO, toRead, strlen(toRead) + 1);
-        }   
-        
-        close(readFds[index]);
+    while((exitPid = wait(&status)) != -1) {
+        fgets(toRead, PATH_MAX_LEN, stdin); // Read SIZE \t PATH
+        printf("%s", toRead);
+        sscanf(toRead, "%d", &tempSize); // Read SIZE
+        currentDirSize += tempSize; // Update currentDirSize
+        //printf("Son with PID:%d has terminated!\n", exitPid);
     }
-   
-    
-    if(getpid() == getpgrp())
-        sprintf(toSend, "%-d%s\t%-s\n", (int) ceil(currentDirSize / (float) arguments->blockSize), arguments->blockSizeString, arguments->path); // Reconstruct PATH
-    else
+    close(fd[WRITE]);
+    if (blockSizeIsString(arguments)) {
+        sprintf(toSend, "%-d%s\t%-s\n", currentDirSize, arguments->blockSizeString, arguments->path); // Reconstruct PATH
+    }
+    else 
         sprintf(toSend, "%-d\t%-s\n", currentDirSize, arguments->path); // Reconstruct PATH
-
     write(PIPE_FILE_NO, toSend, strlen(toSend) + 1); 
-    close(PIPE_FILE_NO);
-
-
 }
 
-/*void printSizeAndLocation(Arguments* arguments, int size, char* filename, int isLink) {
+void printSizeAndLocation(Arguments* arguments, int size, char* filename, int isLink) {
     if (isLink) {
         if (blockSizeIsString(arguments)) {
             printf("0%s\t%-s\n", arguments->blockSizeString, filename);
@@ -413,19 +388,25 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
             printf("%-d\t%-s\n", size, filename);
         }
     }
-}*/
+}
 
 void executeDU(Arguments* arguments, char* programPath) {
     DIR * dir;
-    int pidIndex = 0, currentDirSize = 4096, readIndex = 0;
+    int pidIndex = 0;
     pid_t pids[MAX_FORKS_LEN];
-    int readFds[MAX_FORKS_LEN];
+    int currentDirSize = 4096;
+
+    int fd[2];
+
+    // Create pipe for connection PARENT -> SON's
+    pipe(fd);
+
+    // Direct READ side of PIPE to STDIN_FILE_NO
+    STDIN_ToPipeRead(fd);
 
 
     if ((dir = opendir(arguments->path)) == NULL) {
         perror(arguments->path);
-        logInfo(getpid(), EXIT, "4");
-
         exit(4);
     }
 
@@ -444,7 +425,6 @@ void executeDU(Arguments* arguments, char* programPath) {
             if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
                     currentDirSize += (int) stat_entry.st_size;
-                    
                     if (blockSizeIsString(arguments)) {
                         printf("%-d%s\t%-s\n", (int)stat_entry.st_size, arguments->blockSizeString, filename);
                     }   
@@ -479,26 +459,9 @@ void executeDU(Arguments* arguments, char* programPath) {
 
                 //printf("\n-------FORKING---------\n");
                 if (arguments->maxDepth == 1) continue;
-
-                int fd[2];
-
-                // Create pipe for connection PARENT -> SON
-                pipe(fd);
                 
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
-                    
-                    // Direct READ side of PIPE to STDIN_FILE_NO
-                    STDIN_ToPipeRead(readFds, fd, &readIndex);
-                    char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
-                    args[0] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
-                    args[0] = programPath;
-                    args[1] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
-                    args[1] = "-l";
-                    args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
-                    args[2] = filename;
-                    reproduceArgumentsToExec(arguments, args);
-                    
-                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
+
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -519,7 +482,6 @@ void executeDU(Arguments* arguments, char* programPath) {
                     // printf("\n--- %s | %s ---\n", args[0], args[2]);
                     execv(args[0], &args[0]);
                     printf("Error captured while executing execv call!\n");
-                    logInfo(getpid(), EXIT, "6");            
                     exit(6);
                 }
                 else {
@@ -530,19 +492,18 @@ void executeDU(Arguments* arguments, char* programPath) {
         else { // mostrar o tamanho em blocos (CORRIGIR FUNÇÃO convertFromBytesToBlocks)
             if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
-                    currentDirSize += convertFromBytesToBlocks((int)stat_entry.st_size, 1);
+                    currentDirSize += (int) stat_entry.st_size;
                     //printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
-
                     if (blockSizeIsString(arguments)) {
-                        printf("%-d%s\t%-s\n", (int) ceil(convertFromBytesToBlocks((int)stat_entry.st_size, 1) / (float) arguments->blockSize), arguments->blockSizeString, filename);
+                        printf("%-d%s\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), arguments->blockSizeString, filename);
                     }   
                     else {
-                        printf("%-d\t%-s\n", (int )ceil(convertFromBytesToBlocks((int)stat_entry.st_size, 1) /  (float) arguments->blockSize), filename);
+                        printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
                     }
                     //printSizeAndLocation(arguments, convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename, 0);
                 }
                 if (S_ISLNK(stat_entry.st_mode)) {
-                    currentDirSize += 0;
+                    currentDirSize += (int) stat_entry.st_size;
                     /* char *linkedfile = malloc(FILENAME_MAX_LEN);
                     int sizelinkedfile = readlink(filename, linkedfile, FILENAME_MAX_LEN);
                     if (sizelinkedfile == -1) {
@@ -550,11 +511,11 @@ void executeDU(Arguments* arguments, char* programPath) {
                         exit(1);
                     } */ 
                     
-                    if (blockSizeIsString(arguments)) {
-                        printf("0%s\t%-s\n", arguments->blockSizeString, filename);
+                     if (blockSizeIsString(arguments)) {
+                        printf("%-d%s\t%-s\n", (int) stat_entry.st_size, arguments->blockSizeString, filename);
                     }   
                     else {
-                        printf("0\t%-s\n", filename);
+                        printf("%-d\t%-s\n",(int) stat_entry.st_size, filename);
                     } 
                     
                     //printSizeAndLocation(arguments, convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename, 1);
@@ -572,25 +533,8 @@ void executeDU(Arguments* arguments, char* programPath) {
                 //printf("\n-------FORKING---------\n");
                 
                 if (arguments->maxDepth == 1) continue;
-
-                int fd[2];
-
-                // Create pipe for connection PARENT -> SON
-                pipe(fd);
-                
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
                     
-                    // Direct READ side of PIPE to STDIN_FILE_NO
-                    STDIN_ToPipeRead(readFds, fd, &readIndex);
-                    char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
-                    args[0] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
-                    args[0] = programPath;
-                    args[1] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
-                    args[1] = "-l";
-                    args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
-                    args[2] = filename;
-                    reproduceArgumentsToExec(arguments, args);
-                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -609,8 +553,6 @@ void executeDU(Arguments* arguments, char* programPath) {
                     // printf("\n--- %s | %s ---\n", args[0], args[2]);
                     execv(args[0], &args[0]);
                     printf("Error captured while executing execv call!\n");
-                    logInfo(getpid(), EXIT, "6");
-                    
                     exit(6);
                 }
                 else {
@@ -620,14 +562,14 @@ void executeDU(Arguments* arguments, char* programPath) {
         }
     }  
 
-    terminateProcess(currentDirSize, arguments, readFds, readIndex);
+    terminateProcess(currentDirSize, arguments, fd);
 
+    exit(0);
 }
 
 int main(int argc, char* argv[]) {
     if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
-        logInfo(getpid(), EXIT, "1");        
         exit(1);
     }
     
@@ -639,7 +581,6 @@ int main(int argc, char* argv[]) {
 
     if (!checkArguments(&arguments, argc, argv)) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
-        logInfo(getpid(), EXIT, "2");
         exit(2);
     }
 
@@ -672,7 +613,8 @@ int main(int argc, char* argv[]) {
     executeDU(&arguments, argv[0]);
 
     
-    logInfo(getpid(), EXIT, "0");
+
+    //fclose(log_file);
     exit(0);
 }
 
