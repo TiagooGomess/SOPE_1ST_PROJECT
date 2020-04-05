@@ -10,7 +10,11 @@
 #include <wait.h>
 #include <math.h>
 #include <ctype.h>
+<<<<<<< HEAD
 #include <stdbool.h>
+=======
+#include <sys/time.h>
+>>>>>>> log
 
 // -> Correct du -b -B 2 | du -B 2 -b <--
 
@@ -43,10 +47,45 @@ char *getLogActionName(enum log_action action) {
     return "";
 }
 
-void logInfo(int instant, int pid, enum log_action action, char *info) {
-    fprintf(log_file, "%d - %d - %s - %s", instant, pid, getLogActionName(action), info);
+/**
+ * Regista uma ação no log_file.
+ */
+void logInfo(int pid, enum log_action action, char *info) {
+    struct timeval t;
+    time_t a;
+    time(&a);
+    gettimeofday(&t, NULL);
+    char * str_instant = ctime(&a);
+    int str_size = strlen(str_instant);
+    str_instant[0] = str_instant[str_size - 5];
+    str_instant[1] = str_instant[str_size - 4];
+    str_instant[2] = str_instant[str_size - 3];
+    str_instant[3] = str_instant[str_size - 2];
+    str_instant[7] = str_instant[6];
+    str_instant[6] = str_instant[5];
+    str_instant[5] = str_instant[4];
+    str_instant[4] = ' ';
+    str_instant[str_size - 6] = ':';
+    str_instant[str_size - 5] = 0;
+    int mili_s = (t.tv_usec / 1000) % 1000;
+    char mili[4];
+    if (mili_s < 100)
+        sprintf(mili, "0%d", mili_s);
+    else if (mili_s < 10)
+        sprintf(mili, "00%d", mili_s);
+    else
+        sprintf(mili, "%d", mili_s);
+    strcat(str_instant, mili);    
+    fprintf(log_file, "%s - %d - %s - %s", str_instant, pid, getLogActionName(action), info);
 }
 
+char *strArrToStr(char *arr[]) {
+    char *str = malloc(512);
+    for (int i = 0; arr[i] != NULL; i++) {
+        strcat(str, arr[i]);
+    }
+    return str;
+}
 
 /**
  * Se um elemento do tipo int da struct não foi especificado nos argumentos da linha de comandos, fica
@@ -238,6 +277,7 @@ int blockSizeIsString(Arguments* arguments) {
     return (strlen(arguments->blockSizeString) == 1) || (strlen(arguments->blockSizeString) == 2);
 }
 
+
 /**
  * Converte de número de bytes para número de blocos, de acordo com o blockSize atual.
  * Retorna o número de blocos.
@@ -253,7 +293,6 @@ int convertFromBytesToBlocks(long int numBytes, int blockSize) { // ISTO NÃO ES
 void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LEN]) {
     int index = 3;
     char auxArg[PATH_MAX_LEN];
-
     if(arguments->all) {
         argsToExec[index] = (char *) malloc(SINGLE_ARG_LEN * sizeof(char));
         strcpy(argsToExec[index++], "-a");
@@ -297,7 +336,7 @@ void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LE
     }
     argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
     argsToExec[index] = NULL;
-    
+
 }
 
 void verifyWritingPipe() {
@@ -307,9 +346,21 @@ void verifyWritingPipe() {
     }
 }
 
+<<<<<<< HEAD
 void STDIN_ToPipeRead(int* readFds, int* fd, int* readIndex) {
     readFds[(*readIndex)++] = fd[READ];
     close(fd[WRITE]);
+=======
+void STDIN_ToPipeRead(int* fd) {
+    if(STDIN_FILENO != fd[READ]) {
+        if(dup2(fd[READ], STDIN_FILENO) != STDIN_FILENO) {
+            fprintf(stderr,"An error occurred while completing the operation 1!\n");
+            logInfo(getpid(), EXIT, "2");
+            exit(2);
+        }
+        close(fd[READ]);
+    }
+>>>>>>> log
 }
 
 void PIPEFN_ToPipeWrite(int* fd) {
@@ -317,6 +368,7 @@ void PIPEFN_ToPipeWrite(int* fd) {
     if(PIPE_FILE_NO != fd[WRITE]) {
         if(dup2(fd[WRITE], PIPE_FILE_NO) != PIPE_FILE_NO) {
             fprintf(stderr, "An error occurred while completing the operation 2!\n");
+            logInfo(getpid(), EXIT, "2");
             exit(2);
         }
         close(fd[WRITE]);
@@ -387,6 +439,8 @@ void executeDU(Arguments* arguments, char* programPath) {
 
     if ((dir = opendir(arguments->path)) == NULL) {
         perror(arguments->path);
+        logInfo(getpid(), EXIT, "4");
+
         exit(4);
     }
 
@@ -405,6 +459,7 @@ void executeDU(Arguments* arguments, char* programPath) {
             if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
                     currentDirSize += (int) stat_entry.st_size;
+                    
                     if (blockSizeIsString(arguments)) {
                         printf("%-d%s\t%-s\n", (int)stat_entry.st_size, arguments->blockSizeString, filename);
                     }   
@@ -446,9 +501,22 @@ void executeDU(Arguments* arguments, char* programPath) {
                 pipe(fd);
                 
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
+<<<<<<< HEAD
                     
                     // Direct READ side of PIPE to STDIN_FILE_NO
                     STDIN_ToPipeRead(readFds, fd, &readIndex);
+=======
+                    char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
+                    args[0] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[0] = programPath;
+                    args[1] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[1] = "-l";
+                    args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[2] = filename;
+                    reproduceArgumentsToExec(arguments, args);
+                    
+                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
+>>>>>>> log
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -469,6 +537,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     // printf("\n--- %s | %s ---\n", args[0], args[2]);
                     execv(args[0], &args[0]);
                     printf("Error captured while executing execv call!\n");
+                    logInfo(getpid(), EXIT, "6");            
                     exit(6);
                 }
                 else {
@@ -529,8 +598,20 @@ void executeDU(Arguments* arguments, char* programPath) {
                 
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
                     
+<<<<<<< HEAD
                     // Direct READ side of PIPE to STDIN_FILE_NO
                     STDIN_ToPipeRead(readFds, fd, &readIndex);
+=======
+                    char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
+                    args[0] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[0] = programPath;
+                    args[1] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[1] = "-l";
+                    args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
+                    args[2] = filename;
+                    reproduceArgumentsToExec(arguments, args);
+                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
+>>>>>>> log
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -549,6 +630,8 @@ void executeDU(Arguments* arguments, char* programPath) {
                     // printf("\n--- %s | %s ---\n", args[0], args[2]);
                     execv(args[0], &args[0]);
                     printf("Error captured while executing execv call!\n");
+                    logInfo(getpid(), EXIT, "6");
+                    
                     exit(6);
                 }
                 else {
@@ -558,13 +641,18 @@ void executeDU(Arguments* arguments, char* programPath) {
         }
     }  
 
+<<<<<<< HEAD
     terminateProcess(currentDirSize, arguments, readFds, readIndex);
 
+=======
+    terminateProcess(currentDirSize, arguments, fd);
+>>>>>>> log
 }
 
 int main(int argc, char* argv[]) {
     if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
+        logInfo(getpid(), EXIT, "1");        
         exit(1);
     }
     
@@ -576,6 +664,7 @@ int main(int argc, char* argv[]) {
 
     if (!checkArguments(&arguments, argc, argv)) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
+        logInfo(getpid(), EXIT, "2");
         exit(2);
     }
 
@@ -608,8 +697,7 @@ int main(int argc, char* argv[]) {
     executeDU(&arguments, argv[0]);
 
     
-
-    //fclose(log_file);
+    logInfo(getpid(), EXIT, "0");
     exit(0);
 }
 
