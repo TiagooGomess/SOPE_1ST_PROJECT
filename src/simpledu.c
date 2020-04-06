@@ -379,11 +379,13 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
         if((bytesRead = read(readFds[index], toRead, PATH_MAX_LEN)) != 0 && exitPid != -1) { // Read SIZE \t PATH
             //printf("%s", toRead);
             sscanf(toRead, "%d%s", &tempSize, toSend); // Read SIZE
-            currentDirSize += tempSize;                    
+            
+            if(!arguments->separateDirs)
+                currentDirSize += tempSize;                    
             
             if(arguments->maxDepth > 0) {
                 sprintf(toRead, "%-d%s\t%-s\n", (int) ceil(tempSize / (float) arguments->blockSize), arguments->blockSizeString, toSend); // Reconstruct PATH
-                write(STDOUT_FILENO, toRead, strlen(toRead) + 1);
+                write(STDOUT_FILENO, toRead, strlen(toRead));
             }    
         }   
         
@@ -422,7 +424,7 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
     else
         sprintf(toSend, "%-d\t%-s\n", currentDirSize, arguments->path); // Reconstruct PATH
 
-    write(PIPE_FILE_NO, toSend, strlen(toSend) + 1); 
+    write(PIPE_FILE_NO, toSend, strlen(toSend)); 
     close(PIPE_FILE_NO);
 
 
@@ -477,11 +479,9 @@ void executeDU(Arguments* arguments, char* programPath) {
             lstat(filename, &stat_entry);
         
         if (arguments->bytes) { // mostrar o tamanho em bytes
-            if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
-                    currentDirSize += (int) stat_entry.st_size;
-                    
-                    if(arguments->maxDepth > 0) {
+                    currentDirSize += (int) stat_entry.st_size;                   
+                    if(arguments->maxDepth > 0 && arguments->all) { // mostar também ficheiros regulares) 
                         if (blockSizeIsString(arguments)) {
                             printf("%-d%s\t%-s\n", (int)stat_entry.st_size, arguments->blockSizeString, filename);
                         }   
@@ -500,7 +500,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                         perror("readlink function");
                         exit(1);
                     } */ 
-                    if(arguments->maxDepth > 0) {
+                    if(arguments->maxDepth > 0 && arguments->all) {
                         if (blockSizeIsString(arguments)) {
                             printf("%-d%s\t%-s\n", (int) stat_entry.st_size, arguments->blockSizeString, filename);
                         }   
@@ -511,7 +511,6 @@ void executeDU(Arguments* arguments, char* programPath) {
                     //printSizeAndLocation(arguments, (int)stat_entry.st_size, filename, 1);
                     continue;
                 }
-            }
             if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
                 //printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);     
                 //printSizeAndLocation(arguments, (int)stat_entry.st_size, filename, 0);
@@ -567,12 +566,11 @@ void executeDU(Arguments* arguments, char* programPath) {
             }
         }
         else { // mostrar o tamanho em blocos (CORRIGIR FUNÇÃO convertFromBytesToBlocks)
-            if (arguments->all) { // mostar também ficheiros regulares
                 if (S_ISREG(stat_entry.st_mode)) {
                     currentDirSize += convertFromBytesToBlocks((int)stat_entry.st_size, 1);
                     //printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
 
-                    if(arguments->maxDepth > 0) {
+                    if(arguments->maxDepth > 0 && arguments->all) {
                         if (blockSizeIsString(arguments)) {
                             printf("%-d%s\t%-s\n", (int) ceil(convertFromBytesToBlocks((int)stat_entry.st_size, 1) / (float) arguments->blockSize), arguments->blockSizeString, filename);
                         }   
@@ -592,7 +590,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                         exit(1);
                     } */ 
                     
-                    if(arguments->maxDepth > 0) {
+                    if(arguments->maxDepth > 0 && arguments->all) {
                         if (blockSizeIsString(arguments)) {
                             printf("0%s\t%-s\n", arguments->blockSizeString, filename);
                         }   
@@ -605,7 +603,6 @@ void executeDU(Arguments* arguments, char* programPath) {
 
                     continue;
                 }
-            }
             if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
                 //printf("%-d\t%-s\n", convertFromBytesToBlocks(stat_entry.st_size, arguments->blockSize), filename);
                 
