@@ -24,6 +24,10 @@
 #define MAX_FORKS_LEN 256
 #define READ 0
 #define WRITE 1
+#define IS_LINK 1
+#define IS_NOT_LINK 0
+#define SHOW_IN_BYTES 1
+#define SHOW_IN_BLOCKS 0
 
 FILE* log_file;
 
@@ -312,16 +316,6 @@ void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LE
         }
         strcpy(argsToExec[index++], auxArg);   
     }
-    /*if (strcmp(arguments->blockSizeString, "") == 0) {
-        argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
-        if (blockSizeIsString(arguments)) {
-            sprintf(auxArg, "-B %d%s", arguments->blockSize, arguments->blockSizeString);  
-        }
-        else {
-            sprintf(auxArg, "-B %d", arguments->blockSize);  
-        }
-        strcpy(argsToExec[index++], auxArg); 
-    }*/
     if(arguments->dereference) {
         argsToExec[index] = (char *) malloc(SINGLE_ARG_LEN * sizeof(char));
         strcpy(argsToExec[index++], "-L"); 
@@ -430,24 +424,44 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
 
 }
 
-/*void printSizeAndLocation(Arguments* arguments, int size, char* filename, int isLink) {
-    if (isLink) {
-        if (blockSizeIsString(arguments)) {
-            printf("0%s\t%-s\n", arguments->blockSizeString, filename);
-        }   
+void printSizeAndLocation(Arguments* arguments, int size, char* filename, int isLink, int showInBytes) {
+    if (showInBytes) {
+        if (isLink) {
+            if (blockSizeIsString(arguments)) {
+                printf("%-d%s\t%-s\n", size, arguments->blockSizeString, filename);
+            }   
+            else {
+                printf("%-d\t%-s\n", size, filename);
+            }
+        }
         else {
-            printf("0\t%-s\n", filename);
+            if (blockSizeIsString(arguments)) {
+                printf("%-d%s\t%-s\n", size, arguments->blockSizeString, filename);
+            }
+            else {
+                printf("%-d\t%-s\n", size, filename);
+            }
         }
     }
     else {
-        if (blockSizeIsString(arguments)) {
-            printf("%-d%s\t%-s\n", size, arguments->blockSizeString, filename);
+        if (isLink) {
+            if (blockSizeIsString(arguments)) {
+                printf("0%s\t%-s\n", arguments->blockSizeString, filename);
+            }   
+            else {
+                printf("0\t%-s\n", filename);
+            }
         }
         else {
-            printf("%-d\t%-s\n", size, filename);
+            if (blockSizeIsString(arguments)) {
+                printf("%-d%s\t%-s\n", size, arguments->blockSizeString, filename);
+            }
+            else {
+                printf("%-d\t%-s\n", size, filename);
+            }
         }
     }
-}*/
+}
 
 void executeDU(Arguments* arguments, char* programPath) {
     DIR * dir;
@@ -481,34 +495,36 @@ void executeDU(Arguments* arguments, char* programPath) {
         if (arguments->bytes) { // mostrar o tamanho em bytes
                 if (S_ISREG(stat_entry.st_mode)) {
                     currentDirSize += (int) stat_entry.st_size;                   
+                    
                     if(arguments->maxDepth > 0 && arguments->all) { // mostar também ficheiros regulares) 
+                        /*
                         if (blockSizeIsString(arguments)) {
                             printf("%-d%s\t%-s\n", (int)stat_entry.st_size, arguments->blockSizeString, filename);
                         }   
                         else {
                             printf("%-d\t%-s\n", (int)stat_entry.st_size, filename);
-                        }  
-                    }    
-                    //printSizeAndLocation(arguments, (int)stat_entry.st_size, filename, 0);
+                        }
+                        */
+                        printSizeAndLocation(arguments, (int)stat_entry.st_size, filename, IS_NOT_LINK, SHOW_IN_BYTES);
+
+                    }
                     continue;
                 }
                 if (S_ISLNK(stat_entry.st_mode)) {
                     currentDirSize += (int) stat_entry.st_size;
-                    /* char *linkedfile = malloc(FILENAME_MAX_LEN);
-                    int sizelinkedfile = readlink(filename, linkedfile, FILENAME_MAX_LEN);
-                    if (sizelinkedfile == -1) {
-                        perror("readlink function");
-                        exit(1);
-                    } */ 
+                    
                     if(arguments->maxDepth > 0 && arguments->all) {
+                        /*
                         if (blockSizeIsString(arguments)) {
                             printf("%-d%s\t%-s\n", (int) stat_entry.st_size, arguments->blockSizeString, filename);
                         }   
                         else {
                             printf("%-d\t%-s\n",(int) stat_entry.st_size, filename);
                         }
+                        */
+                       printSizeAndLocation(arguments, (int)stat_entry.st_size, filename, IS_LINK, SHOW_IN_BYTES);
                     }    
-                    //printSizeAndLocation(arguments, (int)stat_entry.st_size, filename, 1);
+                    
                     continue;
                 }
             if (S_ISDIR(stat_entry.st_mode) && (strcmp(dentry->d_name, ".") != 0) && (strcmp(dentry->d_name, "..") != 0)) {
@@ -565,19 +581,20 @@ void executeDU(Arguments* arguments, char* programPath) {
                 }
             }
         }
-        else { // mostrar o tamanho em blocos (CORRIGIR FUNÇÃO convertFromBytesToBlocks)
+        else { // mostrar o tamanho em blocos
                 if (S_ISREG(stat_entry.st_mode)) {
                     currentDirSize += convertFromBytesToBlocks((int)stat_entry.st_size, 1);
                     //printf("%-d\t%-s\n", convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename);
 
                     if(arguments->maxDepth > 0 && arguments->all) {
+                        /*
                         if (blockSizeIsString(arguments)) {
                             printf("%-d%s\t%-s\n", (int) ceil(convertFromBytesToBlocks((int)stat_entry.st_size, 1) / (float) arguments->blockSize), arguments->blockSizeString, filename);
                         }   
                         else {
                             printf("%-d\t%-s\n", (int )ceil(convertFromBytesToBlocks((int)stat_entry.st_size, 1) /  (float) arguments->blockSize), filename);
-                        }
-                        //printSizeAndLocation(arguments, convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename, 0);
+                        }*/
+                        printSizeAndLocation(arguments, (int) ceil(convertFromBytesToBlocks((int)stat_entry.st_size, 1) / (float) arguments->blockSize), filename, IS_NOT_LINK, SHOW_IN_BLOCKS);
                     }
                     continue;
                 }
@@ -591,14 +608,15 @@ void executeDU(Arguments* arguments, char* programPath) {
                     } */ 
                     
                     if(arguments->maxDepth > 0 && arguments->all) {
+                        /*
                         if (blockSizeIsString(arguments)) {
                             printf("0%s\t%-s\n", arguments->blockSizeString, filename);
                         }   
                         else {
                             printf("0\t%-s\n", filename);
-                        } 
+                        } */
                         
-                        //printSizeAndLocation(arguments, convertFromBytesToBlocks((int)stat_entry.st_size, arguments->blockSize), filename, 1);
+                        printSizeAndLocation(arguments, 0, filename, IS_LINK, SHOW_IN_BLOCKS);
                     }
 
                     continue;
