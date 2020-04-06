@@ -262,21 +262,6 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
         }
         else /*if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) */{
             // se passarmos ~ como path, é convertido automaticamente para "/home/user" 	            
-
-            if (argv[i][0] != '-' && argv[i][0] != '.') {
-                char tmp[] = "./";
-                char* tmpArgv = (char*) malloc((PATH_MAX_LEN+2)*sizeof(char));
-                sprintf(tmpArgv, "%s%s", tmp, argv[i]);
-                if (isDirectory(tmpArgv)) {
-                    arguments->path = tmpArgv;
-                    continue;
-                }
-                else {
-                    fprintf(stderr, "\n%s is not a directory!\n\n", tmpArgv);
-                    return 0;
-                }
-            }
-            // se passarmos ~ como path, é convertido automaticamente para "/home/user" 
             if (isDirectory(argv[i])) {
                 arguments->path = argv[i];
             }
@@ -479,6 +464,7 @@ void executeDU(Arguments* arguments, char* programPath) {
     struct dirent *dentry;
     struct stat stat_entry;
     char filename[FILENAME_MAX_LEN];
+    
     while ((dentry = readdir(dir)) != NULL) {
 
         sprintf(filename, "%s/%s", arguments->path, dentry->d_name); 
