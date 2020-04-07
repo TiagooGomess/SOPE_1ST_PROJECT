@@ -14,6 +14,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <time.h>
+#include <sys/types.h>
 
 #define BLOCK_SIZE_MAX_LEN 2
 #define PATH_MAX_LEN 512
@@ -375,6 +376,13 @@ void PIPEFN_ToPipeWrite(int* fd) {
     }
 }
 
+bool STDOUisPIPE_FN() {
+    struct stat stat1, stat2;
+    fstat(STDOUT_FILENO, &stat1);
+    fstat(PIPE_FILE_NO, &stat2);
+    return (stat1.st_dev == stat2.st_dev) && (stat1.st_ino == stat2.st_ino);
+}
+
 void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, int readIndex) {
     
     char toSend[PATH_MAX_LEN];
@@ -409,7 +417,7 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
     }
    
     
-    if(getpid() == getpgrp()) { // Last parent 
+    if(STDOUisPIPE_FN()) { // Last parent 
         if(strcmp(arguments->path, ".") == 0) {
             char filename[PATH_MAX_LEN] = "./log.txt";
             struct stat stat_entry;
@@ -749,7 +757,7 @@ int main(int argc, char* argv[]) {
 
     verifyWritingPipe();
 
-    if(getpid() == getpgrp()) {
+    if(STDOUisPIPE_FN()) {
         close(open("/home/joao/Documents/SOPE_1ST_PROJECT/src/log.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXG | S_IRWXU));
     }
     
