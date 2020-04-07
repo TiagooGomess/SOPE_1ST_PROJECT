@@ -1,0 +1,11 @@
+2020 Apr 7 13:26:07:808207 - 2434 - ENTRY - 342	./makefile
+2020 Apr 7 13:26:07:808266 - 2434 - ENTRY - 2731	./simpledu.c
+2020 Apr 7 13:26:07:808283 - 2434 - ENTRY - 342	./testeT_du.txt
+2020 Apr 7 13:26:07:808297 - 2434 - ENTRY - 3755	./simpledu.o
+2020 Apr 7 13:26:07:808313 - 2434 - ENTRY - 342	./init.sh
+2020 Apr 7 13:26:07:808329 - 2434 - ENTRY - 342	./testeT_simpledu.txt
+2020 Apr 7 13:26:07:808348 - 2434 - ENTRY - 342	./teste.sh
+2020 Apr 7 13:26:07:808363 - 2434 - ENTRY - 1024	./teste_extensivo.sh
+2020 Apr 7 13:26:07:808380 - 2434 - ENTRY - 3414	./simpledu
+2020 Apr 7 13:26:07:808405 - 2434 - SEND_PIPE - 13312	.
+2020 Apr 7 13:26:07:808417 - 2434 - EXIT - 0

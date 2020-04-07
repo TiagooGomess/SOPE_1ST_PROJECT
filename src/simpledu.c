@@ -88,8 +88,13 @@ void logInfo(int pid, enum log_action action, char *info) {
 
     char str_to_print[FILENAME_MAX_LEN * 3];
     int size = sprintf(str_to_print, "%s - %d - %s - %s\n", str_instant, pid, getLogActionName(action), info);
-    chmod("/home/joao/Documents/SOPE_1ST_PROJECT/src/log.txt", 0666);
-    log_file_fd = open("/home/joao/Documents/SOPE_1ST_PROJECT/src/log.txt", O_WRONLY | O_APPEND);
+
+    char logPath[PATH_MAX_LEN];
+    getcwd(logPath, PATH_MAX_LEN);
+    strcat(logPath, "/log.txt");
+
+    chmod(logPath, 0666);
+    log_file_fd = open(logPath, O_WRONLY | O_APPEND);
     write(log_file_fd, str_to_print, size);
     close(log_file_fd);
 }
@@ -758,7 +763,11 @@ int main(int argc, char* argv[]) {
     verifyWritingPipe();
 
     if(STDOUisPIPE_FN()) {
-        close(open("/home/joao/Documents/SOPE_1ST_PROJECT/src/log.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXG | S_IRWXU));
+        char logPath[PATH_MAX_LEN];
+        getcwd(logPath, PATH_MAX_LEN);
+        strcat(logPath, "/log.txt");
+        
+        close(open(logPath, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXG | S_IRWXU));
     }
     
     if(arguments.defaultDisplay) // If no -b or -B are given...
