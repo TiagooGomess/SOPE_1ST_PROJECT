@@ -749,7 +749,7 @@ int main(int argc, char* argv[]) {
     verifyWritingPipe();
 
     if(getpid() == getpgrp()) {
-        close(open("/home/joao/Documents/SOPE_1ST_PROJECT/src/log.txt", O_WRONLY | O_TRUNC));
+        close(open("/home/joao/Documents/SOPE_1ST_PROJECT/src/log.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXG | S_IRWXU));
     }
     
     if(arguments.defaultDisplay) // If no -b or -B are given...

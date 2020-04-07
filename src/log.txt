@@ -1,60 +1,60 @@
-2020 Apr 7 11:13:46:386165 - 6973 - CREATE - ./simpledu -l ../TestDIr/test1 -a -B 1024 --max-depth=2147483647 
-2020 Apr 7 11:13:46:386682 - 6974 - CREATE - ./simpledu -l ../TestDIr/onlyFiles -a -B 1024 --max-depth=2147483647 
-2020 Apr 7 11:13:46:387032 - 6975 - CREATE - ./simpledu -l ../TestDIr/test -a -B 1024 --max-depth=2147483647 
-2020 Apr 7 11:13:46:388059 - 6976 - CREATE - ./simpledu -l ../TestDIr/test1/test2 -a -B 1024 --max-depth=2147483646 
-2020 Apr 7 11:13:46:388568 - 6974 - ENTRY - 4	../TestDIr/onlyFiles/ListAggregator.java
-2020 Apr 7 11:13:46:388764 - 6974 - ENTRY - 0	../TestDIr/onlyFiles/testLink
-2020 Apr 7 11:13:46:388871 - 6974 - ENTRY - 4	../TestDIr/onlyFiles/testeT_du.txt
-2020 Apr 7 11:13:46:388966 - 6974 - ENTRY - 0	../TestDIr/onlyFiles/aggregatorLink
-2020 Apr 7 11:13:46:389068 - 6974 - ENTRY - 4	../TestDIr/onlyFiles/dedJava
-2020 Apr 7 11:13:46:389163 - 6974 - ENTRY - 4	../TestDIr/onlyFiles/testeT_simpledu.txt
-2020 Apr 7 11:13:46:389137 - 6975 - ENTRY - 4	../TestDIr/test/ListAggregator.java
-2020 Apr 7 11:13:46:389262 - 6974 - ENTRY - 4	../TestDIr/onlyFiles/ListDeduplicator.java
-2020 Apr 7 11:13:46:389359 - 6975 - ENTRY - 0	../TestDIr/test/testLink
-2020 Apr 7 11:13:46:389379 - 6974 - ENTRY - 4	../TestDIr/onlyFiles/ListSorter.java
-2020 Apr 7 11:13:46:389466 - 6975 - ENTRY - 4	../TestDIr/test/testeT_du.txt
-2020 Apr 7 11:13:46:389562 - 6975 - ENTRY - 0	../TestDIr/test/aggregatorLink
-2020 Apr 7 11:13:46:389659 - 6975 - ENTRY - 4	../TestDIr/test/dedJava
-2020 Apr 7 11:13:46:389749 - 6975 - ENTRY - 4	../TestDIr/test/testeT_simpledu.txt
-2020 Apr 7 11:13:46:389734 - 6977 - CREATE - ./simpledu -l ../TestDIr/onlyFiles/TEST -a -B 1024 --max-depth=2147483646 
-2020 Apr 7 11:13:46:389841 - 6975 - ENTRY - 4	../TestDIr/test/ListDeduplicator.java
-2020 Apr 7 11:13:46:389889 - 6974 - ENTRY - 32	../TestDIr/onlyFiles/simpledu
-2020 Apr 7 11:13:46:389824 - 6976 - ENTRY - 4	../TestDIr/test1/test2/hello.txt
-2020 Apr 7 11:13:46:389928 - 6975 - ENTRY - 4	../TestDIr/test/ListSorter.java
-2020 Apr 7 11:13:46:390003 - 6974 - ENTRY - 4	../TestDIr/onlyFiles/anotherLink
-2020 Apr 7 11:13:46:390032 - 6976 - SEND_PIPE - 8192	../TestDIr/test1/test2
-2020 Apr 7 11:13:46:390042 - 6975 - SEND_PIPE - 28672	../TestDIr/test
-2020 Apr 7 11:13:46:390115 - 6976 - EXIT - 0
-2020 Apr 7 11:13:46:390125 - 6975 - EXIT - 0
-2020 Apr 7 11:13:46:390471 - 6973 - RECV_PIPE - 8192	../TestDIr/test1/test2
-2020 Apr 7 11:13:46:390652 - 6973 - SEND_PIPE - 12288	../TestDIr/test1
-2020 Apr 7 11:13:46:390679 - 6972 - RECV_PIPE - 12288	../TestDIr/test1
-2020 Apr 7 11:13:46:390736 - 6973 - EXIT - 0
-2020 Apr 7 11:13:46:391914 - 6977 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file10.txt
-2020 Apr 7 11:13:46:392008 - 6977 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file3.txt
-2020 Apr 7 11:13:46:392054 - 6977 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file6.txt
-2020 Apr 7 11:13:46:392209 - 6978 - CREATE - ./simpledu -l ../TestDIr/onlyFiles/TEST/ANOTHER -a -B 1024 --max-depth=2147483645 
-2020 Apr 7 11:13:46:392292 - 6977 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file1.txt
-2020 Apr 7 11:13:46:392340 - 6977 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file7.txt
-2020 Apr 7 11:13:46:392376 - 6977 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file9.txt
-2020 Apr 7 11:13:46:392412 - 6977 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file2.txt
-2020 Apr 7 11:13:46:392447 - 6977 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file4.txt
-2020 Apr 7 11:13:46:392490 - 6977 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file8.txt
-2020 Apr 7 11:13:46:392524 - 6977 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file5.txt
-2020 Apr 7 11:13:46:392899 - 6978 - ENTRY - 0	../TestDIr/onlyFiles/TEST/ANOTHER/files2.txt
-2020 Apr 7 11:13:46:392968 - 6978 - ENTRY - 0	../TestDIr/onlyFiles/TEST/ANOTHER/files3.txt
-2020 Apr 7 11:13:46:392999 - 6978 - ENTRY - 0	../TestDIr/onlyFiles/TEST/ANOTHER/files4.txt
-2020 Apr 7 11:13:46:393023 - 6978 - ENTRY - 0	../TestDIr/onlyFiles/TEST/ANOTHER/files5.txt
-2020 Apr 7 11:13:46:393050 - 6978 - ENTRY - 0	../TestDIr/onlyFiles/TEST/ANOTHER/files1.txt
-2020 Apr 7 11:13:46:393079 - 6978 - SEND_PIPE - 4096	../TestDIr/onlyFiles/TEST/ANOTHER
-2020 Apr 7 11:13:46:393099 - 6978 - EXIT - 0
-2020 Apr 7 11:13:46:393229 - 6977 - RECV_PIPE - 4096	../TestDIr/onlyFiles/TEST/ANOTHER
-2020 Apr 7 11:13:46:393311 - 6977 - SEND_PIPE - 8192	../TestDIr/onlyFiles/TEST
-2020 Apr 7 11:13:46:393347 - 6977 - EXIT - 0
-2020 Apr 7 11:13:46:393575 - 6974 - RECV_PIPE - 8192	../TestDIr/onlyFiles/TEST
-2020 Apr 7 11:13:46:393664 - 6974 - SEND_PIPE - 73728	../TestDIr/onlyFiles
-2020 Apr 7 11:13:46:393692 - 6972 - RECV_PIPE - 73728	../TestDIr/onlyFiles
-2020 Apr 7 11:13:46:393700 - 6974 - EXIT - 0
-2020 Apr 7 11:13:46:393950 - 6972 - RECV_PIPE - 28672	../TestDIr/test
-2020 Apr 7 11:13:46:394018 - 6972 - SEND_PIPE - 116	../TestDIr
-2020 Apr 7 11:13:46:394045 - 6972 - EXIT - 0
+2020 Apr 7 11:22:09:380452 - 7881 - CREATE - ./simpledu -l ../TestDIr/test1 -a -B 1024 --max-depth=2147483647 
+2020 Apr 7 11:22:09:380889 - 7882 - CREATE - ./simpledu -l ../TestDIr/onlyFiles -a -B 1024 --max-depth=2147483647 
+2020 Apr 7 11:22:09:381208 - 7883 - CREATE - ./simpledu -l ../TestDIr/test -a -B 1024 --max-depth=2147483647 
+2020 Apr 7 11:22:09:382480 - 7884 - CREATE - ./simpledu -l ../TestDIr/test1/test2 -a -B 1024 --max-depth=2147483646 
+2020 Apr 7 11:22:09:382808 - 7882 - ENTRY - 4	../TestDIr/onlyFiles/ListAggregator.java
+2020 Apr 7 11:22:09:383024 - 7882 - ENTRY - 0	../TestDIr/onlyFiles/testLink
+2020 Apr 7 11:22:09:383132 - 7882 - ENTRY - 4	../TestDIr/onlyFiles/testeT_du.txt
+2020 Apr 7 11:22:09:383226 - 7882 - ENTRY - 0	../TestDIr/onlyFiles/aggregatorLink
+2020 Apr 7 11:22:09:383328 - 7882 - ENTRY - 4	../TestDIr/onlyFiles/dedJava
+2020 Apr 7 11:22:09:383423 - 7882 - ENTRY - 4	../TestDIr/onlyFiles/testeT_simpledu.txt
+2020 Apr 7 11:22:09:383373 - 7883 - ENTRY - 4	../TestDIr/test/ListAggregator.java
+2020 Apr 7 11:22:09:383528 - 7882 - ENTRY - 4	../TestDIr/onlyFiles/ListDeduplicator.java
+2020 Apr 7 11:22:09:383583 - 7883 - ENTRY - 0	../TestDIr/test/testLink
+2020 Apr 7 11:22:09:383627 - 7882 - ENTRY - 4	../TestDIr/onlyFiles/ListSorter.java
+2020 Apr 7 11:22:09:383691 - 7883 - ENTRY - 4	../TestDIr/test/testeT_du.txt
+2020 Apr 7 11:22:09:383784 - 7883 - ENTRY - 0	../TestDIr/test/aggregatorLink
+2020 Apr 7 11:22:09:383883 - 7883 - ENTRY - 4	../TestDIr/test/dedJava
+2020 Apr 7 11:22:09:383973 - 7883 - ENTRY - 4	../TestDIr/test/testeT_simpledu.txt
+2020 Apr 7 11:22:09:383986 - 7885 - CREATE - ./simpledu -l ../TestDIr/onlyFiles/TEST -a -B 1024 --max-depth=2147483646 
+2020 Apr 7 11:22:09:384074 - 7883 - ENTRY - 4	../TestDIr/test/ListDeduplicator.java
+2020 Apr 7 11:22:09:384129 - 7882 - ENTRY - 32	../TestDIr/onlyFiles/simpledu
+2020 Apr 7 11:22:09:384176 - 7883 - ENTRY - 4	../TestDIr/test/ListSorter.java
+2020 Apr 7 11:22:09:384232 - 7882 - ENTRY - 4	../TestDIr/onlyFiles/anotherLink
+2020 Apr 7 11:22:09:384207 - 7884 - ENTRY - 4	../TestDIr/test1/test2/hello.txt
+2020 Apr 7 11:22:09:384312 - 7883 - SEND_PIPE - 28672	../TestDIr/test
+2020 Apr 7 11:22:09:384412 - 7883 - EXIT - 0
+2020 Apr 7 11:22:09:384433 - 7884 - SEND_PIPE - 8192	../TestDIr/test1/test2
+2020 Apr 7 11:22:09:384499 - 7884 - EXIT - 0
+2020 Apr 7 11:22:09:384815 - 7881 - RECV_PIPE - 8192	../TestDIr/test1/test2
+2020 Apr 7 11:22:09:385035 - 7881 - SEND_PIPE - 12288	../TestDIr/test1
+2020 Apr 7 11:22:09:385052 - 7880 - RECV_PIPE - 12288	../TestDIr/test1
+2020 Apr 7 11:22:09:385145 - 7881 - EXIT - 0
+2020 Apr 7 11:22:09:385783 - 7885 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file10.txt
+2020 Apr 7 11:22:09:385949 - 7885 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file3.txt
+2020 Apr 7 11:22:09:386024 - 7885 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file6.txt
+2020 Apr 7 11:22:09:386257 - 7886 - CREATE - ./simpledu -l ../TestDIr/onlyFiles/TEST/ANOTHER -a -B 1024 --max-depth=2147483645 
+2020 Apr 7 11:22:09:386320 - 7885 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file1.txt
+2020 Apr 7 11:22:09:386371 - 7885 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file7.txt
+2020 Apr 7 11:22:09:386409 - 7885 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file9.txt
+2020 Apr 7 11:22:09:386447 - 7885 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file2.txt
+2020 Apr 7 11:22:09:386484 - 7885 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file4.txt
+2020 Apr 7 11:22:09:386525 - 7885 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file8.txt
+2020 Apr 7 11:22:09:386563 - 7885 - ENTRY - 0	../TestDIr/onlyFiles/TEST/file5.txt
+2020 Apr 7 11:22:09:387007 - 7886 - ENTRY - 0	../TestDIr/onlyFiles/TEST/ANOTHER/files2.txt
+2020 Apr 7 11:22:09:387070 - 7886 - ENTRY - 0	../TestDIr/onlyFiles/TEST/ANOTHER/files3.txt
+2020 Apr 7 11:22:09:387099 - 7886 - ENTRY - 0	../TestDIr/onlyFiles/TEST/ANOTHER/files4.txt
+2020 Apr 7 11:22:09:387125 - 7886 - ENTRY - 0	../TestDIr/onlyFiles/TEST/ANOTHER/files5.txt
+2020 Apr 7 11:22:09:387153 - 7886 - ENTRY - 0	../TestDIr/onlyFiles/TEST/ANOTHER/files1.txt
+2020 Apr 7 11:22:09:387180 - 7886 - SEND_PIPE - 4096	../TestDIr/onlyFiles/TEST/ANOTHER
+2020 Apr 7 11:22:09:387204 - 7886 - EXIT - 0
+2020 Apr 7 11:22:09:387333 - 7885 - RECV_PIPE - 4096	../TestDIr/onlyFiles/TEST/ANOTHER
+2020 Apr 7 11:22:09:387385 - 7885 - SEND_PIPE - 8192	../TestDIr/onlyFiles/TEST
+2020 Apr 7 11:22:09:387408 - 7885 - EXIT - 0
+2020 Apr 7 11:22:09:387540 - 7882 - RECV_PIPE - 8192	../TestDIr/onlyFiles/TEST
+2020 Apr 7 11:22:09:387617 - 7882 - SEND_PIPE - 73728	../TestDIr/onlyFiles
+2020 Apr 7 11:22:09:387624 - 7880 - RECV_PIPE - 73728	../TestDIr/onlyFiles
+2020 Apr 7 11:22:09:387644 - 7882 - EXIT - 0
+2020 Apr 7 11:22:09:387790 - 7880 - RECV_PIPE - 28672	../TestDIr/test
+2020 Apr 7 11:22:09:387828 - 7880 - SEND_PIPE - 116	../TestDIr
+2020 Apr 7 11:22:09:387850 - 7880 - EXIT - 0
