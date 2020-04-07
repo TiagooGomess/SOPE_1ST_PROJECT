@@ -72,11 +72,11 @@ void logInfo(int pid, enum log_action action, char *info) {
     char micro[8];
     if (micro_s < 100000)
         sprintf(micro, "0%d", micro_s);
-    if (micro_s < 10000)
+    else if (micro_s < 10000)
         sprintf(micro, "00%d", micro_s);
-    if (micro_s < 1000)
+    else if (micro_s < 1000)
         sprintf(micro, "000%d", micro_s);
-    if (micro_s < 100)
+    else if (micro_s < 100)
         sprintf(micro, "0000%d", micro_s);
     else if (micro_s < 10)
         sprintf(micro, "00000%d", micro_s);
@@ -448,42 +448,53 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
 }
 
 void printSizeAndLocation(Arguments* arguments, int size, char* filename, int isLink, int showInBytes) {
+    char toScreen[PATH_MAX_LEN*2];
     if (showInBytes) {
         if (isLink) {
             if (blockSizeIsString(arguments)) {
-                printf("%-d%s\t%-s\n", size, arguments->blockSizeString, filename);
+                sprintf(toScreen, "%-d%s\t%-s", size, arguments->blockSizeString, filename);
+                logInfo(getpid(), ENTRY, toScreen);
             }   
             else {
-                printf("%-d\t%-s\n", size, filename);
+                sprintf(toScreen, "%-d\t%-s", size, filename);
+                logInfo(getpid(), ENTRY, toScreen);
             }
         }
         else {
             if (blockSizeIsString(arguments)) {
-                printf("%-d%s\t%-s\n", size, arguments->blockSizeString, filename);
+                sprintf(toScreen, "%-d%s\t%-s", size, arguments->blockSizeString, filename);
+                logInfo(getpid(), ENTRY, toScreen);
             }
             else {
-                printf("%-d\t%-s\n", size, filename);
+                sprintf(toScreen, "%-d\t%-s", size, filename);
+                logInfo(getpid(), ENTRY, toScreen);
             }
         }
     }
     else {
         if (isLink) {
             if (blockSizeIsString(arguments)) {
-                printf("0%s\t%-s\n", arguments->blockSizeString, filename);
+                sprintf(toScreen, "0%s\t%-s", arguments->blockSizeString, filename);
+                logInfo(getpid(), ENTRY, toScreen);
             }   
             else {
-                printf("0\t%-s\n", filename);
+                sprintf(toScreen, "0\t%-s", filename);
+                logInfo(getpid(), ENTRY, toScreen);
             }
         }
         else {
             if (blockSizeIsString(arguments)) {
-                printf("%-d%s\t%-s\n", size, arguments->blockSizeString, filename);
+                sprintf(toScreen, "%-d%s\t%-s", size, arguments->blockSizeString, filename);
+                logInfo(getpid(), ENTRY, toScreen);
             }
             else {
-                printf("%-d\t%-s\n", size, filename);
+                sprintf(toScreen, "%-d\t%-s", size, filename);
+                logInfo(getpid(), ENTRY, toScreen);
             }
         }
     }
+    strcat(toScreen, "\n");
+    printf("%s", toScreen);
 }
 
 void executeDU(Arguments* arguments, char* programPath) {
