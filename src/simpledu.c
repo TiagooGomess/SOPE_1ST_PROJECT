@@ -308,7 +308,7 @@ int convertFromBytesToBlocks(long int numBytes, int blockSize) { // ISTO NÃO ES
     
 }
 
-void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LEN]) {
+void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LEN], int writeToLog) {
     int index = 3;
     char auxArg[PATH_MAX_LEN];
     if(arguments->all) {
@@ -340,7 +340,10 @@ void reproduceArgumentsToExec(Arguments* arguments, char* argsToExec[PATH_MAX_LE
     
     // Max-Depth 
     argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
-    sprintf(auxArg, "--max-depth=%d", arguments->maxDepth - 1);
+    if (!writeToLog)
+        sprintf(auxArg, "--max-depth=%d", arguments->maxDepth - 1);
+    else
+        sprintf(auxArg, "--max-depth=%d", arguments->maxDepth);
     strcpy(argsToExec[index++], auxArg); 
     
     argsToExec[index] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
@@ -584,7 +587,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[1] = "-l";
                     args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
                     args[2] = filename;
-                    reproduceArgumentsToExec(arguments, args);
+                    reproduceArgumentsToExec(arguments, args, true);
                     
                     logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
                     continue;
@@ -600,7 +603,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[2] = filename;
 
 
-                    reproduceArgumentsToExec(arguments, args);
+                    reproduceArgumentsToExec(arguments, args, false);
                     PIPEFN_ToPipeWrite(fd);
                 
                     close(fd[READ]);
@@ -681,7 +684,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[1] = "-l";
                     args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
                     args[2] = filename;
-                    reproduceArgumentsToExec(arguments, args);
+                    reproduceArgumentsToExec(arguments, args, true);
                     logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
                     continue;
                 }
@@ -695,7 +698,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
                     args[2] = filename;
 
-                    reproduceArgumentsToExec(arguments, args);
+                    reproduceArgumentsToExec(arguments, args, false);
                     PIPEFN_ToPipeWrite(fd);
                     close(fd[READ]);
                     // printf("\n--- %s | %s ---\n", args[0], args[2]);
