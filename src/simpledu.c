@@ -780,7 +780,7 @@ int main(int argc, char* argv[]) {
     } 
 
     // printf("%s\n", getenv("LOG_FILENAME"));
-    printf("%d\n", getppid());
+    //printf("%d\n", getppid());
     Arguments arguments;
 
     initializeArgumentsStruct(&arguments);
