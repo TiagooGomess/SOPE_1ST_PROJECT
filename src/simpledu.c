@@ -14,6 +14,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <time.h>
+#include <signal.h>
 
 #define BLOCK_SIZE_MAX_LEN 2
 #define PATH_MAX_LEN 512
@@ -28,6 +29,10 @@
 #define IS_NOT_LINK 0
 #define SHOW_IN_BYTES 1
 #define SHOW_IN_BLOCKS 0
+#define SIGNAL_LOG_LEN 30
+
+pid_t pids[MAX_FORKS_LEN];
+int pidsSize;
 
 int log_file_fd;
 
@@ -503,7 +508,6 @@ void printSizeAndLocation(Arguments* arguments, int size, char* filename, int is
 void executeDU(Arguments* arguments, char* programPath) {
     DIR * dir;
     int pidIndex = 0, currentDirSize = 4096, readIndex = 0;
-    pid_t pids[MAX_FORKS_LEN];
     int readFds[MAX_FORKS_LEN];
 
 
@@ -577,7 +581,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                 pipe(fd);
                 
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
-                    
+                    pidsSize++;
                     // Direct READ side of PIPE to STDIN_FILE_NO
                     STDIN_ToPipeRead(readFds, fd, &readIndex);
                     char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
@@ -674,7 +678,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                 pipe(fd);
                 
                 if((pids[pidIndex++] = fork()) > 0) { // Parent (Waits for his childs)
-                    
+                    pidsSize++;
                     // Direct READ side of PIPE to STDIN_FILE_NO
                     STDIN_ToPipeRead(readFds, fd, &readIndex);
                     char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
@@ -721,22 +725,187 @@ void executeDU(Arguments* arguments, char* programPath) {
 
 }
 
+void sigint_handler(int sig) {
+    char sig_str[SIGNAL_LOG_LEN];
+    sprintf(sig_str, "%d", sig);
+    logInfo(getpid(), RECV_SIGNAL, sig_str);
+    
+    char final_str[SIGNAL_LOG_LEN];
 
-int main(int argc, char* argv[]) {
+    for (int i = 0; i < pidsSize; i++) {
+        sprintf(final_str, "%s %d", sig_str, pids[i]);
+        logInfo(getpid(), SEND_SIGNAL, final_str);
+        kill(pids[i], SIGTSTP);
+    }
+    printf("Are you sure you want to quit? (yes/no)");
+    char answer[30];
+    int size_read;
+    while ((size_read = read(STDIN_FILENO, answer, 30)) > 0) {
+        answer[size_read] = 0;
+        if (strcmp(answer, "yes") == 0 || strcmp(answer, "y") == 0) {
+            for (int i = 0; i < pidsSize; i++) {
+                sprintf(final_str, "%s %d", sig_str, pids[i]);
+                logInfo(getpid(), SEND_SIGNAL, final_str);
+                kill(pids[i], SIGTERM);
+            }
+            break;
+        }
+        else if (strcmp(answer, "no") == 0 || strcmp(answer, "n") == 0) {
+            for (int i = 0; i < pidsSize; i++) {
+                sprintf(final_str, "%s %d", sig_str, pids[i]);
+                logInfo(getpid(), SEND_SIGNAL, final_str);
+                kill(pids[i], SIGCONT);
+            }
+            break;
+        }
+    }
+}
+
+void sigtstp_handler(int sig) {
+    char sigNumber[SIGNAL_LOG_LEN];
+    sprintf(sigNumber, "%d", sig);
+    logInfo(getpid(), RECV_SIGNAL, sigNumber);
+    
+    
+    char finalStr[SIGNAL_LOG_LEN];
+    strcpy(finalStr, sigNumber);
+    
+    for (int i = 0; i < pidsSize; i++) {
+        sprintf(finalStr, "%s %d", finalStr, pids[i]);
+        logInfo(getpid(), SEND_SIGNAL, finalStr);
+        strcpy(finalStr, sigNumber);
+
+        kill(pids[i], SIGSTOP);
+    }
+    sigset_t mask;
+    sigfillset(&mask);
+    sigdelset(&mask, SIGCONT);
+    sigdelset(&mask, SIGTERM);
+    sigsuspend(&mask);
+}
+
+void sigterm_handler(int sig) {
+    char sigNumber[SIGNAL_LOG_LEN];
+    sprintf(sigNumber, "%d", sig);
+    logInfo(getpid(), RECV_SIGNAL, sigNumber);
+
+    
+    char finalStr[SIGNAL_LOG_LEN];
+    strcpy(finalStr, sigNumber);
+    
+    for (int i = 0; i < pidsSize; i++) {
+        sprintf(finalStr, "%s %d", finalStr, pids[i]);
+        logInfo(getpid(), SEND_SIGNAL, finalStr);
+        strcpy(finalStr, sigNumber);
+
+        kill(pids[i], SIGSTOP);
+    }
+    
+    exit(sig);
+}
+
+void sigcont_handler(int sig) {
+    char sigNumber[SIGNAL_LOG_LEN];
+    sprintf(sigNumber, "%d", sig);
+    logInfo(getpid(), RECV_SIGNAL, sigNumber);
+    
+    char finalStr[SIGNAL_LOG_LEN];
+    strcpy(finalStr, sigNumber);
+    for (int i = 0; i < pidsSize; i++) {
+        sprintf(finalStr, "%s %d", finalStr, pids[i]);
+        logInfo(getpid(), SEND_SIGNAL, finalStr);
+        strcpy(finalStr, sigNumber);
+
+        kill(pids[i], SIGCONT);
+    }
+}
+
+void enableHandler() {
+
+    // -- SIGINT
+    struct sigaction act;
+    act.sa_handler = sigint_handler;
+    // sigemptyset(&act.sa_mask);
+    // act.sa_flags = 0;
+    
+    sigaction(SIGINT, &act, NULL);
+    
+    // -- SIGSTOP
+
+    act.sa_handler = sigtstp_handler;
+    // sigemptyset(&act.sa_mask);
+    // act.sa_flags = 0;
+    
+    sigaction(SIGSTOP, &act, NULL);
+
+    // -- SIGTERM
+
+    act.sa_handler = sigterm_handler;
+    // sigemptyset(&act.sa_mask);
+    // act.sa_flags = 0;
+    
+    sigaction(SIGTERM, &act, NULL);
+
+    // -- SIGCONT
+
+    act.sa_handler = sigcont_handler;
+    // sigemptyset(&act.sa_mask);
+    // act.sa_flags = 0;
+    
+    sigaction(SIGCONT, &act, NULL);
+}
+int main(int argc, char* argv[], char** envp) {
     if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
         logInfo(getpid(), EXIT, "1");        
         exit(1);
     }
+
+    /*// -- SIGINT
+    struct sigaction act;
+    act.sa_handler = sigint_handler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
     
+    sigaction(SIGINT, &act, NULL);
+    
+    // -- SIGSTOP
+
+    act.sa_handler = sigtstp_handler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+    
+    sigaction(SIGSTOP, &act, NULL);
+
+    // -- SIGTERM
+
+    act.sa_handler = sigterm_handler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+    
+    sigaction(SIGTERM, &act, NULL);
+
+    // -- SIGCONT
+
+    act.sa_handler = sigcont_handler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+    
+    sigaction(SIGCONT, &act, NULL);*/
+
+    /*
     if(putenv("LOG_FILENAME=log.txt") == -1) // It's just internal... Doesn't get outside shell
     {
         fprintf(stderr, "Putenv call failed!\n");
         exit(1);
-    } 
+    }
+    */
 
     // printf("%s\n", getenv("LOG_FILENAME"));
-    printf("%d\n", getppid());
+    // printf("%d\n", getppid());
+
+    enableHandler();
+    sleep(2);
     Arguments arguments;
 
     initializeArgumentsStruct(&arguments);
@@ -746,6 +915,10 @@ int main(int argc, char* argv[]) {
         logInfo(getpid(), EXIT, "2");
         exit(2);
     }
+    
+    // if (strcmp(arguments.log_filename, "") == 0) {
+    //     arguments.log_filename = "log.txt";
+    // }
 
     verifyWritingPipe();
 
@@ -757,7 +930,6 @@ int main(int argc, char* argv[]) {
         arguments.blockSize = DEFAULT_BLOCK_SIZE;
 
     executeDU(&arguments, argv[0]);
-
     
     exit(0);
 }

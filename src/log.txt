@@ -1,0 +1,530 @@
+2020 Apr 7 17:04:57:423046 - 889 - CREATE - ./simpledu -l ..//src -B 1024 --max-depth=2147483647 
+2020 Apr 7 17:04:57:423279 - 890 - CREATE - ./simpledu -l ..//.vscode -B 1024 --max-depth=2147483647 
+2020 Apr 7 17:04:57:423447 - 891 - CREATE - ./simpledu -l ..//.git -B 1024 --max-depth=2147483647 
+2020 Apr 7 17:04:57:423653 - 892 - CREATE - ./simpledu -l ..//TestDIr -B 1024 --max-depth=2147483647 
+2020 Apr 7 17:04:57:423898 - 893 - CREATE - ./simpledu -l ..//.idea -B 1024 --max-depth=2147483647 
+2020 Apr 7 17:04:57:424379 - 890 - SEND_PIPE - 16384	..//.vscode
+2020 Apr 7 17:04:57:424476 - 890 - EXIT - 0
+2020 Apr 7 17:04:57:424486 - 894 - CREATE - ./simpledu -l ..//.git/branches -B 1024 --max-depth=2147483646 
+2020 Apr 7 17:04:57:424698 - 895 - CREATE - ./simpledu -l ..//.git/logs -B 1024 --max-depth=2147483646 
+2020 Apr 7 17:04:57:424867 - 896 - CREATE - ./simpledu -l ..//.git/refs -B 1024 --max-depth=2147483646 
+2020 Apr 7 17:04:57:425031 - 897 - CREATE - ./simpledu -l ..//.git/info -B 1024 --max-depth=2147483646 
+2020 Apr 7 17:04:57:425191 - 898 - CREATE - ./simpledu -l ..//.git/hooks -B 1024 --max-depth=2147483646 
+2020 Apr 7 17:04:57:425370 - 894 - SEND_PIPE - 4096	..//.git/branches
+2020 Apr 7 17:04:57:425401 - 899 - CREATE - ./simpledu -l ..//.git/objects -B 1024 --max-depth=2147483646 
+2020 Apr 7 17:04:57:425459 - 894 - EXIT - 0
+2020 Apr 7 17:04:57:425929 - 893 - SEND_PIPE - 8192	..//.idea
+2020 Apr 7 17:04:57:426238 - 893 - EXIT - 0
+2020 Apr 7 17:04:57:426820 - 891 - RECV_PIPE - 4096	..//.git/branches
+2020 Apr 7 17:04:57:427373 - 901 - CREATE - ./simpledu -l ..//.git/refs/remotes -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:427437 - 902 - CREATE - ./simpledu -l ..//.git/objects/62 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:427804 - 903 - CREATE - ./simpledu -l ..//.git/refs/tags -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:427817 - 904 - CREATE - ./simpledu -l ..//.git/objects/63 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:428149 - 905 - CREATE - ./simpledu -l ..//.git/refs/heads -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:428163 - 906 - CREATE - ./simpledu -l ..//.git/objects/83 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:425995 - 889 - SEND_PIPE - 176128	..//src
+2020 Apr 7 17:04:57:428704 - 889 - EXIT - 0
+2020 Apr 7 17:04:57:428890 - 907 - CREATE - ./simpledu -l ..//.git/logs/refs/remotes -B 1024 --max-depth=2147483644 
+2020 Apr 7 17:04:57:429290 - 908 - CREATE - ./simpledu -l ..//.git/logs/refs/heads -B 1024 --max-depth=2147483644 
+2020 Apr 7 17:04:57:429349 - 909 - CREATE - ./simpledu -l ..//.git/objects/0d -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:429643 - 910 - CREATE - ./simpledu -l ..//.git/objects/bd -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:430045 - 911 - CREATE - ./simpledu -l ..//TestDIr/test1 -B 1024 --max-depth=2147483646 
+2020 Apr 7 17:04:57:431705 - 915 - CREATE - ./simpledu -l ..//.git/logs/refs/remotes/origin -B 1024 --max-depth=2147483643 
+2020 Apr 7 17:04:57:430112 - 912 - CREATE - ./simpledu -l ..//.git/objects/f2 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:432079 - 897 - SEND_PIPE - 8192	..//.git/info
+2020 Apr 7 17:04:57:432118 - 916 - CREATE - ./simpledu -l ..//TestDIr/onlyFiles -B 1024 --max-depth=2147483646 
+2020 Apr 7 17:04:57:432174 - 897 - EXIT - 0
+2020 Apr 7 17:04:57:432215 - 917 - CREATE - ./simpledu -l ..//.git/objects/cf -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:432370 - 918 - CREATE - ./simpledu -l ..//TestDIr/test -B 1024 --max-depth=2147483646 
+2020 Apr 7 17:04:57:432474 - 919 - CREATE - ./simpledu -l ..//.git/objects/6e -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:432679 - 920 - CREATE - ./simpledu -l ..//.git/objects/3d -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:432903 - 921 - CREATE - ./simpledu -l ..//.git/objects/a1 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:433110 - 922 - CREATE - ./simpledu -l ..//.git/objects/d3 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:433288 - 905 - SEND_PIPE - 20480	..//.git/refs/heads
+2020 Apr 7 17:04:57:433288 - 909 - SEND_PIPE - 8192	..//.git/objects/0d
+2020 Apr 7 17:04:57:433314 - 923 - CREATE - ./simpledu -l ..//.git/objects/09 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:433386 - 905 - EXIT - 0
+2020 Apr 7 17:04:57:433403 - 909 - EXIT - 0
+2020 Apr 7 17:04:57:433524 - 924 - CREATE - ./simpledu -l ..//.git/objects/51 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:433635 - 915 - SEND_PIPE - 28672	..//.git/logs/refs/remotes/origin
+2020 Apr 7 17:04:57:433710 - 915 - EXIT - 0
+2020 Apr 7 17:04:57:433705 - 925 - CREATE - ./simpledu -l ..//.git/objects/0c -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:433653 - 902 - SEND_PIPE - 12288	..//.git/objects/62
+2020 Apr 7 17:04:57:433876 - 926 - CREATE - ./simpledu -l ..//.git/objects/c9 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:433966 - 902 - EXIT - 0
+2020 Apr 7 17:04:57:434053 - 927 - CREATE - ./simpledu -l ..//.git/objects/13 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:434257 - 907 - RECV_PIPE - 28672	..//.git/logs/refs/remotes/origin
+2020 Apr 7 17:04:57:434270 - 928 - CREATE - ./simpledu -l ..//.git/objects/94 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:434440 - 929 - CREATE - ./simpledu -l ..//.git/objects/4f -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:434613 - 930 - CREATE - ./simpledu -l ..//.git/objects/38 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:434790 - 931 - CREATE - ./simpledu -l ..//.git/objects/73 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:434969 - 932 - CREATE - ./simpledu -l ..//.git/objects/99 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:434983 - 918 - SEND_PIPE - 28672	..//TestDIr/test
+2020 Apr 7 17:04:57:435076 - 918 - EXIT - 0
+2020 Apr 7 17:04:57:435133 - 910 - SEND_PIPE - 16384	..//.git/objects/bd
+2020 Apr 7 17:04:57:435203 - 910 - EXIT - 0
+2020 Apr 7 17:04:57:435191 - 933 - CREATE - ./simpledu -l ..//.git/objects/d1 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:435362 - 934 - CREATE - ./simpledu -l ..//.git/objects/45 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:435487 - 907 - SEND_PIPE - 32768	..//.git/logs/refs/remotes
+2020 Apr 7 17:04:57:435532 - 907 - EXIT - 0
+2020 Apr 7 17:04:57:435550 - 935 - CREATE - ./simpledu -l ..//.git/objects/2c -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:435724 - 936 - CREATE - ./simpledu -l ..//.git/objects/2e -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:435748 - 900 - RECV_PIPE - 32768	..//.git/logs/refs/remotes
+2020 Apr 7 17:04:57:435914 - 937 - CREATE - ./simpledu -l ..//.git/objects/97 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:435955 - 941 - CREATE - ./simpledu -l ..//TestDIr/onlyFiles/TEST -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:436066 - 922 - SEND_PIPE - 16384	..//.git/objects/d3
+2020 Apr 7 17:04:57:436103 - 949 - CREATE - ./simpledu -l ..//.git/objects/19 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:436145 - 922 - EXIT - 0
+2020 Apr 7 17:04:57:436293 - 953 - CREATE - ./simpledu -l ..//.git/objects/fe -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:436576 - 954 - CREATE - ./simpledu -l ..//.git/objects/f9 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:436713 - 933 - SEND_PIPE - 12288	..//.git/objects/d1
+2020 Apr 7 17:04:57:437706 - 933 - EXIT - 0
+2020 Apr 7 17:04:57:438223 - 925 - SEND_PIPE - 12288	..//.git/objects/0c
+2020 Apr 7 17:04:57:438416 - 925 - EXIT - 0
+2020 Apr 7 17:04:57:439767 - 949 - SEND_PIPE - 24576	..//.git/objects/19
+2020 Apr 7 17:04:57:442663 - 949 - EXIT - 0
+2020 Apr 7 17:04:57:442864 - 913 - SEND_PIPE - 28672	..//.git/refs/remotes/origin
+2020 Apr 7 17:04:57:442943 - 913 - EXIT - 0
+2020 Apr 7 17:04:57:443712 - 927 - SEND_PIPE - 8192	..//.git/objects/13
+2020 Apr 7 17:04:57:443795 - 917 - SEND_PIPE - 8192	..//.git/objects/cf
+2020 Apr 7 17:04:57:443874 - 927 - EXIT - 0
+2020 Apr 7 17:04:57:443891 - 917 - EXIT - 0
+2020 Apr 7 17:04:57:443955 - 920 - SEND_PIPE - 8192	..//.git/objects/3d
+2020 Apr 7 17:04:57:444868 - 920 - EXIT - 0
+2020 Apr 7 17:04:57:430847 - 903 - SEND_PIPE - 4096	..//.git/refs/tags
+2020 Apr 7 17:04:57:431055 - 913 - CREATE - ./simpledu -l ..//.git/refs/remotes/origin -B 1024 --max-depth=2147483644 
+2020 Apr 7 17:04:57:452602 - 903 - EXIT - 0
+2020 Apr 7 17:04:57:452653 - 901 - RECV_PIPE - 28672	..//.git/refs/remotes/origin
+2020 Apr 7 17:04:57:431425 - 908 - SEND_PIPE - 20480	..//.git/logs/refs/heads
+2020 Apr 7 17:04:57:431415 - 914 - CREATE - ./simpledu -l ..//TestDIr/test1/test2 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:452873 - 960 - CREATE - ./simpledu -l ..//TestDIr/onlyFiles/TEST/ANOTHER -B 1024 --max-depth=2147483644 
+2020 Apr 7 17:04:57:453043 - 908 - EXIT - 0
+2020 Apr 7 17:04:57:426003 - 888 - RECV_PIPE - 176128	..//src
+2020 Apr 7 17:04:57:426999 - 900 - CREATE - ./simpledu -l ..//.git/logs/refs -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:436763 - 959 - CREATE - ./simpledu -l ..//.git/objects/3c -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:453335 - 900 - RECV_PIPE - 20480	..//.git/logs/refs/heads
+2020 Apr 7 17:04:57:437138 - 924 - SEND_PIPE - 12288	..//.git/objects/51
+2020 Apr 7 17:04:57:453496 - 961 - CREATE - ./simpledu -l ..//.git/objects/a2 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:453618 - 924 - EXIT - 0
+2020 Apr 7 17:04:57:453684 - 962 - CREATE - ./simpledu -l ..//.git/objects/c7 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:453878 - 964 - CREATE - ./simpledu -l ..//.git/objects/ce -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:454058 - 965 - CREATE - ./simpledu -l ..//.git/objects/70 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:437435 - 904 - SEND_PIPE - 8192	..//.git/objects/63
+2020 Apr 7 17:04:57:437541 - 934 - SEND_PIPE - 8192	..//.git/objects/45
+2020 Apr 7 17:04:57:455320 - 934 - EXIT - 0
+2020 Apr 7 17:04:57:440226 - 926 - SEND_PIPE - 24576	..//.git/objects/c9
+2020 Apr 7 17:04:57:440802 - 937 - SEND_PIPE - 12288	..//.git/objects/97
+2020 Apr 7 17:04:57:456799 - 926 - EXIT - 0
+2020 Apr 7 17:04:57:456814 - 937 - EXIT - 0
+2020 Apr 7 17:04:57:440907 - 953 - SEND_PIPE - 12288	..//.git/objects/fe
+2020 Apr 7 17:04:57:464462 - 953 - EXIT - 0
+2020 Apr 7 17:04:57:441939 - 928 - SEND_PIPE - 16384	..//.git/objects/94
+2020 Apr 7 17:04:57:441998 - 912 - SEND_PIPE - 20480	..//.git/objects/f2
+2020 Apr 7 17:04:57:465018 - 928 - EXIT - 0
+2020 Apr 7 17:04:57:465043 - 912 - EXIT - 0
+2020 Apr 7 17:04:57:442159 - 935 - SEND_PIPE - 8192	..//.git/objects/2c
+2020 Apr 7 17:04:57:446477 - 936 - SEND_PIPE - 8192	..//.git/objects/2e
+2020 Apr 7 17:04:57:465323 - 936 - EXIT - 0
+2020 Apr 7 17:04:57:446472 - 929 - SEND_PIPE - 8192	..//.git/objects/4f
+2020 Apr 7 17:04:57:465524 - 964 - SEND_PIPE - 24576	..//.git/objects/ce
+2020 Apr 7 17:04:57:465615 - 964 - EXIT - 0
+2020 Apr 7 17:04:57:465553 - 929 - EXIT - 0
+2020 Apr 7 17:04:57:446772 - 906 - SEND_PIPE - 8192	..//.git/objects/83
+2020 Apr 7 17:04:57:447529 - 921 - SEND_PIPE - 20480	..//.git/objects/a1
+2020 Apr 7 17:04:57:448843 - 930 - SEND_PIPE - 8192	..//.git/objects/38
+2020 Apr 7 17:04:57:449732 - 919 - SEND_PIPE - 12288	..//.git/objects/6e
+2020 Apr 7 17:04:57:466355 - 930 - EXIT - 0
+2020 Apr 7 17:04:57:466369 - 919 - EXIT - 0
+2020 Apr 7 17:04:57:447839 - 931 - SEND_PIPE - 8192	..//.git/objects/73
+2020 Apr 7 17:04:57:466578 - 921 - EXIT - 0
+2020 Apr 7 17:04:57:466624 - 931 - EXIT - 0
+2020 Apr 7 17:04:57:451105 - 932 - SEND_PIPE - 16384	..//.git/objects/99
+2020 Apr 7 17:04:57:449228 - 959 - SEND_PIPE - 12288	..//.git/objects/3c
+2020 Apr 7 17:04:57:466930 - 932 - EXIT - 0
+2020 Apr 7 17:04:57:466947 - 959 - EXIT - 0
+2020 Apr 7 17:04:57:445928 - 923 - SEND_PIPE - 8192	..//.git/objects/09
+2020 Apr 7 17:04:57:454605 - 900 - SEND_PIPE - 57344	..//.git/logs/refs
+2020 Apr 7 17:04:57:467152 - 923 - EXIT - 0
+2020 Apr 7 17:04:57:467192 - 900 - EXIT - 0
+2020 Apr 7 17:04:57:454713 - 901 - SEND_PIPE - 32768	..//.git/refs/remotes
+2020 Apr 7 17:04:57:454755 - 896 - RECV_PIPE - 32768	..//.git/refs/remotes
+2020 Apr 7 17:04:57:467468 - 901 - EXIT - 0
+2020 Apr 7 17:04:57:454738 - 962 - SEND_PIPE - 20480	..//.git/objects/c7
+2020 Apr 7 17:04:57:467765 - 962 - EXIT - 0
+2020 Apr 7 17:04:57:455517 - 904 - EXIT - 0
+2020 Apr 7 17:04:57:455678 - 960 - SEND_PIPE - 4096	..//TestDIr/onlyFiles/TEST/ANOTHER
+2020 Apr 7 17:04:57:460990 - 961 - SEND_PIPE - 8192	..//.git/objects/a2
+2020 Apr 7 17:04:57:461477 - 965 - SEND_PIPE - 8192	..//.git/objects/70
+2020 Apr 7 17:04:57:457208 - 966 - CREATE - ./simpledu -l ..//.git/objects/16 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:466115 - 906 - EXIT - 0
+2020 Apr 7 17:04:57:468096 - 960 - EXIT - 0
+2020 Apr 7 17:04:57:446472 - 914 - SEND_PIPE - 8192	..//TestDIr/test1/test2
+2020 Apr 7 17:04:57:468377 - 968 - CREATE - ./simpledu -l ..//.git/objects/a7 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:468492 - 914 - EXIT - 0
+2020 Apr 7 17:04:57:468630 - 969 - CREATE - ./simpledu -l ..//.git/objects/91 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:461018 - 966 - SEND_PIPE - 12288	..//.git/objects/16
+2020 Apr 7 17:04:57:468721 - 911 - RECV_PIPE - 8192	..//TestDIr/test1/test2
+2020 Apr 7 17:04:57:468747 - 966 - EXIT - 0
+2020 Apr 7 17:04:57:468837 - 911 - SEND_PIPE - 12288	..//TestDIr/test1
+2020 Apr 7 17:04:57:468880 - 911 - EXIT - 0
+2020 Apr 7 17:04:57:469011 - 941 - RECV_PIPE - 4096	..//TestDIr/onlyFiles/TEST/ANOTHER
+2020 Apr 7 17:04:57:447405 - 954 - SEND_PIPE - 8192	..//.git/objects/f9
+2020 Apr 7 17:04:57:469128 - 941 - SEND_PIPE - 8192	..//TestDIr/onlyFiles/TEST
+2020 Apr 7 17:04:57:469120 - 892 - RECV_PIPE - 12288	..//TestDIr/test1
+2020 Apr 7 17:04:57:469141 - 954 - EXIT - 0
+2020 Apr 7 17:04:57:468142 - 961 - EXIT - 0
+2020 Apr 7 17:04:57:469682 - 971 - CREATE - ./simpledu -l ..//.git/objects/9f -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:469987 - 972 - CREATE - ./simpledu -l ..//.git/objects/f5 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:470167 - 974 - CREATE - ./simpledu -l ..//.git/objects/b6 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:470358 - 976 - CREATE - ./simpledu -l ..//.git/objects/58 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:470563 - 977 - CREATE - ./simpledu -l ..//.git/objects/11 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:466870 - 935 - EXIT - 0
+2020 Apr 7 17:04:57:470838 - 978 - CREATE - ./simpledu -l ..//.git/objects/39 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:472810 - 979 - CREATE - ./simpledu -l ..//.git/objects/pack -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:472899 - 971 - SEND_PIPE - 8192	..//.git/objects/9f
+2020 Apr 7 17:04:57:472978 - 971 - EXIT - 0
+2020 Apr 7 17:04:57:472961 - 968 - SEND_PIPE - 20480	..//.git/objects/a7
+2020 Apr 7 17:04:57:473010 - 980 - CREATE - ./simpledu -l ..//.git/objects/be -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:473035 - 968 - EXIT - 0
+2020 Apr 7 17:04:57:473187 - 981 - CREATE - ./simpledu -l ..//.git/objects/82 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:473379 - 982 - CREATE - ./simpledu -l ..//.git/objects/eb -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:473567 - 983 - CREATE - ./simpledu -l ..//.git/objects/ee -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:473760 - 984 - CREATE - ./simpledu -l ..//.git/objects/b0 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:473758 - 972 - SEND_PIPE - 12288	..//.git/objects/f5
+2020 Apr 7 17:04:57:473829 - 972 - EXIT - 0
+2020 Apr 7 17:04:57:448495 - 898 - SEND_PIPE - 53248	..//.git/hooks
+2020 Apr 7 17:04:57:473876 - 980 - SEND_PIPE - 20480	..//.git/objects/be
+2020 Apr 7 17:04:57:454651 - 888 - RECV_PIPE - 16384	..//.vscode
+2020 Apr 7 17:04:57:476335 - 979 - SEND_PIPE - 344064	..//.git/objects/pack
+2020 Apr 7 17:04:57:467619 - 895 - RECV_PIPE - 57344	..//.git/logs/refs
+2020 Apr 7 17:04:57:477081 - 979 - EXIT - 0
+2020 Apr 7 17:04:57:469176 - 941 - EXIT - 0
+2020 Apr 7 17:04:57:477156 - 898 - EXIT - 0
+2020 Apr 7 17:04:57:477206 - 895 - SEND_PIPE - 69632	..//.git/logs
+2020 Apr 7 17:04:57:477251 - 895 - EXIT - 0
+2020 Apr 7 17:04:57:477463 - 891 - RECV_PIPE - 69632	..//.git/logs
+2020 Apr 7 17:04:57:477692 - 977 - SEND_PIPE - 8192	..//.git/objects/11
+2020 Apr 7 17:04:57:477770 - 977 - EXIT - 0
+2020 Apr 7 17:04:57:478019 - 981 - SEND_PIPE - 8192	..//.git/objects/82
+2020 Apr 7 17:04:57:478100 - 981 - EXIT - 0
+2020 Apr 7 17:04:57:478151 - 983 - SEND_PIPE - 24576	..//.git/objects/ee
+2020 Apr 7 17:04:57:478228 - 983 - EXIT - 0
+2020 Apr 7 17:04:57:471171 - 969 - SEND_PIPE - 8192	..//.git/objects/91
+2020 Apr 7 17:04:57:478906 - 969 - EXIT - 0
+2020 Apr 7 17:04:57:479096 - 978 - SEND_PIPE - 8192	..//.git/objects/39
+2020 Apr 7 17:04:57:479172 - 978 - EXIT - 0
+2020 Apr 7 17:04:57:473934 - 985 - CREATE - ./simpledu -l ..//.git/objects/79 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:479496 - 986 - CREATE - ./simpledu -l ..//.git/objects/1b -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:479833 - 987 - CREATE - ./simpledu -l ..//.git/objects/0b -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:480043 - 984 - SEND_PIPE - 20480	..//.git/objects/b0
+2020 Apr 7 17:04:57:480128 - 984 - EXIT - 0
+2020 Apr 7 17:04:57:480132 - 988 - CREATE - ./simpledu -l ..//.git/objects/72 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:480326 - 989 - CREATE - ./simpledu -l ..//.git/objects/61 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:480368 - 916 - RECV_PIPE - 8192	..//TestDIr/onlyFiles/TEST
+2020 Apr 7 17:04:57:474754 - 974 - SEND_PIPE - 12288	..//.git/objects/b6
+2020 Apr 7 17:04:57:480520 - 974 - EXIT - 0
+2020 Apr 7 17:04:57:480502 - 990 - CREATE - ./simpledu -l ..//.git/objects/f0 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:480540 - 916 - SEND_PIPE - 73728	..//TestDIr/onlyFiles
+2020 Apr 7 17:04:57:480587 - 916 - EXIT - 0
+2020 Apr 7 17:04:57:480668 - 892 - RECV_PIPE - 73728	..//TestDIr/onlyFiles
+2020 Apr 7 17:04:57:480703 - 991 - CREATE - ./simpledu -l ..//.git/objects/27 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:480818 - 892 - RECV_PIPE - 28672	..//TestDIr/test
+2020 Apr 7 17:04:57:480894 - 892 - SEND_PIPE - 118784	..//TestDIr
+2020 Apr 7 17:04:57:480934 - 892 - EXIT - 0
+2020 Apr 7 17:04:57:481432 - 980 - EXIT - 0
+2020 Apr 7 17:04:57:473977 - 976 - SEND_PIPE - 8192	..//.git/objects/58
+2020 Apr 7 17:04:57:473998 - 965 - EXIT - 0
+2020 Apr 7 17:04:57:482145 - 976 - EXIT - 0
+2020 Apr 7 17:04:57:482224 - 986 - SEND_PIPE - 8192	..//.git/objects/1b
+2020 Apr 7 17:04:57:482224 - 987 - SEND_PIPE - 8192	..//.git/objects/0b
+2020 Apr 7 17:04:57:482308 - 986 - EXIT - 0
+2020 Apr 7 17:04:57:482312 - 987 - EXIT - 0
+2020 Apr 7 17:04:57:467656 - 896 - RECV_PIPE - 4096	..//.git/refs/tags
+2020 Apr 7 17:04:57:478880 - 982 - SEND_PIPE - 8192	..//.git/objects/eb
+2020 Apr 7 17:04:57:480880 - 992 - CREATE - ./simpledu -l ..//.git/objects/aa -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:482431 - 982 - EXIT - 0
+2020 Apr 7 17:04:57:482444 - 896 - RECV_PIPE - 20480	..//.git/refs/heads
+2020 Apr 7 17:04:57:482879 - 896 - SEND_PIPE - 61440	..//.git/refs
+2020 Apr 7 17:04:57:483229 - 891 - RECV_PIPE - 61440	..//.git/refs
+2020 Apr 7 17:04:57:483281 - 896 - EXIT - 0
+2020 Apr 7 17:04:57:483349 - 891 - RECV_PIPE - 8192	..//.git/info
+2020 Apr 7 17:04:57:483481 - 989 - SEND_PIPE - 8192	..//.git/objects/61
+2020 Apr 7 17:04:57:483490 - 991 - SEND_PIPE - 24576	..//.git/objects/27
+2020 Apr 7 17:04:57:483568 - 989 - EXIT - 0
+2020 Apr 7 17:04:57:483574 - 991 - EXIT - 0
+2020 Apr 7 17:04:57:482567 - 992 - SEND_PIPE - 8192	..//.git/objects/aa
+2020 Apr 7 17:04:57:483825 - 992 - EXIT - 0
+2020 Apr 7 17:04:57:482621 - 993 - CREATE - ./simpledu -l ..//.git/objects/52 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:484068 - 994 - CREATE - ./simpledu -l ..//.git/objects/d2 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:484310 - 988 - SEND_PIPE - 8192	..//.git/objects/72
+2020 Apr 7 17:04:57:484394 - 988 - EXIT - 0
+2020 Apr 7 17:04:57:475680 - 985 - SEND_PIPE - 8192	..//.git/objects/79
+2020 Apr 7 17:04:57:484646 - 985 - EXIT - 0
+2020 Apr 7 17:04:57:484758 - 995 - CREATE - ./simpledu -l ..//.git/objects/info -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:485102 - 996 - CREATE - ./simpledu -l ..//.git/objects/cb -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:485394 - 997 - CREATE - ./simpledu -l ..//.git/objects/a8 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:485701 - 998 - CREATE - ./simpledu -l ..//.git/objects/42 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:485875 - 990 - SEND_PIPE - 8192	..//.git/objects/f0
+2020 Apr 7 17:04:57:486043 - 999 - CREATE - ./simpledu -l ..//.git/objects/6b -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:486365 - 1000 - CREATE - ./simpledu -l ..//.git/objects/d4 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:486505 - 993 - SEND_PIPE - 20480	..//.git/objects/52
+2020 Apr 7 17:04:57:486584 - 993 - EXIT - 0
+2020 Apr 7 17:04:57:486747 - 1001 - CREATE - ./simpledu -l ..//.git/objects/75 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:487025 - 1002 - CREATE - ./simpledu -l ..//.git/objects/10 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:487160 - 996 - SEND_PIPE - 12288	..//.git/objects/cb
+2020 Apr 7 17:04:57:487166 - 999 - SEND_PIPE - 36864	..//.git/objects/6b
+2020 Apr 7 17:04:57:487341 - 1003 - CREATE - ./simpledu -l ..//.git/objects/1a -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:487403 - 999 - EXIT - 0
+2020 Apr 7 17:04:57:487473 - 891 - RECV_PIPE - 53248	..//.git/hooks
+2020 Apr 7 17:04:57:487346 - 996 - EXIT - 0
+2020 Apr 7 17:04:57:487535 - 1004 - CREATE - ./simpledu -l ..//.git/objects/a4 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:488586 - 1000 - SEND_PIPE - 12288	..//.git/objects/d4
+2020 Apr 7 17:04:57:488609 - 998 - SEND_PIPE - 12288	..//.git/objects/42
+2020 Apr 7 17:04:57:488690 - 1000 - EXIT - 0
+2020 Apr 7 17:04:57:488695 - 998 - EXIT - 0
+2020 Apr 7 17:04:57:488734 - 1006 - CREATE - ./simpledu -l ..//.git/objects/db -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:488787 - 1006 - SEND_PIPE - 8192	..//.git/objects/db
+2020 Apr 7 17:04:57:488867 - 1006 - EXIT - 0
+2020 Apr 7 17:04:57:488920 - 1007 - CREATE - ./simpledu -l ..//.git/objects/2b -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:488965 - 1003 - SEND_PIPE - 8192	..//.git/objects/1a
+2020 Apr 7 17:04:57:489037 - 1003 - EXIT - 0
+2020 Apr 7 17:04:57:489048 - 995 - SEND_PIPE - 4096	..//.git/objects/info
+2020 Apr 7 17:04:57:489122 - 995 - EXIT - 0
+2020 Apr 7 17:04:57:489109 - 1008 - CREATE - ./simpledu -l ..//.git/objects/8b -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:489292 - 1009 - CREATE - ./simpledu -l ..//.git/objects/d8 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:489386 - 1001 - SEND_PIPE - 12288	..//.git/objects/75
+2020 Apr 7 17:04:57:489457 - 1001 - EXIT - 0
+2020 Apr 7 17:04:57:489519 - 1010 - CREATE - ./simpledu -l ..//.git/objects/b5 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:489700 - 1011 - CREATE - ./simpledu -l ..//.git/objects/6d -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:489875 - 1012 - CREATE - ./simpledu -l ..//.git/objects/7d -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:489947 - 1004 - SEND_PIPE - 8192	..//.git/objects/a4
+2020 Apr 7 17:04:57:490023 - 1004 - EXIT - 0
+2020 Apr 7 17:04:57:490047 - 1013 - CREATE - ./simpledu -l ..//.git/objects/ab -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:490079 - 994 - SEND_PIPE - 16384	..//.git/objects/d2
+2020 Apr 7 17:04:57:490088 - 1008 - SEND_PIPE - 16384	..//.git/objects/8b
+2020 Apr 7 17:04:57:490104 - 997 - SEND_PIPE - 20480	..//.git/objects/a8
+2020 Apr 7 17:04:57:490146 - 994 - EXIT - 0
+2020 Apr 7 17:04:57:490173 - 1008 - EXIT - 0
+2020 Apr 7 17:04:57:490184 - 997 - EXIT - 0
+2020 Apr 7 17:04:57:490235 - 1014 - CREATE - ./simpledu -l ..//.git/objects/c0 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:490404 - 1015 - CREATE - ./simpledu -l ..//.git/objects/26 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:490609 - 1016 - CREATE - ./simpledu -l ..//.git/objects/85 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:491220 - 1009 - SEND_PIPE - 8192	..//.git/objects/d8
+2020 Apr 7 17:04:57:491294 - 1009 - EXIT - 0
+2020 Apr 7 17:04:57:491277 - 1002 - SEND_PIPE - 8192	..//.git/objects/10
+2020 Apr 7 17:04:57:491349 - 1002 - EXIT - 0
+2020 Apr 7 17:04:57:491559 - 1014 - SEND_PIPE - 8192	..//.git/objects/c0
+2020 Apr 7 17:04:57:491639 - 1014 - EXIT - 0
+2020 Apr 7 17:04:57:491664 - 1017 - CREATE - ./simpledu -l ..//.git/objects/d0 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:491865 - 1018 - CREATE - ./simpledu -l ..//.git/objects/3a -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:492067 - 1019 - CREATE - ./simpledu -l ..//.git/objects/b9 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:492254 - 1011 - SEND_PIPE - 8192	..//.git/objects/6d
+2020 Apr 7 17:04:57:492273 - 1020 - CREATE - ./simpledu -l ..//.git/objects/e6 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:492336 - 1011 - EXIT - 0
+2020 Apr 7 17:04:57:492332 - 1013 - SEND_PIPE - 20480	..//.git/objects/ab
+2020 Apr 7 17:04:57:492407 - 1013 - EXIT - 0
+2020 Apr 7 17:04:57:492459 - 1021 - CREATE - ./simpledu -l ..//.git/objects/31 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:492671 - 1024 - CREATE - ./simpledu -l ..//.git/objects/d5 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:492846 - 1025 - CREATE - ./simpledu -l ..//.git/objects/57 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:493050 - 1027 - CREATE - ./simpledu -l ..//.git/objects/df -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:493233 - 1028 - CREATE - ./simpledu -l ..//.git/objects/15 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:493237 - 1020 - SEND_PIPE - 8192	..//.git/objects/e6
+2020 Apr 7 17:04:57:493311 - 1020 - EXIT - 0
+2020 Apr 7 17:04:57:493400 - 1019 - SEND_PIPE - 20480	..//.git/objects/b9
+2020 Apr 7 17:04:57:493447 - 1031 - CREATE - ./simpledu -l ..//.git/objects/95 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:493482 - 1019 - EXIT - 0
+2020 Apr 7 17:04:57:493646 - 1032 - CREATE - ./simpledu -l ..//.git/objects/f7 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:493923 - 1033 - CREATE - ./simpledu -l ..//.git/objects/40 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:494149 - 1034 - CREATE - ./simpledu -l ..//.git/objects/08 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:494378 - 1035 - CREATE - ./simpledu -l ..//.git/objects/96 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:494569 - 1012 - SEND_PIPE - 8192	..//.git/objects/7d
+2020 Apr 7 17:04:57:494569 - 1031 - SEND_PIPE - 12288	..//.git/objects/95
+2020 Apr 7 17:04:57:494591 - 1036 - CREATE - ./simpledu -l ..//.git/objects/da -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:494705 - 1012 - EXIT - 0
+2020 Apr 7 17:04:57:494708 - 1031 - EXIT - 0
+2020 Apr 7 17:04:57:494791 - 1027 - SEND_PIPE - 24576	..//.git/objects/df
+2020 Apr 7 17:04:57:494789 - 1021 - SEND_PIPE - 12288	..//.git/objects/31
+2020 Apr 7 17:04:57:494882 - 1027 - EXIT - 0
+2020 Apr 7 17:04:57:494892 - 1021 - EXIT - 0
+2020 Apr 7 17:04:57:494881 - 1037 - CREATE - ./simpledu -l ..//.git/objects/ac -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:495100 - 1038 - CREATE - ./simpledu -l ..//.git/objects/c1 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:495342 - 1040 - CREATE - ./simpledu -l ..//.git/objects/ff -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:495584 - 1041 - CREATE - ./simpledu -l ..//.git/objects/de -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:495928 - 1044 - CREATE - ./simpledu -l ..//.git/objects/64 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:495969 - 1010 - SEND_PIPE - 8192	..//.git/objects/b5
+2020 Apr 7 17:04:57:496052 - 1010 - EXIT - 0
+2020 Apr 7 17:04:57:496110 - 1007 - SEND_PIPE - 12288	..//.git/objects/2b
+2020 Apr 7 17:04:57:499291 - 1007 - EXIT - 0
+2020 Apr 7 17:04:57:499424 - 1036 - SEND_PIPE - 8192	..//.git/objects/da
+2020 Apr 7 17:04:57:499431 - 1037 - SEND_PIPE - 8192	..//.git/objects/ac
+2020 Apr 7 17:04:57:499525 - 1036 - EXIT - 0
+2020 Apr 7 17:04:57:499532 - 1037 - EXIT - 0
+2020 Apr 7 17:04:57:495684 - 1015 - SEND_PIPE - 12288	..//.git/objects/26
+2020 Apr 7 17:04:57:496126 - 1045 - CREATE - ./simpledu -l ..//.git/objects/4b -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:496126 - 1016 - SEND_PIPE - 20480	..//.git/objects/85
+2020 Apr 7 17:04:57:496139 - 1024 - SEND_PIPE - 8192	..//.git/objects/d5
+2020 Apr 7 17:04:57:499916 - 1016 - EXIT - 0
+2020 Apr 7 17:04:57:499974 - 1024 - EXIT - 0
+2020 Apr 7 17:04:57:500214 - 1046 - CREATE - ./simpledu -l ..//.git/objects/c2 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:500504 - 1047 - CREATE - ./simpledu -l ..//.git/objects/04 -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:500794 - 1048 - CREATE - ./simpledu -l ..//.git/objects/8e -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:501080 - 1049 - CREATE - ./simpledu -l ..//.git/objects/7c -B 1024 --max-depth=2147483645 
+2020 Apr 7 17:04:57:501215 - 899 - RECV_PIPE - 12288	..//.git/objects/62
+2020 Apr 7 17:04:57:501315 - 899 - RECV_PIPE - 8192	..//.git/objects/63
+2020 Apr 7 17:04:57:501382 - 899 - RECV_PIPE - 8192	..//.git/objects/83
+2020 Apr 7 17:04:57:501508 - 1032 - SEND_PIPE - 12288	..//.git/objects/f7
+2020 Apr 7 17:04:57:501775 - 1032 - EXIT - 0
+2020 Apr 7 17:04:57:501442 - 899 - RECV_PIPE - 8192	..//.git/objects/0d
+2020 Apr 7 17:04:57:502865 - 899 - RECV_PIPE - 16384	..//.git/objects/bd
+2020 Apr 7 17:04:57:502941 - 899 - RECV_PIPE - 20480	..//.git/objects/f2
+2020 Apr 7 17:04:57:486066 - 990 - EXIT - 0
+2020 Apr 7 17:04:57:503203 - 1047 - SEND_PIPE - 12288	..//.git/objects/04
+2020 Apr 7 17:04:57:506588 - 1047 - EXIT - 0
+2020 Apr 7 17:04:57:496579 - 1038 - SEND_PIPE - 8192	..//.git/objects/c1
+2020 Apr 7 17:04:57:508334 - 1038 - EXIT - 0
+2020 Apr 7 17:04:57:496830 - 1017 - SEND_PIPE - 16384	..//.git/objects/d0
+2020 Apr 7 17:04:57:508416 - 1017 - EXIT - 0
+2020 Apr 7 17:04:57:496924 - 1028 - SEND_PIPE - 8192	..//.git/objects/15
+2020 Apr 7 17:04:57:508764 - 1028 - EXIT - 0
+2020 Apr 7 17:04:57:497133 - 1025 - SEND_PIPE - 16384	..//.git/objects/57
+2020 Apr 7 17:04:57:497553 - 1018 - SEND_PIPE - 12288	..//.git/objects/3a
+2020 Apr 7 17:04:57:509150 - 1025 - EXIT - 0
+2020 Apr 7 17:04:57:509188 - 1018 - EXIT - 0
+2020 Apr 7 17:04:57:497644 - 1034 - SEND_PIPE - 8192	..//.git/objects/08
+2020 Apr 7 17:04:57:509358 - 1034 - EXIT - 0
+2020 Apr 7 17:04:57:497776 - 1044 - SEND_PIPE - 12288	..//.git/objects/64
+2020 Apr 7 17:04:57:509574 - 1044 - EXIT - 0
+2020 Apr 7 17:04:57:497794 - 1040 - SEND_PIPE - 16384	..//.git/objects/ff
+2020 Apr 7 17:04:57:497828 - 1045 - SEND_PIPE - 8192	..//.git/objects/4b
+2020 Apr 7 17:04:57:509673 - 1040 - EXIT - 0
+2020 Apr 7 17:04:57:509685 - 1045 - EXIT - 0
+2020 Apr 7 17:04:57:498323 - 1033 - SEND_PIPE - 12288	..//.git/objects/40
+2020 Apr 7 17:04:57:509977 - 1033 - EXIT - 0
+2020 Apr 7 17:04:57:498535 - 1035 - SEND_PIPE - 12288	..//.git/objects/96
+2020 Apr 7 17:04:57:510072 - 1035 - EXIT - 0
+2020 Apr 7 17:04:57:499773 - 1015 - EXIT - 0
+2020 Apr 7 17:04:57:503409 - 899 - RECV_PIPE - 8192	..//.git/objects/cf
+2020 Apr 7 17:04:57:510721 - 899 - RECV_PIPE - 12288	..//.git/objects/6e
+2020 Apr 7 17:04:57:510777 - 899 - RECV_PIPE - 8192	..//.git/objects/3d
+2020 Apr 7 17:04:57:510824 - 899 - RECV_PIPE - 20480	..//.git/objects/a1
+2020 Apr 7 17:04:57:510875 - 899 - RECV_PIPE - 16384	..//.git/objects/d3
+2020 Apr 7 17:04:57:510924 - 899 - RECV_PIPE - 8192	..//.git/objects/09
+2020 Apr 7 17:04:57:510973 - 899 - RECV_PIPE - 12288	..//.git/objects/51
+2020 Apr 7 17:04:57:511018 - 899 - RECV_PIPE - 12288	..//.git/objects/0c
+2020 Apr 7 17:04:57:511064 - 899 - RECV_PIPE - 24576	..//.git/objects/c9
+2020 Apr 7 17:04:57:511105 - 899 - RECV_PIPE - 8192	..//.git/objects/13
+2020 Apr 7 17:04:57:511154 - 899 - RECV_PIPE - 16384	..//.git/objects/94
+2020 Apr 7 17:04:57:511202 - 899 - RECV_PIPE - 8192	..//.git/objects/4f
+2020 Apr 7 17:04:57:511243 - 899 - RECV_PIPE - 8192	..//.git/objects/38
+2020 Apr 7 17:04:57:511294 - 899 - RECV_PIPE - 8192	..//.git/objects/73
+2020 Apr 7 17:04:57:511335 - 899 - RECV_PIPE - 16384	..//.git/objects/99
+2020 Apr 7 17:04:57:511383 - 899 - RECV_PIPE - 12288	..//.git/objects/d1
+2020 Apr 7 17:04:57:511429 - 899 - RECV_PIPE - 8192	..//.git/objects/45
+2020 Apr 7 17:04:57:511474 - 899 - RECV_PIPE - 8192	..//.git/objects/2c
+2020 Apr 7 17:04:57:511518 - 899 - RECV_PIPE - 8192	..//.git/objects/2e
+2020 Apr 7 17:04:57:511561 - 899 - RECV_PIPE - 12288	..//.git/objects/97
+2020 Apr 7 17:04:57:511610 - 899 - RECV_PIPE - 24576	..//.git/objects/19
+2020 Apr 7 17:04:57:511656 - 899 - RECV_PIPE - 12288	..//.git/objects/fe
+2020 Apr 7 17:04:57:511701 - 899 - RECV_PIPE - 8192	..//.git/objects/f9
+2020 Apr 7 17:04:57:511746 - 899 - RECV_PIPE - 12288	..//.git/objects/3c
+2020 Apr 7 17:04:57:511788 - 899 - RECV_PIPE - 8192	..//.git/objects/a2
+2020 Apr 7 17:04:57:511835 - 899 - RECV_PIPE - 20480	..//.git/objects/c7
+2020 Apr 7 17:04:57:511883 - 899 - RECV_PIPE - 24576	..//.git/objects/ce
+2020 Apr 7 17:04:57:511945 - 899 - RECV_PIPE - 8192	..//.git/objects/70
+2020 Apr 7 17:04:57:511990 - 899 - RECV_PIPE - 12288	..//.git/objects/16
+2020 Apr 7 17:04:57:512034 - 899 - RECV_PIPE - 20480	..//.git/objects/a7
+2020 Apr 7 17:04:57:512084 - 899 - RECV_PIPE - 8192	..//.git/objects/91
+2020 Apr 7 17:04:57:512144 - 899 - RECV_PIPE - 8192	..//.git/objects/9f
+2020 Apr 7 17:04:57:512205 - 899 - RECV_PIPE - 12288	..//.git/objects/f5
+2020 Apr 7 17:04:57:512266 - 899 - RECV_PIPE - 12288	..//.git/objects/b6
+2020 Apr 7 17:04:57:512966 - 899 - RECV_PIPE - 8192	..//.git/objects/58
+2020 Apr 7 17:04:57:513036 - 899 - RECV_PIPE - 8192	..//.git/objects/11
+2020 Apr 7 17:04:57:513101 - 899 - RECV_PIPE - 8192	..//.git/objects/39
+2020 Apr 7 17:04:57:513140 - 899 - RECV_PIPE - 344064	..//.git/objects/pack
+2020 Apr 7 17:04:57:513179 - 899 - RECV_PIPE - 20480	..//.git/objects/be
+2020 Apr 7 17:04:57:513215 - 899 - RECV_PIPE - 8192	..//.git/objects/82
+2020 Apr 7 17:04:57:513250 - 899 - RECV_PIPE - 8192	..//.git/objects/eb
+2020 Apr 7 17:04:57:513290 - 899 - RECV_PIPE - 24576	..//.git/objects/ee
+2020 Apr 7 17:04:57:513326 - 899 - RECV_PIPE - 20480	..//.git/objects/b0
+2020 Apr 7 17:04:57:513362 - 899 - RECV_PIPE - 8192	..//.git/objects/79
+2020 Apr 7 17:04:57:513398 - 899 - RECV_PIPE - 8192	..//.git/objects/1b
+2020 Apr 7 17:04:57:513434 - 899 - RECV_PIPE - 8192	..//.git/objects/0b
+2020 Apr 7 17:04:57:513477 - 899 - RECV_PIPE - 8192	..//.git/objects/72
+2020 Apr 7 17:04:57:513513 - 899 - RECV_PIPE - 8192	..//.git/objects/61
+2020 Apr 7 17:04:57:513550 - 899 - RECV_PIPE - 8192	..//.git/objects/f0
+2020 Apr 7 17:04:57:513588 - 899 - RECV_PIPE - 24576	..//.git/objects/27
+2020 Apr 7 17:04:57:513627 - 899 - RECV_PIPE - 8192	..//.git/objects/aa
+2020 Apr 7 17:04:57:513667 - 899 - RECV_PIPE - 20480	..//.git/objects/52
+2020 Apr 7 17:04:57:513704 - 899 - RECV_PIPE - 16384	..//.git/objects/d2
+2020 Apr 7 17:04:57:513742 - 899 - RECV_PIPE - 4096	..//.git/objects/info
+2020 Apr 7 17:04:57:513780 - 899 - RECV_PIPE - 12288	..//.git/objects/cb
+2020 Apr 7 17:04:57:513816 - 899 - RECV_PIPE - 20480	..//.git/objects/a8
+2020 Apr 7 17:04:57:513853 - 899 - RECV_PIPE - 12288	..//.git/objects/42
+2020 Apr 7 17:04:57:513893 - 899 - RECV_PIPE - 36864	..//.git/objects/6b
+2020 Apr 7 17:04:57:513954 - 899 - RECV_PIPE - 12288	..//.git/objects/d4
+2020 Apr 7 17:04:57:513993 - 899 - RECV_PIPE - 12288	..//.git/objects/75
+2020 Apr 7 17:04:57:514028 - 899 - RECV_PIPE - 8192	..//.git/objects/10
+2020 Apr 7 17:04:57:514065 - 899 - RECV_PIPE - 8192	..//.git/objects/1a
+2020 Apr 7 17:04:57:514104 - 899 - RECV_PIPE - 8192	..//.git/objects/a4
+2020 Apr 7 17:04:57:514138 - 899 - RECV_PIPE - 8192	..//.git/objects/db
+2020 Apr 7 17:04:57:514172 - 899 - RECV_PIPE - 12288	..//.git/objects/2b
+2020 Apr 7 17:04:57:514208 - 899 - RECV_PIPE - 16384	..//.git/objects/8b
+2020 Apr 7 17:04:57:514245 - 899 - RECV_PIPE - 8192	..//.git/objects/d8
+2020 Apr 7 17:04:57:514279 - 899 - RECV_PIPE - 8192	..//.git/objects/b5
+2020 Apr 7 17:04:57:514316 - 899 - RECV_PIPE - 8192	..//.git/objects/6d
+2020 Apr 7 17:04:57:514351 - 899 - RECV_PIPE - 8192	..//.git/objects/7d
+2020 Apr 7 17:04:57:514387 - 899 - RECV_PIPE - 20480	..//.git/objects/ab
+2020 Apr 7 17:04:57:514424 - 899 - RECV_PIPE - 8192	..//.git/objects/c0
+2020 Apr 7 17:04:57:514457 - 899 - RECV_PIPE - 12288	..//.git/objects/26
+2020 Apr 7 17:04:57:514497 - 899 - RECV_PIPE - 20480	..//.git/objects/85
+2020 Apr 7 17:04:57:514534 - 899 - RECV_PIPE - 16384	..//.git/objects/d0
+2020 Apr 7 17:04:57:514569 - 899 - RECV_PIPE - 12288	..//.git/objects/3a
+2020 Apr 7 17:04:57:514608 - 899 - RECV_PIPE - 20480	..//.git/objects/b9
+2020 Apr 7 17:04:57:514644 - 899 - RECV_PIPE - 8192	..//.git/objects/e6
+2020 Apr 7 17:04:57:514679 - 899 - RECV_PIPE - 12288	..//.git/objects/31
+2020 Apr 7 17:04:57:514718 - 899 - RECV_PIPE - 8192	..//.git/objects/d5
+2020 Apr 7 17:04:57:514751 - 899 - RECV_PIPE - 16384	..//.git/objects/57
+2020 Apr 7 17:04:57:514788 - 899 - RECV_PIPE - 24576	..//.git/objects/df
+2020 Apr 7 17:04:57:514832 - 899 - RECV_PIPE - 8192	..//.git/objects/15
+2020 Apr 7 17:04:57:514877 - 899 - RECV_PIPE - 12288	..//.git/objects/95
+2020 Apr 7 17:04:57:514926 - 899 - RECV_PIPE - 12288	..//.git/objects/f7
+2020 Apr 7 17:04:57:514968 - 899 - RECV_PIPE - 12288	..//.git/objects/40
+2020 Apr 7 17:04:57:515006 - 899 - RECV_PIPE - 8192	..//.git/objects/08
+2020 Apr 7 17:04:57:515044 - 899 - RECV_PIPE - 12288	..//.git/objects/96
+2020 Apr 7 17:04:57:515081 - 899 - RECV_PIPE - 8192	..//.git/objects/da
+2020 Apr 7 17:04:57:515119 - 899 - RECV_PIPE - 8192	..//.git/objects/ac
+2020 Apr 7 17:04:57:515158 - 899 - RECV_PIPE - 8192	..//.git/objects/c1
+2020 Apr 7 17:04:57:515198 - 899 - RECV_PIPE - 16384	..//.git/objects/ff
+2020 Apr 7 17:04:57:515236 - 899 - RECV_PIPE - 8192	..//.git/objects/de
+2020 Apr 7 17:04:57:515276 - 899 - RECV_PIPE - 12288	..//.git/objects/64
+2020 Apr 7 17:04:57:515314 - 899 - RECV_PIPE - 8192	..//.git/objects/4b
+2020 Apr 7 17:04:57:505734 - 1041 - SEND_PIPE - 8192	..//.git/objects/de
+2020 Apr 7 17:04:57:505841 - 1049 - SEND_PIPE - 8192	..//.git/objects/7c
+2020 Apr 7 17:04:57:516337 - 1041 - EXIT - 0
+2020 Apr 7 17:04:57:516359 - 1049 - EXIT - 0
+2020 Apr 7 17:04:57:506491 - 1048 - SEND_PIPE - 8192	..//.git/objects/8e
+2020 Apr 7 17:04:57:516641 - 899 - RECV_PIPE - 8192	..//.git/objects/c2
+2020 Apr 7 17:04:57:516689 - 1048 - EXIT - 0
+2020 Apr 7 17:04:57:516853 - 899 - RECV_PIPE - 12288	..//.git/objects/04
+2020 Apr 7 17:04:57:501574 - 1046 - SEND_PIPE - 8192	..//.git/objects/c2
+2020 Apr 7 17:04:57:516941 - 899 - RECV_PIPE - 8192	..//.git/objects/8e
+2020 Apr 7 17:04:57:516975 - 1046 - EXIT - 0
+2020 Apr 7 17:04:57:517363 - 899 - RECV_PIPE - 8192	..//.git/objects/7c
+2020 Apr 7 17:04:57:517422 - 899 - SEND_PIPE - 1634304	..//.git/objects
+2020 Apr 7 17:04:57:517455 - 899 - EXIT - 0
+2020 Apr 7 17:04:57:518730 - 891 - RECV_PIPE - 1634304	..//.git/objects
+2020 Apr 7 17:04:57:518791 - 891 - SEND_PIPE - 1871872	..//.git
+2020 Apr 7 17:04:57:518799 - 888 - RECV_PIPE - 1871872	..//.git
+2020 Apr 7 17:04:57:518824 - 891 - EXIT - 0
+2020 Apr 7 17:04:57:518873 - 888 - RECV_PIPE - 118784	..//TestDIr
+2020 Apr 7 17:04:57:518996 - 888 - RECV_PIPE - 8192	..//.idea
+2020 Apr 7 17:04:57:519053 - 888 - SEND_PIPE - 2384	../
+2020 Apr 7 17:04:57:519085 - 888 - EXIT - 0
+2020 Apr 7 17:05:36:295242 - 1131 - RECV_SIGNAL - 2
+2020 Apr 7 17:05:57:582368 - 1200 - RECV_SIGNAL - 2
+2020 Apr 7 17:06:44:122077 - 1200 - RECV_SIGNAL - 2
+2020 Apr 7 17:06:44:737387 - 1200 - RECV_SIGNAL - 15
+2020 Apr 7 17:08:56:723267 - 1432 - RECV_SIGNAL - 2
+2020 Apr 7 17:09:28:677188 - 1432 - RECV_SIGNAL - 2
+2020 Apr 7 17:09:29:536926 - 1432 - RECV_SIGNAL - 18
+2020 Apr 7 17:09:29:537118 - 1432 - RECV_SIGNAL - 15
