@@ -124,6 +124,7 @@ typedef struct {
     char* path; /* caminho inicial (default = .) */
     char* log_filename; /* nome da variável de ambiente LOG_FILENAME */
     bool defaultDisplay;
+    bool pathEndsWithSlash;
 } Arguments;
 
 /**
@@ -144,6 +145,7 @@ void initializeArgumentsStruct(Arguments* arguments) {
     arguments->log_filename = malloc(FILENAME_MAX_LEN + 1);
     arguments->log_filename = "";
     arguments->defaultDisplay = true;
+    arguments->pathEndsWithSlash = false;
 }
 
 
@@ -316,6 +318,12 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
         else /*if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) */{
             // se passarmos ~ como path, é convertido automaticamente para "/home/user" 	            
             if (isDirectory(argv[i])) {
+                if (argv[i][strlen(argv[i])-1] == '/') {
+                    arguments->pathEndsWithSlash = true;
+                }
+                else {
+                    arguments->pathEndsWithSlash = false;
+                }
                 processStringsWithSlash(argv[i]);
                 arguments->path = argv[i];
             }
@@ -478,7 +486,10 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
                         printf("%-d\t%-s\n", (int )ceil(convertFromBytesToBlocks((int)stat_entry.st_size, 1) /  (float) arguments->blockSize), filename);
                 }  
             }        
-        }   
+        }
+        if (arguments->pathEndsWithSlash) {
+            strcat(arguments->path, "/");
+        }
         sprintf(toSend, "%-d%s\t%-s\n", (int) ceil(currentDirSize / (float) arguments->blockSize), arguments->blockSizeString, arguments->path); // Reconstruct PATH
     }    
     else
