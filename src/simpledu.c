@@ -721,6 +721,7 @@ void executeDU(Arguments* arguments, char* programPath) {
 
 }
 
+
 int main(int argc, char* argv[]) {
     if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
