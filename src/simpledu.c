@@ -25,7 +25,7 @@
 #define READ 0
 #define WRITE 1
 
-FILE* log_file;
+int log_file_fd;
 
 enum log_action {
     CREATE, EXIT, RECV_SIGNAL, SEND_SIGNAL, RECV_PIPE, SEND_PIPE, ENTRY
@@ -64,16 +64,29 @@ void logInfo(int pid, enum log_action action, char *info) {
     str_instant[4] = ' ';
     str_instant[str_size - 6] = ':';
     str_instant[str_size - 5] = 0;
-    int mili_s = (t.tv_usec / 1000) % 1000;
-    char mili[4];
-    if (mili_s < 100)
-        sprintf(mili, "0%d", mili_s);
-    else if (mili_s < 10)
-        sprintf(mili, "00%d", mili_s);
+    int micro_s = (t.tv_usec) % 1000000;
+    char micro[8];
+    if (micro_s < 100000)
+        sprintf(micro, "0%d", micro_s);
+    if (micro_s < 10000)
+        sprintf(micro, "00%d", micro_s);
+    if (micro_s < 1000)
+        sprintf(micro, "000%d", micro_s);
+    if (micro_s < 100)
+        sprintf(micro, "0000%d", micro_s);
+    else if (micro_s < 10)
+        sprintf(micro, "00000%d", micro_s);
     else
-        sprintf(mili, "%d", mili_s);
-    strcat(str_instant, mili);
-    fprintf(log_file, "%s - %d - %s - %s\n", str_instant, pid, getLogActionName(action), info);
+        sprintf(micro, "%d", micro_s);
+    strcat(str_instant, micro);
+    
+
+    char str_to_print[FILENAME_MAX_LEN * 3];
+    int size = sprintf(str_to_print, "%s - %d - %s - %s\n", str_instant, pid, getLogActionName(action), info);
+    chmod("/home/joao/Documents/SOPE_1ST_PROJECT/src/log.txt", 0666);
+    log_file_fd = open("/home/joao/Documents/SOPE_1ST_PROJECT/src/log.txt", O_WRONLY | O_APPEND);
+    write(log_file_fd, str_to_print, size);
+    close(log_file_fd);
 }
 
 char *strArrToStr(char *arr[]) {
@@ -366,6 +379,7 @@ void PIPEFN_ToPipeWrite(int* fd) {
 }
 
 void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, int readIndex) {
+    
     char toSend[PATH_MAX_LEN];
     char toRead[1024];
 
@@ -376,8 +390,13 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
 
     for(int index = 0; index < readIndex; index++) {
         exitPid = wait(NULL);
-        if((bytesRead = read(readFds[index], toRead, PATH_MAX_LEN)) != 0 && exitPid != -1) { // Read SIZE \t PATH
-            //printf("%s", toRead);
+        if((bytesRead = read(readFds[index], toRead, PATH_MAX_LEN)) != 0 && exitPid != -1) { // Read SIZE \t PATH -> Lê a informação dos subdiretórios.
+            
+            char toReadLog[1024];
+            strcpy(toReadLog, toRead);
+            toReadLog[bytesRead-1] = 0;
+            logInfo(getpid(), RECV_PIPE, toReadLog);
+
             sscanf(toRead, "%d%s", &tempSize, toSend); // Read SIZE
             
             if(!arguments->separateDirs)
@@ -385,7 +404,7 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
             
             if(arguments->maxDepth > 0) {
                 sprintf(toRead, "%-d%s\t%-s\n", (int) ceil(tempSize / (float) arguments->blockSize), arguments->blockSizeString, toSend); // Reconstruct PATH
-                write(STDOUT_FILENO, toRead, strlen(toRead));
+                write(STDOUT_FILENO, toRead, strlen(toRead)); 
             }    
         }   
         
@@ -424,10 +443,14 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
     else
         sprintf(toSend, "%-d\t%-s\n", currentDirSize, arguments->path); // Reconstruct PATH
 
-    write(PIPE_FILE_NO, toSend, strlen(toSend)); 
+    int size_written = write(PIPE_FILE_NO, toSend, strlen(toSend)); // -> É quando ele envia informação para o pai.
+
+    char toSendLog[PATH_MAX_LEN];
+    strcpy(toSendLog, toSend);
+    toSendLog[size_written - 1] = 0;
+    logInfo(getpid(), SEND_PIPE, toSendLog);
+    
     close(PIPE_FILE_NO);
-
-
 }
 
 /*void printSizeAndLocation(Arguments* arguments, int size, char* filename, int isLink) {
@@ -527,7 +550,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     
                     // Direct READ side of PIPE to STDIN_FILE_NO
                     STDIN_ToPipeRead(readFds, fd, &readIndex);
-                    /*char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
+                    char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
                     args[0] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
                     args[0] = programPath;
                     args[1] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
@@ -536,7 +559,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[2] = filename;
                     reproduceArgumentsToExec(arguments, args);
                     
-                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));*/
+                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -554,6 +577,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     PIPEFN_ToPipeWrite(fd);
                 
                     close(fd[READ]);
+
                     // printf("\n--- %s | %s ---\n", args[0], args[2]);
                     execv(args[0], &args[0]);
                     printf("Error captured while executing execv call!\n");
@@ -621,7 +645,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     
                     // Direct READ side of PIPE to STDIN_FILE_NO
                     STDIN_ToPipeRead(readFds, fd, &readIndex);
-                    /*char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
+                    char **args = (char**) malloc(FILENAME_MAX_LEN * sizeof(char*));
                     args[0] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
                     args[0] = programPath;
                     args[1] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
@@ -629,7 +653,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
                     args[2] = filename;
                     reproduceArgumentsToExec(arguments, args);
-                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));*/
+                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -646,6 +670,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     PIPEFN_ToPipeWrite(fd);
                     close(fd[READ]);
                     // printf("\n--- %s | %s ---\n", args[0], args[2]);
+
                     execv(args[0], &args[0]);
                     printf("Error captured while executing execv call!\n");
                     logInfo(getpid(), EXIT, "6");
@@ -677,8 +702,8 @@ int main(int argc, char* argv[]) {
         exit(1);
     } 
 
-    //printf("%s\n", getenv("LOG_FILENAME"));
-
+    // printf("%s\n", getenv("LOG_FILENAME"));
+    printf("%d\n", getppid());
     Arguments arguments;
 
     initializeArgumentsStruct(&arguments);
@@ -691,11 +716,9 @@ int main(int argc, char* argv[]) {
 
     verifyWritingPipe();
 
-    // if (arguments.log_filename != NULL) { // criar o ficheiro de registo dos processos
-    //     log_file = fopen(arguments.log_filename, "w");
-    // }
-
-    log_file = fopen("log.txt", "w");
+    if(getpid() == getpgrp()) {
+        close(open("/home/joao/Documents/SOPE_1ST_PROJECT/src/log.txt", O_WRONLY | O_TRUNC));
+    }
     
     if(arguments.defaultDisplay) // If no -b or -B are given...
         arguments.blockSize = DEFAULT_BLOCK_SIZE;
@@ -703,7 +726,6 @@ int main(int argc, char* argv[]) {
     executeDU(&arguments, argv[0]);
 
     
-    logInfo(getpid(), EXIT, "0");
     exit(0);
 }
 
