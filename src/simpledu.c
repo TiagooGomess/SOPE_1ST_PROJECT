@@ -462,6 +462,7 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
    
     
     if(STDOUisPIPE_FN()) { // Last parent 
+        logInfo(getpid(), EXIT, "0"); // 
         if(strcmp(arguments->path, ".") == 0) {
             char filename[PATH_MAX_LEN] = "./log.txt";
             struct stat stat_entry;
@@ -491,17 +492,19 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
             strcat(arguments->path, "/");
         }
         sprintf(toSend, "%-d%s\t%-s\n", (int) ceil(currentDirSize / (float) arguments->blockSize), arguments->blockSizeString, arguments->path); // Reconstruct PATH
+        write(PIPE_FILE_NO, toSend, strlen(toSend));
     }    
-    else
+    else {
         sprintf(toSend, "%-d\t%-s\n", currentDirSize, arguments->path); // Reconstruct PATH
+        int size_written = write(PIPE_FILE_NO, toSend, strlen(toSend)); // -> É quando ele envia informação para o pai.
 
-    int size_written = write(PIPE_FILE_NO, toSend, strlen(toSend)); // -> É quando ele envia informação para o pai.
+        char toSendLog[PATH_MAX_LEN];
+        strcpy(toSendLog, toSend);
+        toSendLog[size_written - 1] = 0;
+        logInfo(getpid(), SEND_PIPE, toSendLog);    
+        logInfo(getpid(), EXIT, "0");
+    }    
 
-    char toSendLog[PATH_MAX_LEN];
-    strcpy(toSendLog, toSend);
-    toSendLog[size_written - 1] = 0;
-    logInfo(getpid(), SEND_PIPE, toSendLog);
-    
     close(PIPE_FILE_NO);
 }
 
@@ -772,7 +775,7 @@ void executeDU(Arguments* arguments, char* programPath) {
     }  
 
     terminateProcess(currentDirSize, arguments, readFds, readIndex);
-    logInfo(getpid(), EXIT, "0");
+    //logInfo(getpid(), EXIT, "0");
 
 }
 

@@ -1,58 +1,643 @@
-2020 Apr 7 15:30:23:249828 - 22001 - CREATE - ./simpledu -l ../TestDir/onlyFiles -a -B 1024 -L --max-depth=2147483647 
-2020 Apr 7 15:30:23:250454 - 22002 - CREATE - ./simpledu -l ../TestDir/test -a -B 1024 -L --max-depth=2147483647 
-2020 Apr 7 15:30:23:250945 - 22003 - CREATE - ./simpledu -l ../TestDir/test1 -a -B 1024 -L --max-depth=2147483647 
-2020 Apr 7 15:30:23:252110 - 22001 - ENTRY - 32	../TestDir/onlyFiles/simpledu
-2020 Apr 7 15:30:23:252426 - 22001 - ENTRY - 4	../TestDir/onlyFiles/anotherLink
-2020 Apr 7 15:30:23:252576 - 22001 - ENTRY - 4	../TestDir/onlyFiles/testeT_du.txt
-2020 Apr 7 15:30:23:252704 - 22001 - ENTRY - 4	../TestDir/onlyFiles/aggregatorLink
-2020 Apr 7 15:30:23:252839 - 22001 - ENTRY - 4	../TestDir/onlyFiles/testeT_simpledu.txt
-2020 Apr 7 15:30:23:252963 - 22001 - ENTRY - 4	../TestDir/onlyFiles/ListDeduplicator.java
-2020 Apr 7 15:30:23:252978 - 22002 - ENTRY - 4	../TestDir/test/testeT_du.txt
-2020 Apr 7 15:30:23:253103 - 22001 - ENTRY - 4	../TestDir/onlyFiles/ListSorter.java
-2020 Apr 7 15:30:23:253247 - 22001 - ENTRY - 4	../TestDir/onlyFiles/ListAggregator.java
-2020 Apr 7 15:30:23:253302 - 22002 - ENTRY - 4	../TestDir/test/aggregatorLink
-2020 Apr 7 15:30:23:253467 - 22002 - ENTRY - 4	../TestDir/test/testeT_simpledu.txt
-2020 Apr 7 15:30:23:253590 - 22002 - ENTRY - 4	../TestDir/test/ListDeduplicator.java
-2020 Apr 7 15:30:23:253722 - 22002 - ENTRY - 4	../TestDir/test/ListSorter.java
-2020 Apr 7 15:30:23:253649 - 22004 - CREATE - ./simpledu -l ../TestDir/onlyFiles/TEST -a -B 1024 -L --max-depth=2147483646 
-2020 Apr 7 15:30:23:253833 - 22002 - ENTRY - 4	../TestDir/test/ListAggregator.java
-2020 Apr 7 15:30:23:253840 - 22001 - ENTRY - 4	../TestDir/onlyFiles/dedJava
-2020 Apr 7 15:30:23:253957 - 22002 - ENTRY - 4	../TestDir/test/dedJava
-2020 Apr 7 15:30:23:254143 - 22002 - SEND_PIPE - 32768	../TestDir/test
-2020 Apr 7 15:30:23:254244 - 22002 - EXIT - 0
-2020 Apr 7 15:30:23:256196 - 22005 - CREATE - ./simpledu -l ../TestDir/onlyFiles/TEST/ANOTHER -a -B 1024 -L --max-depth=2147483645 
-2020 Apr 7 15:30:23:256310 - 22006 - CREATE - ./simpledu -l ../TestDir/test1/test2 -a -B 1024 -L --max-depth=2147483646 
-2020 Apr 7 15:30:23:256473 - 22004 - ENTRY - 0	../TestDir/onlyFiles/TEST/file8.txt
-2020 Apr 7 15:30:23:256651 - 22004 - ENTRY - 0	../TestDir/onlyFiles/TEST/file9.txt
-2020 Apr 7 15:30:23:256791 - 22004 - ENTRY - 0	../TestDir/onlyFiles/TEST/file7.txt
-2020 Apr 7 15:30:23:256901 - 22004 - ENTRY - 0	../TestDir/onlyFiles/TEST/file3.txt
-2020 Apr 7 15:30:23:257038 - 22004 - ENTRY - 0	../TestDir/onlyFiles/TEST/file4.txt
-2020 Apr 7 15:30:23:257166 - 22004 - ENTRY - 0	../TestDir/onlyFiles/TEST/file6.txt
-2020 Apr 7 15:30:23:257283 - 22004 - ENTRY - 0	../TestDir/onlyFiles/TEST/file2.txt
-2020 Apr 7 15:30:23:257409 - 22004 - ENTRY - 0	../TestDir/onlyFiles/TEST/file5.txt
-2020 Apr 7 15:30:23:257531 - 22004 - ENTRY - 0	../TestDir/onlyFiles/TEST/file1.txt
-2020 Apr 7 15:30:23:257652 - 22004 - ENTRY - 0	../TestDir/onlyFiles/TEST/file10.txt
-2020 Apr 7 15:30:23:258581 - 22005 - ENTRY - 0	../TestDir/onlyFiles/TEST/ANOTHER/files5.txt
-2020 Apr 7 15:30:23:258851 - 22005 - ENTRY - 0	../TestDir/onlyFiles/TEST/ANOTHER/files1.txt
-2020 Apr 7 15:30:23:259009 - 22005 - ENTRY - 0	../TestDir/onlyFiles/TEST/ANOTHER/files3.txt
-2020 Apr 7 15:30:23:259140 - 22005 - ENTRY - 0	../TestDir/onlyFiles/TEST/ANOTHER/files4.txt
-2020 Apr 7 15:30:23:259263 - 22005 - ENTRY - 0	../TestDir/onlyFiles/TEST/ANOTHER/files2.txt
-2020 Apr 7 15:30:23:259397 - 22005 - SEND_PIPE - 4096	../TestDir/onlyFiles/TEST/ANOTHER
-2020 Apr 7 15:30:23:259487 - 22005 - EXIT - 0
-2020 Apr 7 15:30:23:259990 - 22004 - RECV_PIPE - 4096	../TestDir/onlyFiles/TEST/ANOTHER
-2020 Apr 7 15:30:23:260078 - 22006 - ENTRY - 4	../TestDir/test1/test2/hello.txt
-2020 Apr 7 15:30:23:260229 - 22004 - SEND_PIPE - 8192	../TestDir/onlyFiles/TEST
-2020 Apr 7 15:30:23:260335 - 22004 - EXIT - 0
-2020 Apr 7 15:30:23:260330 - 22006 - SEND_PIPE - 8192	../TestDir/test1/test2
-2020 Apr 7 15:30:23:260445 - 22006 - EXIT - 0
-2020 Apr 7 15:30:23:260866 - 22001 - RECV_PIPE - 8192	../TestDir/onlyFiles/TEST
-2020 Apr 7 15:30:23:261099 - 22001 - SEND_PIPE - 77824	../TestDir/onlyFiles
-2020 Apr 7 15:30:23:261187 - 22000 - RECV_PIPE - 77824	../TestDir/onlyFiles
-2020 Apr 7 15:30:23:261252 - 22001 - EXIT - 0
-2020 Apr 7 15:30:23:261855 - 22003 - RECV_PIPE - 8192	../TestDir/test1/test2
-2020 Apr 7 15:30:23:261895 - 22000 - RECV_PIPE - 32768	../TestDir/test
-2020 Apr 7 15:30:23:262142 - 22003 - SEND_PIPE - 12288	../TestDir/test1
-2020 Apr 7 15:30:23:262254 - 22003 - EXIT - 0
-2020 Apr 7 15:30:23:262745 - 22000 - RECV_PIPE - 12288	../TestDir/test1
-2020 Apr 7 15:30:23:262955 - 22000 - SEND_PIPE - 124	../TestDir/
-2020 Apr 7 15:30:23:263046 - 22000 - EXIT - 0
+2020 Apr 7 15:41:34:538955 - 11997 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01 -a -b -B 1 -L --max-depth=2147483647 
+2020 Apr 7 15:41:34:539037 - 11996 - ENTRY - 58233774	../../../../Downloads/code_1.42.1-1581432938_amd64.deb
+2020 Apr 7 15:41:34:539057 - 11996 - ENTRY - 493439477	../../../../Downloads/CLion-2019.2.2.tar.gz
+2020 Apr 7 15:41:34:539070 - 11996 - ENTRY - 1133675	../../../../Downloads/aeda1920_fp01.zip
+2020 Apr 7 15:41:34:539082 - 11996 - ENTRY - 10240	../../../../Downloads/prob02.tar
+2020 Apr 7 15:41:34:539448 - 11997 - ENTRY - 224	../../../../Downloads/aeda1920_fp01/main.cpp
+2020 Apr 7 15:41:34:539495 - 11997 - ENTRY - 383	../../../../Downloads/aeda1920_fp01/CMakeLists.txt
+2020 Apr 7 15:41:34:539621 - 11998 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/.idea -a -b -B 1 -L --max-depth=2147483646 
+2020 Apr 7 15:41:34:539747 - 11999 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib -a -b -B 1 -L --max-depth=2147483646 
+2020 Apr 7 15:41:34:539918 - 12000 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug -a -b -B 1 -L --max-depth=2147483646 
+2020 Apr 7 15:41:34:540055 - 12001 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/Tests -a -b -B 1 -L --max-depth=2147483646 
+2020 Apr 7 15:41:34:540255 - 11998 - ENTRY - 278	../../../../Downloads/aeda1920_fp01/.idea/modules.xml
+2020 Apr 7 15:41:34:540274 - 12002 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master -a -b -B 1 -L --max-depth=2147483645 
+2020 Apr 7 15:41:34:540309 - 11998 - ENTRY - 97	../../../../Downloads/aeda1920_fp01/.idea/aeda1920_fp01.iml
+2020 Apr 7 15:41:34:540332 - 11998 - ENTRY - 5189	../../../../Downloads/aeda1920_fp01/.idea/workspace.xml
+2020 Apr 7 15:41:34:540350 - 11998 - ENTRY - 240	../../../../Downloads/aeda1920_fp01/.idea/misc.xml
+2020 Apr 7 15:41:34:540370 - 11998 - SEND_PIPE - 9900	../../../../Downloads/aeda1920_fp01/.idea
+2020 Apr 7 15:41:34:540385 - 11998 - EXIT - 0
+2020 Apr 7 15:41:34:540480 - 12000 - ENTRY - 51822	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeCache.txt
+2020 Apr 7 15:41:34:540518 - 11997 - RECV_PIPE - 9900	../../../../Downloads/aeda1920_fp01/.idea
+2020 Apr 7 15:41:34:540615 - 12003 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles -a -b -B 1 -L --max-depth=2147483645 
+2020 Apr 7 15:41:34:540610 - 12001 - ENTRY - 811	../../../../Downloads/aeda1920_fp01/Tests/parque.h
+2020 Apr 7 15:41:34:540648 - 12001 - ENTRY - 62	../../../../Downloads/aeda1920_fp01/Tests/parque.cpp
+2020 Apr 7 15:41:34:540663 - 12001 - ENTRY - 3363	../../../../Downloads/aeda1920_fp01/Tests/tests.cpp
+2020 Apr 7 15:41:34:540677 - 12001 - SEND_PIPE - 8332	../../../../Downloads/aeda1920_fp01/Tests
+2020 Apr 7 15:41:34:540687 - 12001 - EXIT - 0
+2020 Apr 7 15:41:34:540740 - 12004 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/bin -a -b -B 1 -L --max-depth=2147483645 
+2020 Apr 7 15:41:34:540777 - 12000 - ENTRY - 1763	../../../../Downloads/aeda1920_fp01/cmake-build-debug/cmake_install.cmake
+2020 Apr 7 15:41:34:540853 - 12002 - ENTRY - 5093	../../../../Downloads/aeda1920_fp01/lib/googletest-master/appveyor.yml
+2020 Apr 7 15:41:34:540892 - 12002 - ENTRY - 1561	../../../../Downloads/aeda1920_fp01/lib/googletest-master/.gitignore
+2020 Apr 7 15:41:34:540880 - 12005 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib -a -b -B 1 -L --max-depth=2147483645 
+2020 Apr 7 15:41:34:540908 - 12002 - ENTRY - 600	../../../../Downloads/aeda1920_fp01/lib/googletest-master/WORKSPACE
+2020 Apr 7 15:41:34:540913 - 12000 - ENTRY - 11027	../../../../Downloads/aeda1920_fp01/cmake-build-debug/Makefile
+2020 Apr 7 15:41:34:540984 - 12000 - ENTRY - 27788	../../../../Downloads/aeda1920_fp01/cmake-build-debug/aeda1920_fp01.cbp
+2020 Apr 7 15:41:34:540990 - 12006 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest -a -b -B 1 -L --max-depth=2147483644 
+2020 Apr 7 15:41:34:541094 - 12007 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci -a -b -B 1 -L --max-depth=2147483644 
+2020 Apr 7 15:41:34:541148 - 12002 - ENTRY - 6872	../../../../Downloads/aeda1920_fp01/lib/googletest-master/CONTRIBUTING.md
+2020 Apr 7 15:41:34:541172 - 12002 - ENTRY - 116	../../../../Downloads/aeda1920_fp01/lib/googletest-master/.clang-format
+2020 Apr 7 15:41:34:541193 - 12002 - ENTRY - 886	../../../../Downloads/aeda1920_fp01/lib/googletest-master/CMakeLists.txt
+2020 Apr 7 15:41:34:541171 - 12003 - ENTRY - 16504	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/feature_tests.bin
+2020 Apr 7 15:41:34:541213 - 12002 - ENTRY - 1173	../../../../Downloads/aeda1920_fp01/lib/googletest-master/platformio.ini
+2020 Apr 7 15:41:34:541222 - 12003 - ENTRY - 2989	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/CMakeError.log
+2020 Apr 7 15:41:34:541240 - 12003 - ENTRY - 39	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/clion-environment.txt
+2020 Apr 7 15:41:34:541256 - 12003 - ENTRY - 5841	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/Makefile.cmake
+2020 Apr 7 15:41:34:541321 - 12003 - ENTRY - 10011	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/feature_tests.cxx
+2020 Apr 7 15:41:34:541335 - 12008 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock -a -b -B 1 -L --max-depth=2147483644 
+2020 Apr 7 15:41:34:541376 - 12002 - ENTRY - 1960	../../../../Downloads/aeda1920_fp01/lib/googletest-master/library.json
+2020 Apr 7 15:41:34:541400 - 12002 - ENTRY - 0	../../../../Downloads/aeda1920_fp01/lib/googletest-master/__init__.py
+2020 Apr 7 15:41:34:541415 - 12002 - ENTRY - 1475	../../../../Downloads/aeda1920_fp01/lib/googletest-master/LICENSE
+2020 Apr 7 15:41:34:541427 - 12002 - ENTRY - 2440	../../../../Downloads/aeda1920_fp01/lib/googletest-master/.travis.yml
+2020 Apr 7 15:41:34:541439 - 12002 - ENTRY - 4689	../../../../Downloads/aeda1920_fp01/lib/googletest-master/README.md
+2020 Apr 7 15:41:34:541450 - 12002 - ENTRY - 5524	../../../../Downloads/aeda1920_fp01/lib/googletest-master/BUILD.bazel
+2020 Apr 7 15:41:34:541426 - 12009 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir -a -b -B 1 -L --max-depth=2147483644 
+2020 Apr 7 15:41:34:541479 - 12010 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master -a -b -B 1 -L --max-depth=2147483644 
+2020 Apr 7 15:41:34:541537 - 12005 - ENTRY - 4433652	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/libgtestd.a
+2020 Apr 7 15:41:34:541555 - 12005 - ENTRY - 113580	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/libgtest_maind.a
+2020 Apr 7 15:41:34:541543 - 12011 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/Progress -a -b -B 1 -L --max-depth=2147483644 
+2020 Apr 7 15:41:34:541590 - 12003 - ENTRY - 688	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/feature_tests.c
+2020 Apr 7 15:41:34:541598 - 12007 - ENTRY - 91	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci/install-platformio.sh
+2020 Apr 7 15:41:34:541639 - 12007 - ENTRY - 2126	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci/env-osx.sh
+2020 Apr 7 15:41:34:541653 - 12007 - ENTRY - 2229	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci/install-linux.sh
+2020 Apr 7 15:41:34:541665 - 12007 - ENTRY - 2093	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci/log-config.sh
+2020 Apr 7 15:41:34:541678 - 12007 - ENTRY - 1310	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci/travis.sh
+2020 Apr 7 15:41:34:541691 - 12007 - ENTRY - 2220	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci/get-nprocessors.sh
+2020 Apr 7 15:41:34:541720 - 12007 - ENTRY - 39	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci/build-platformio.sh
+2020 Apr 7 15:41:34:541736 - 12007 - ENTRY - 1688	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci/build-linux-bazel.sh
+2020 Apr 7 15:41:34:541748 - 12007 - ENTRY - 1922	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci/env-linux.sh
+2020 Apr 7 15:41:34:541731 - 12012 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5 -a -b -B 1 -L --max-depth=2147483644 
+2020 Apr 7 15:41:34:541766 - 12007 - ENTRY - 1717	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci/install-osx.sh
+2020 Apr 7 15:41:34:541783 - 12007 - SEND_PIPE - 19531	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci
+2020 Apr 7 15:41:34:541783 - 12003 - ENTRY - 3223	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/TargetDirectories.txt
+2020 Apr 7 15:41:34:541796 - 12007 - EXIT - 0
+2020 Apr 7 15:41:34:541810 - 12003 - ENTRY - 676	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake
+2020 Apr 7 15:41:34:541832 - 12003 - ENTRY - 70995	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/CMakeOutput.log
+2020 Apr 7 15:41:34:541851 - 12003 - ENTRY - 305	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/clion-log.txt
+2020 Apr 7 15:41:34:541984 - 12013 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/CMakeTmp -a -b -B 1 -L --max-depth=2147483644 
+2020 Apr 7 15:41:34:542037 - 12003 - ENTRY - 3	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/progress.marks
+2020 Apr 7 15:41:34:542066 - 12003 - ENTRY - 14522	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/Makefile2
+2020 Apr 7 15:41:34:542056 - 12008 - ENTRY - 1369	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/CONTRIBUTORS
+2020 Apr 7 15:41:34:542092 - 12003 - ENTRY - 85	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/cmake.check_cache
+2020 Apr 7 15:41:34:542077 - 12011 - ENTRY - 5	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/Progress/4
+2020 Apr 7 15:41:34:542121 - 12011 - ENTRY - 2	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/Progress/count.txt
+2020 Apr 7 15:41:34:542136 - 12011 - ENTRY - 5	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/Progress/10
+2020 Apr 7 15:41:34:542149 - 12011 - ENTRY - 5	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/Progress/9
+2020 Apr 7 15:41:34:542165 - 12011 - ENTRY - 5	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/Progress/11
+2020 Apr 7 15:41:34:542177 - 12011 - ENTRY - 5	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/Progress/12
+2020 Apr 7 15:41:34:542192 - 12011 - SEND_PIPE - 4123	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/Progress
+2020 Apr 7 15:41:34:542203 - 12011 - EXIT - 0
+2020 Apr 7 15:41:34:542190 - 12014 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:542309 - 12015 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/src -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:542346 - 12008 - ENTRY - 8667	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/CMakeLists.txt
+2020 Apr 7 15:41:34:542423 - 12016 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/CMakeFiles -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:542448 - 12017 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:542578 - 12018 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:542583 - 12019 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/cmake -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:542618 - 12008 - ENTRY - 0	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/__init__.py
+2020 Apr 7 15:41:34:542619 - 12010 - ENTRY - 1381	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/cmake_install.cmake
+2020 Apr 7 15:41:34:542648 - 12010 - ENTRY - 379	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/CTestTestfile.cmake
+2020 Apr 7 15:41:34:542662 - 12010 - ENTRY - 19221	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest-distribution.cbp
+2020 Apr 7 15:41:34:542740 - 12020 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:542762 - 12004 - SEND_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/bin
+2020 Apr 7 15:41:34:542797 - 12021 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:542811 - 12004 - EXIT - 0
+2020 Apr 7 15:41:34:542834 - 12010 - ENTRY - 6967	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/Makefile
+2020 Apr 7 15:41:34:542855 - 12022 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/docs -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:542895 - 12008 - ENTRY - 1475	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/LICENSE
+2020 Apr 7 15:41:34:542927 - 12008 - ENTRY - 1591	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/README.md
+2020 Apr 7 15:41:34:542883 - 12023 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:542954 - 12006 - ENTRY - 1358	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/CONTRIBUTORS
+2020 Apr 7 15:41:34:543053 - 12024 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:543165 - 12025 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:543200 - 12006 - ENTRY - 12033	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/CMakeLists.txt
+2020 Apr 7 15:41:34:543309 - 12026 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:543347 - 12013 - SEND_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/CMakeTmp
+2020 Apr 7 15:41:34:543391 - 12013 - EXIT - 0
+2020 Apr 7 15:41:34:543454 - 12027 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/cmake -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:543465 - 12012 - ENTRY - 2428	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CMakeCCompiler.cmake
+2020 Apr 7 15:41:34:543504 - 12006 - ENTRY - 0	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/__init__.py
+2020 Apr 7 15:41:34:543478 - 12009 - ENTRY - 7367	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/build.make
+2020 Apr 7 15:41:34:543510 - 12012 - ENTRY - 5201	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CMakeCXXCompiler.cmake
+2020 Apr 7 15:41:34:543535 - 12009 - ENTRY - 9369	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/depend.make
+2020 Apr 7 15:41:34:543543 - 12012 - ENTRY - 16544	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CMakeDetermineCompilerABI_C.bin
+2020 Apr 7 15:41:34:543558 - 12009 - ENTRY - 85	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/progress.make
+2020 Apr 7 15:41:34:543577 - 12009 - ENTRY - 236	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/link.txt
+2020 Apr 7 15:41:34:543595 - 12009 - ENTRY - 1373	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/DependInfo.cmake
+2020 Apr 7 15:41:34:543609 - 12009 - ENTRY - 369	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/cmake_clean.cmake
+2020 Apr 7 15:41:34:543628 - 12009 - ENTRY - 14330	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/CXX.includecache
+2020 Apr 7 15:41:34:543640 - 12028 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:543717 - 12029 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdC -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:543734 - 12030 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/Tests -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:543764 - 12012 - ENTRY - 390	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CMakeSystem.cmake
+2020 Apr 7 15:41:34:543770 - 12009 - ENTRY - 6160	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/depend.internal
+2020 Apr 7 15:41:34:543790 - 12009 - ENTRY - 165568	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/main.cpp.o
+2020 Apr 7 15:41:34:543794 - 12012 - ENTRY - 16560	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CMakeDetermineCompilerABI_CXX.bin
+2020 Apr 7 15:41:34:543806 - 12009 - ENTRY - 457	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/flags.make
+2020 Apr 7 15:41:34:543816 - 12031 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/docs -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:543867 - 12006 - ENTRY - 1475	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/LICENSE
+2020 Apr 7 15:41:34:543894 - 12006 - ENTRY - 9922	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/README.md
+2020 Apr 7 15:41:34:543924 - 12032 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdCXX -a -b -B 1 -L --max-depth=2147483643 
+2020 Apr 7 15:41:34:544294 - 12027 - ENTRY - 284	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/cmake/Config.cmake.in
+2020 Apr 7 15:41:34:544299 - 12023 - ENTRY - 5360	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample3_unittest.cc
+2020 Apr 7 15:41:34:544353 - 12027 - ENTRY - 499	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/cmake/libgtest.la.in
+2020 Apr 7 15:41:34:544359 - 12023 - ENTRY - 3917	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample2_unittest.cc
+2020 Apr 7 15:41:34:544375 - 12027 - ENTRY - 372	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/cmake/gtest.pc.in
+2020 Apr 7 15:41:34:544380 - 12023 - ENTRY - 4620	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample7_unittest.cc
+2020 Apr 7 15:41:34:544395 - 12023 - ENTRY - 5111	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample1_unittest.cc
+2020 Apr 7 15:41:34:544396 - 12027 - ENTRY - 395	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/cmake/gtest_main.pc.in
+2020 Apr 7 15:41:34:544409 - 12023 - ENTRY - 4985	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample10_unittest.cc
+2020 Apr 7 15:41:34:544414 - 12027 - ENTRY - 15125	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/cmake/internal_utils.cmake
+2020 Apr 7 15:41:34:544422 - 12023 - ENTRY - 1892	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample1.h
+2020 Apr 7 15:41:34:544435 - 12023 - ENTRY - 5925	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample9_unittest.cc
+2020 Apr 7 15:41:34:544434 - 12027 - SEND_PIPE - 20771	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/cmake
+2020 Apr 7 15:41:34:544448 - 12023 - ENTRY - 6194	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample8_unittest.cc
+2020 Apr 7 15:41:34:544449 - 12027 - EXIT - 0
+2020 Apr 7 15:41:34:544469 - 12023 - ENTRY - 2968	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample2.h
+2020 Apr 7 15:41:34:544483 - 12023 - ENTRY - 2458	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample1.cc
+2020 Apr 7 15:41:34:544497 - 12023 - ENTRY - 2110	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample4.cc
+2020 Apr 7 15:41:34:544510 - 12023 - ENTRY - 8982	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample6_unittest.cc
+2020 Apr 7 15:41:34:544522 - 12023 - ENTRY - 6585	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample5_unittest.cc
+2020 Apr 7 15:41:34:544535 - 12023 - ENTRY - 1995	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample4_unittest.cc
+2020 Apr 7 15:41:34:544547 - 12023 - ENTRY - 4215	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/prime_tables.h
+2020 Apr 7 15:41:34:544565 - 12023 - ENTRY - 2117	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample4.h
+2020 Apr 7 15:41:34:544587 - 12023 - ENTRY - 2260	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample2.cc
+2020 Apr 7 15:41:34:544605 - 12023 - ENTRY - 5360	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples/sample3-inl.h
+2020 Apr 7 15:41:34:544654 - 12023 - SEND_PIPE - 81150	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples
+2020 Apr 7 15:41:34:544677 - 12023 - EXIT - 0
+2020 Apr 7 15:41:34:544675 - 12006 - RECV_PIPE - 81150	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/samples
+2020 Apr 7 15:41:34:544863 - 12024 - ENTRY - 8896	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/fuse_gtest_files.py
+2020 Apr 7 15:41:34:544936 - 12024 - ENTRY - 10087	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/gtest-config.in
+2020 Apr 7 15:41:34:544960 - 12024 - ENTRY - 6132	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/release_docs.py
+2020 Apr 7 15:41:34:544981 - 12024 - ENTRY - 2919	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/common.py
+2020 Apr 7 15:41:34:545168 - 12033 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/test -a -b -B 1 -L --max-depth=2147483642 
+2020 Apr 7 15:41:34:545209 - 12024 - ENTRY - 23673	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/pump.py
+2020 Apr 7 15:41:34:545200 - 12015 - ENTRY - 33025	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/src/gmock-spec-builders.cc
+2020 Apr 7 15:41:34:545249 - 12024 - ENTRY - 51084	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/upload.py
+2020 Apr 7 15:41:34:545257 - 12015 - ENTRY - 2107	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/src/gmock-all.cc
+2020 Apr 7 15:41:34:545273 - 12024 - ENTRY - 21850	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/gen_gtest_pred_impl.py
+2020 Apr 7 15:41:34:545281 - 12015 - ENTRY - 7521	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/src/gmock-internal-utils.cc
+2020 Apr 7 15:41:34:545291 - 12024 - ENTRY - 0	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/__init__.py
+2020 Apr 7 15:41:34:545300 - 12015 - ENTRY - 5262	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/src/gmock-cardinalities.cc
+2020 Apr 7 15:41:34:545310 - 12024 - ENTRY - 2851	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/upload_gtest.py
+2020 Apr 7 15:41:34:545321 - 12015 - ENTRY - 2915	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/src/gmock_main.cc
+2020 Apr 7 15:41:34:545340 - 12015 - ENTRY - 8165	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/src/gmock.cc
+2020 Apr 7 15:41:34:545409 - 12015 - ENTRY - 18038	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/src/gmock-matchers.cc
+2020 Apr 7 15:41:34:545442 - 12015 - SEND_PIPE - 81129	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/src
+2020 Apr 7 15:41:34:545459 - 12015 - EXIT - 0
+2020 Apr 7 15:41:34:545443 - 12034 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles -a -b -B 1 -L --max-depth=2147483642 
+2020 Apr 7 15:41:34:545875 - 12021 - ENTRY - 2791	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/cmake_install.cmake
+2020 Apr 7 15:41:34:545899 - 12021 - ENTRY - 19258	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/gmock.cbp
+2020 Apr 7 15:41:34:545914 - 12021 - ENTRY - 404	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CTestTestfile.cmake
+2020 Apr 7 15:41:34:545943 - 12021 - ENTRY - 10926	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/Makefile
+2020 Apr 7 15:41:34:545821 - 12019 - ENTRY - 395	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/cmake/gmock_main.pc.in
+2020 Apr 7 15:41:34:545979 - 12019 - ENTRY - 388	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/cmake/gmock.pc.in
+2020 Apr 7 15:41:34:545998 - 12019 - SEND_PIPE - 4879	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/cmake
+2020 Apr 7 15:41:34:546008 - 12019 - EXIT - 0
+2020 Apr 7 15:41:34:546005 - 12035 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock -a -b -B 1 -L --max-depth=2147483642 
+2020 Apr 7 15:41:34:546152 - 12016 - ENTRY - 676	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/CMakeFiles/CMakeDirectoryInformation.cmake
+2020 Apr 7 15:41:34:546153 - 12014 - ENTRY - 24131	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/gmock_doctor.py
+2020 Apr 7 15:41:34:546211 - 12014 - ENTRY - 11167	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/gmock-config.in
+2020 Apr 7 15:41:34:546211 - 12016 - ENTRY - 2	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/CMakeFiles/progress.marks
+2020 Apr 7 15:41:34:546233 - 12014 - ENTRY - 2833	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/upload_gmock.py
+2020 Apr 7 15:41:34:546236 - 12016 - SEND_PIPE - 4774	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/CMakeFiles
+2020 Apr 7 15:41:34:546250 - 12016 - EXIT - 0
+2020 Apr 7 15:41:34:546252 - 12014 - ENTRY - 8659	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/fuse_gmock_files.py
+2020 Apr 7 15:41:34:546365 - 12036 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator -a -b -B 1 -L --max-depth=2147483642 
+2020 Apr 7 15:41:34:546387 - 12010 - RECV_PIPE - 4774	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/CMakeFiles
+2020 Apr 7 15:41:34:546408 - 12014 - ENTRY - 51083	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/upload.py
+2020 Apr 7 15:41:34:546432 - 12014 - ENTRY - 0	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/__init__.py
+2020 Apr 7 15:41:34:546535 - 12026 - ENTRY - 2069	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_skip_in_environment_setup_test.cc
+2020 Apr 7 15:41:34:546600 - 12026 - ENTRY - 1923	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_testbridge_test_.cc
+2020 Apr 7 15:41:34:546621 - 12026 - ENTRY - 24482	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-listener-test.cc
+2020 Apr 7 15:41:34:546635 - 12026 - ENTRY - 4919	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_list_output_unittest.py
+2020 Apr 7 15:41:34:546648 - 12026 - ENTRY - 2123	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_list_output_unittest_.cc
+2020 Apr 7 15:41:34:546667 - 12026 - ENTRY - 3842	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_assert_by_exception_test.cc
+2020 Apr 7 15:41:34:546681 - 12026 - ENTRY - 6192	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_xml_output_unittest_.cc
+2020 Apr 7 15:41:34:546694 - 12026 - ENTRY - 2138	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-param-test-invalid-name2-test_.cc
+2020 Apr 7 15:41:34:546707 - 12026 - ENTRY - 5265	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-message-test.cc
+2020 Apr 7 15:41:34:546719 - 12026 - ENTRY - 10618	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_test_utils.py
+2020 Apr 7 15:41:34:546732 - 12026 - ENTRY - 3616	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-death-test_ex_test.cc
+2020 Apr 7 15:41:34:546745 - 12026 - ENTRY - 47395	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-death-test-test.cc
+2020 Apr 7 15:41:34:546758 - 12026 - ENTRY - 1675	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/production.cc
+2020 Apr 7 15:41:34:546771 - 12026 - ENTRY - 39158	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-output-test-golden-lin.txt
+2020 Apr 7 15:41:34:546784 - 12026 - ENTRY - 5822	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_help_test.py
+2020 Apr 7 15:41:34:546796 - 12026 - ENTRY - 2023	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-param-test-invalid-name1-test_.cc
+2020 Apr 7 15:41:34:546809 - 12026 - ENTRY - 250823	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_unittest.cc
+2020 Apr 7 15:41:34:546822 - 12026 - ENTRY - 3240	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-break-on-failure-unittest_.cc
+2020 Apr 7 15:41:34:546835 - 12026 - ENTRY - 5349	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_xml_outfiles_test.py
+2020 Apr 7 15:41:34:546852 - 12026 - ENTRY - 4668	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-list-tests-unittest_.cc
+2020 Apr 7 15:41:34:546868 - 12026 - ENTRY - 2175	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_sole_header_test.cc
+2020 Apr 7 15:41:34:546853 - 12017 - ENTRY - 6154	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_output_test.py
+2020 Apr 7 15:41:34:546885 - 12026 - ENTRY - 2088	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_help_test_.cc
+2020 Apr 7 15:41:34:546918 - 12026 - ENTRY - 2239	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_all_test.cc
+2020 Apr 7 15:41:34:546917 - 12017 - ENTRY - 220	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-function-mocker_nc.cc
+2020 Apr 7 15:41:34:546934 - 12026 - ENTRY - 3069	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-throw-on-failure-test_.cc
+2020 Apr 7 15:41:34:546937 - 12017 - ENTRY - 3280	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_ex_test.cc
+2020 Apr 7 15:41:34:546954 - 12026 - ENTRY - 77378	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_pred_impl_unittest.cc
+2020 Apr 7 15:41:34:546955 - 12017 - ENTRY - 2489	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_all_test.cc
+2020 Apr 7 15:41:34:546973 - 12026 - ENTRY - 2115	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/production.h
+2020 Apr 7 15:41:34:546975 - 12017 - ENTRY - 3230	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_leak_test_.cc
+2020 Apr 7 15:41:34:546986 - 12026 - ENTRY - 1955	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_xml_outfile2_test_.cc
+2020 Apr 7 15:41:34:546993 - 12017 - ENTRY - 20598	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-function-mocker_test.cc
+2020 Apr 7 15:41:34:547002 - 12026 - ENTRY - 2505	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-color-test_.cc
+2020 Apr 7 15:41:34:547011 - 12017 - ENTRY - 19589	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_link_test.h
+2020 Apr 7 15:41:34:547015 - 12026 - ENTRY - 18787	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_xml_output_unittest.py
+2020 Apr 7 15:41:34:547028 - 12026 - ENTRY - 2474	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-uninitialized-test.py
+2020 Apr 7 15:41:34:547028 - 12017 - ENTRY - 24354	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-more-actions_test.cc
+2020 Apr 7 15:41:34:546987 - 12037 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest -a -b -B 1 -L --max-depth=2147483642 
+2020 Apr 7 15:41:34:547044 - 12026 - ENTRY - 1955	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_xml_outfile1_test_.cc
+2020 Apr 7 15:41:34:547014 - 12033 - ENTRY - 1802	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/test/Makefile
+2020 Apr 7 15:41:34:547049 - 12017 - ENTRY - 4336	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_leak_test.py
+2020 Apr 7 15:41:34:547057 - 12026 - ENTRY - 2475	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_testbridge_test.py
+2020 Apr 7 15:41:34:547069 - 12026 - ENTRY - 13325	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest-unittest-api_test.cc
+2020 Apr 7 15:41:34:547067 - 12017 - ENTRY - 225554	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-matchers_test.cc
+2020 Apr 7 15:41:34:547068 - 12033 - SEND_PIPE - 5898	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/test
+2020 Apr 7 15:41:34:547082 - 12026 - ENTRY - 6466	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_environment_test.cc
+2020 Apr 7 15:41:34:547083 - 12033 - EXIT - 0
+2020 Apr 7 15:41:34:547085 - 12017 - ENTRY - 12287	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-cardinalities_test.cc
+2020 Apr 7 15:41:34:547097 - 12026 - ENTRY - 51557	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-printers-test.cc
+2020 Apr 7 15:41:34:547102 - 12017 - ENTRY - 44006	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-generated-matchers_test.cc
+2020 Apr 7 15:41:34:547110 - 12026 - ENTRY - 40232	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-port-test.cc
+2020 Apr 7 15:41:34:547122 - 12026 - ENTRY - 3466	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-filter-unittest_.cc
+2020 Apr 7 15:41:34:547124 - 12017 - ENTRY - 74770	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-spec-builders_test.cc
+2020 Apr 7 15:41:34:547134 - 12026 - ENTRY - 2813	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-param-test2-test.cc
+2020 Apr 7 15:41:34:547142 - 12017 - ENTRY - 8597	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_output_test_.cc
+2020 Apr 7 15:41:34:547156 - 12026 - ENTRY - 2379	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-param-test-invalid-name1-test.py
+2020 Apr 7 15:41:34:547162 - 12017 - ENTRY - 14433	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-nice-strict_test.cc
+2020 Apr 7 15:41:34:547169 - 12026 - ENTRY - 7418	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_repeat_test.cc
+2020 Apr 7 15:41:34:547187 - 12026 - ENTRY - 2209	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_skip_environment_check_output_test.py
+2020 Apr 7 15:41:34:547199 - 12026 - ENTRY - 3767	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_test_macro_stack_footprint_test.cc
+2020 Apr 7 15:41:34:547211 - 12026 - ENTRY - 8112	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-test-part-test.cc
+2020 Apr 7 15:41:34:547180 - 12017 - ENTRY - 26759	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-internal-utils_test.cc
+2020 Apr 7 15:41:34:547224 - 12026 - ENTRY - 12518	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-shuffle-test.py
+2020 Apr 7 15:41:34:547230 - 12017 - ENTRY - 35655	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-generated-actions_test.cc
+2020 Apr 7 15:41:34:547236 - 12026 - ENTRY - 9997	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-catch-exceptions-test.py
+2020 Apr 7 15:41:34:547248 - 12026 - ENTRY - 7301	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-break-on-failure-unittest.py
+2020 Apr 7 15:41:34:547248 - 12017 - ENTRY - 46117	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-actions_test.cc
+2020 Apr 7 15:41:34:547261 - 12026 - ENTRY - 2411	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_json_test_utils.py
+2020 Apr 7 15:41:34:547266 - 12017 - ENTRY - 1977	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-port_test.cc
+2020 Apr 7 15:41:34:547272 - 12026 - ENTRY - 12617	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-output-test.py
+2020 Apr 7 15:41:34:547284 - 12026 - ENTRY - 2403	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_no_test_unittest.cc
+2020 Apr 7 15:41:34:547285 - 12017 - ENTRY - 7287	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_stress_test.cc
+2020 Apr 7 15:41:34:547296 - 12026 - ENTRY - 3218	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-shuffle-test_.cc
+2020 Apr 7 15:41:34:547304 - 12017 - ENTRY - 13616	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_output_test_golden.txt
+2020 Apr 7 15:41:34:547308 - 12026 - ENTRY - 1979	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_skip_test.cc
+2020 Apr 7 15:41:34:547322 - 12026 - ENTRY - 38693	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-param-test-test.cc
+2020 Apr 7 15:41:34:547325 - 12017 - ENTRY - 1346	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-function-mocker_nc_test.py
+2020 Apr 7 15:41:34:547334 - 12026 - ENTRY - 2018	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest-typed-test2_test.cc
+2020 Apr 7 15:41:34:547342 - 12017 - ENTRY - 1876	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_link2_test.cc
+2020 Apr 7 15:41:34:547346 - 12026 - ENTRY - 2812	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-test2_test.cc
+2020 Apr 7 15:41:34:547359 - 12026 - ENTRY - 2445	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest-typed-test_test.h
+2020 Apr 7 15:41:34:547359 - 12017 - ENTRY - 0	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/__init__.py
+2020 Apr 7 15:41:34:547372 - 12026 - ENTRY - 22653	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-json-output-unittest.py
+2020 Apr 7 15:41:34:547377 - 12017 - ENTRY - 1876	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_link_test.cc
+2020 Apr 7 15:41:34:547384 - 12026 - ENTRY - 1878	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-uninitialized-test_.cc
+2020 Apr 7 15:41:34:547394 - 12017 - ENTRY - 6459	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_test.cc
+2020 Apr 7 15:41:34:547400 - 12026 - ENTRY - 4004	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-env-var-test.py
+2020 Apr 7 15:41:34:547412 - 12026 - ENTRY - 0	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/__init__.py
+2020 Apr 7 15:41:34:547414 - 12017 - ENTRY - 20247	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-generated-function-mockers_test.cc
+2020 Apr 7 15:41:34:547424 - 12026 - ENTRY - 37218	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-output-test_.cc
+2020 Apr 7 15:41:34:547432 - 12017 - ENTRY - 8789	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-pp-string_test.cc
+2020 Apr 7 15:41:34:547436 - 12026 - ENTRY - 5663	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-json-outfiles-test.py
+2020 Apr 7 15:41:34:547449 - 12026 - ENTRY - 2252	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-param-test-test.h
+2020 Apr 7 15:41:34:547450 - 12017 - ENTRY - 3621	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock_test_utils.py
+2020 Apr 7 15:41:34:547461 - 12026 - ENTRY - 3398	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_throw_on_failure_ex_test.cc
+2020 Apr 7 15:41:34:547468 - 12017 - ENTRY - 3081	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/gmock-pp_test.cc
+2020 Apr 7 15:41:34:547473 - 12026 - ENTRY - 1841	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_main_unittest.cc
+2020 Apr 7 15:41:34:547485 - 12026 - ENTRY - 22642	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-filepath-test.cc
+2020 Apr 7 15:41:34:547486 - 12017 - ENTRY - 3157	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test/BUILD.bazel
+2020 Apr 7 15:41:34:547499 - 12026 - ENTRY - 7854	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-options-test.cc
+2020 Apr 7 15:41:34:547511 - 12026 - ENTRY - 3476	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-env-var-test_.cc
+2020 Apr 7 15:41:34:547510 - 12017 - SEND_PIPE - 649856	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test
+2020 Apr 7 15:41:34:547523 - 12026 - ENTRY - 6522	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-list-tests-unittest.py
+2020 Apr 7 15:41:34:547524 - 12017 - EXIT - 0
+2020 Apr 7 15:41:34:547535 - 12026 - ENTRY - 4875	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-color-test.py
+2020 Apr 7 15:41:34:547547 - 12026 - ENTRY - 21445	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-filter-unittest.py
+2020 Apr 7 15:41:34:547594 - 12026 - ENTRY - 5625	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-throw-on-failure-test.py
+2020 Apr 7 15:41:34:547617 - 12026 - ENTRY - 8386	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-catch-exceptions-test_.cc
+2020 Apr 7 15:41:34:547637 - 12026 - ENTRY - 9318	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_stress_test.cc
+2020 Apr 7 15:41:34:547655 - 12026 - ENTRY - 14972	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest-typed-test_test.cc
+2020 Apr 7 15:41:34:547674 - 12026 - ENTRY - 4259	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_premature_exit_test.cc
+2020 Apr 7 15:41:34:547693 - 12026 - ENTRY - 2334	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/googletest-param-test-invalid-name2-test.py
+2020 Apr 7 15:41:34:547723 - 12026 - ENTRY - 9244	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_xml_test_utils.py
+2020 Apr 7 15:41:34:547713 - 12022 - ENTRY - 35852	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/docs/cheat_sheet.md
+2020 Apr 7 15:41:34:547735 - 12024 - RECV_PIPE - 5898	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts/test
+2020 Apr 7 15:41:34:547755 - 12026 - ENTRY - 2147	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/gtest_prod_test.cc
+2020 Apr 7 15:41:34:547765 - 12022 - ENTRY - 146571	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/docs/cook_book.md
+2020 Apr 7 15:41:34:547775 - 12026 - ENTRY - 13532	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test/BUILD.bazel
+2020 Apr 7 15:41:34:547786 - 12022 - ENTRY - 29190	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/docs/for_dummies.md
+2020 Apr 7 15:41:34:547785 - 12024 - SEND_PIPE - 137486	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts
+2020 Apr 7 15:41:34:547801 - 12024 - EXIT - 0
+2020 Apr 7 15:41:34:547803 - 12022 - ENTRY - 15115	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/docs/gmock_faq.md
+2020 Apr 7 15:41:34:547800 - 12026 - SEND_PIPE - 1006345	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test
+2020 Apr 7 15:41:34:547803 - 12006 - RECV_PIPE - 137486	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/scripts
+2020 Apr 7 15:41:34:547821 - 12026 - EXIT - 0
+2020 Apr 7 15:41:34:547824 - 12022 - SEND_PIPE - 230824	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/docs
+2020 Apr 7 15:41:34:547841 - 12022 - EXIT - 0
+2020 Apr 7 15:41:34:548219 - 12031 - ENTRY - 1129	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/docs/samples.md
+2020 Apr 7 15:41:34:548219 - 12030 - ENTRY - 37824	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/Tests/parque.cpp.o
+2020 Apr 7 15:41:34:548270 - 12031 - ENTRY - 31471	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/docs/faq.md
+2020 Apr 7 15:41:34:548277 - 12030 - ENTRY - 563640	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/Tests/tests.cpp.o
+2020 Apr 7 15:41:34:548286 - 12031 - ENTRY - 7097	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/docs/pump_manual.md
+2020 Apr 7 15:41:34:548302 - 12031 - ENTRY - 23625	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/docs/primer.md
+2020 Apr 7 15:41:34:548307 - 12030 - SEND_PIPE - 605560	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/Tests
+2020 Apr 7 15:41:34:548317 - 12031 - ENTRY - 3984	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/docs/pkgconfig.md
+2020 Apr 7 15:41:34:548323 - 12030 - EXIT - 0
+2020 Apr 7 15:41:34:548334 - 12031 - ENTRY - 96160	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/docs/advanced.md
+2020 Apr 7 15:41:34:548378 - 12031 - SEND_PIPE - 167562	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/docs
+2020 Apr 7 15:41:34:548401 - 12031 - EXIT - 0
+2020 Apr 7 15:41:34:548995 - 12038 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal -a -b -B 1 -L --max-depth=2147483641 
+2020 Apr 7 15:41:34:549063 - 12035 - ENTRY - 13071	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-function-mocker.h
+2020 Apr 7 15:41:34:549084 - 12035 - ENTRY - 8215	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-nice-strict.h
+2020 Apr 7 15:41:34:549098 - 12035 - ENTRY - 3361	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-more-matchers.h
+2020 Apr 7 15:41:34:549113 - 12035 - ENTRY - 21396	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-generated-actions.h.pump
+2020 Apr 7 15:41:34:549126 - 12035 - ENTRY - 3845	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock.h
+2020 Apr 7 15:41:34:549153 - 12035 - ENTRY - 5957	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-cardinalities.h
+2020 Apr 7 15:41:34:549168 - 12035 - ENTRY - 74462	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-spec-builders.h
+2020 Apr 7 15:41:34:549184 - 12035 - ENTRY - 8077	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-generated-function-mockers.h.pump
+2020 Apr 7 15:41:34:549197 - 12035 - ENTRY - 39578	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-actions.h
+2020 Apr 7 15:41:34:549211 - 12035 - ENTRY - 167845	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-matchers.h
+2020 Apr 7 15:41:34:549225 - 12035 - ENTRY - 6145	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-more-actions.h
+2020 Apr 7 15:41:34:549238 - 12035 - ENTRY - 39057	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-generated-function-mockers.h
+2020 Apr 7 15:41:34:549251 - 12035 - ENTRY - 85417	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-generated-actions.h
+2020 Apr 7 15:41:34:549264 - 12035 - ENTRY - 12839	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-generated-matchers.h.pump
+2020 Apr 7 15:41:34:549278 - 12035 - ENTRY - 45580	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/gmock-generated-matchers.h
+2020 Apr 7 15:41:34:549317 - 12009 - RECV_PIPE - 605560	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir/Tests
+2020 Apr 7 15:41:34:549419 - 12009 - SEND_PIPE - 814970	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir
+2020 Apr 7 15:41:34:549349 - 12039 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdC/tmp -a -b -B 1 -L --max-depth=2147483642 
+2020 Apr 7 15:41:34:549446 - 12009 - EXIT - 0
+2020 Apr 7 15:41:34:549433 - 12003 - RECV_PIPE - 814970	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/aeda1920_fp01.dir
+2020 Apr 7 15:41:34:549464 - 12029 - ENTRY - 20055	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdC/CMakeCCompilerId.c
+2020 Apr 7 15:41:34:549485 - 12029 - ENTRY - 16704	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdC/a.out
+2020 Apr 7 15:41:34:549488 - 12003 - RECV_PIPE - 4123	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/Progress
+2020 Apr 7 15:41:34:550007 - 12036 - ENTRY - 4216	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/README.cppclean
+2020 Apr 7 15:41:34:550125 - 12040 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/cpp -a -b -B 1 -L --max-depth=2147483641 
+2020 Apr 7 15:41:34:550159 - 12036 - ENTRY - 0	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/__init__.py
+2020 Apr 7 15:41:34:550177 - 12036 - ENTRY - 1327	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/README
+2020 Apr 7 15:41:34:550192 - 12036 - ENTRY - 11386	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/LICENSE
+2020 Apr 7 15:41:34:550204 - 12036 - ENTRY - 1091	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/gmock_gen.py
+2020 Apr 7 15:41:34:550237 - 12041 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal -a -b -B 1 -L --max-depth=2147483641 
+2020 Apr 7 15:41:34:550303 - 12037 - ENTRY - 14343	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/gtest-death-test.h
+2020 Apr 7 15:41:34:550270 - 12042 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdCXX/tmp -a -b -B 1 -L --max-depth=2147483642 
+2020 Apr 7 15:41:34:550333 - 12037 - ENTRY - 10097	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/gtest-spi.h
+2020 Apr 7 15:41:34:550341 - 12032 - ENTRY - 16712	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdCXX/a.out
+2020 Apr 7 15:41:34:550354 - 12037 - ENTRY - 8011	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/gtest-message.h
+2020 Apr 7 15:41:34:550370 - 12032 - ENTRY - 19591	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdCXX/CMakeCXXCompilerId.cpp
+2020 Apr 7 15:41:34:550371 - 12037 - ENTRY - 15395	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/gtest-typed-test.h
+2020 Apr 7 15:41:34:550389 - 12037 - ENTRY - 26991	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/gtest-matchers.h
+2020 Apr 7 15:41:34:550406 - 12037 - ENTRY - 22198	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/gtest-param-test.h
+2020 Apr 7 15:41:34:550425 - 12037 - ENTRY - 93571	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/gtest.h
+2020 Apr 7 15:41:34:550441 - 12037 - ENTRY - 14850	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/gtest_pred_impl.h
+2020 Apr 7 15:41:34:550458 - 12037 - ENTRY - 6793	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/gtest-test-part.h
+2020 Apr 7 15:41:34:550476 - 12037 - ENTRY - 34029	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/gtest-printers.h
+2020 Apr 7 15:41:34:550518 - 12037 - ENTRY - 2519	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/gtest_prod.h
+2020 Apr 7 15:41:34:550837 - 12043 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir -a -b -B 1 -L --max-depth=2147483641 
+2020 Apr 7 15:41:34:550890 - 12034 - ENTRY - 676	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/CMakeDirectoryInformation.cmake
+2020 Apr 7 15:41:34:550910 - 12034 - ENTRY - 2	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/progress.marks
+2020 Apr 7 15:41:34:550943 - 12038 - ENTRY - 15473	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal/gmock-pp.h
+2020 Apr 7 15:41:34:550981 - 12038 - ENTRY - 3813	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal/gmock-port.h
+2020 Apr 7 15:41:34:550976 - 12025 - ENTRY - 46449	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src/gtest-port.cc
+2020 Apr 7 15:41:34:551016 - 12025 - ENTRY - 3709	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src/gtest-matchers.cc
+2020 Apr 7 15:41:34:551031 - 12025 - ENTRY - 14221	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src/gtest-filepath.cc
+2020 Apr 7 15:41:34:551045 - 12025 - ENTRY - 2160	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src/gtest-all.cc
+2020 Apr 7 15:41:34:551059 - 12025 - ENTRY - 4010	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src/gtest-test-part.cc
+2020 Apr 7 15:41:34:551030 - 12044 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir -a -b -B 1 -L --max-depth=2147483641 
+2020 Apr 7 15:41:34:551072 - 12025 - ENTRY - 3923	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src/gtest-typed-test.cc
+2020 Apr 7 15:41:34:551084 - 12025 - ENTRY - 46926	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src/gtest-internal-inl.h
+2020 Apr 7 15:41:34:551077 - 12045 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal/custom -a -b -B 1 -L --max-depth=2147483640 
+2020 Apr 7 15:41:34:551096 - 12025 - ENTRY - 62175	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src/gtest-death-test.cc
+2020 Apr 7 15:41:34:551114 - 12038 - ENTRY - 20721	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal/gmock-internal-utils.h
+2020 Apr 7 15:41:34:551117 - 12025 - ENTRY - 14711	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src/gtest-printers.cc
+2020 Apr 7 15:41:34:551129 - 12025 - ENTRY - 225892	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src/gtest.cc
+2020 Apr 7 15:41:34:551141 - 12025 - ENTRY - 1872	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src/gtest_main.cc
+2020 Apr 7 15:41:34:551166 - 12006 - RECV_PIPE - 430144	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src
+2020 Apr 7 15:41:34:551204 - 12006 - RECV_PIPE - 1006345	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/test
+2020 Apr 7 15:41:34:551228 - 12025 - SEND_PIPE - 430144	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/src
+2020 Apr 7 15:41:34:551243 - 12025 - EXIT - 0
+2020 Apr 7 15:41:34:551326 - 12006 - RECV_PIPE - 20771	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/cmake
+2020 Apr 7 15:41:34:551581 - 12039 - SEND_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdC/tmp
+2020 Apr 7 15:41:34:551623 - 12039 - EXIT - 0
+2020 Apr 7 15:41:34:551611 - 12046 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles -a -b -B 1 -L --max-depth=2147483642 
+2020 Apr 7 15:41:34:551664 - 12018 - ENTRY - 4468	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/cmake_install.cmake
+2020 Apr 7 15:41:34:551685 - 12018 - ENTRY - 379	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CTestTestfile.cmake
+2020 Apr 7 15:41:34:551745 - 12029 - RECV_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdC/tmp
+2020 Apr 7 15:41:34:551788 - 12029 - SEND_PIPE - 44951	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdC
+2020 Apr 7 15:41:34:551800 - 12029 - EXIT - 0
+2020 Apr 7 15:41:34:551892 - 12012 - RECV_PIPE - 44951	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdC
+2020 Apr 7 15:41:34:551700 - 12018 - ENTRY - 10926	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/gtest.cbp
+2020 Apr 7 15:41:34:551955 - 12018 - ENTRY - 10926	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/Makefile
+2020 Apr 7 15:41:34:552046 - 12047 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/generated -a -b -B 1 -L --max-depth=2147483642 
+2020 Apr 7 15:41:34:552143 - 12041 - ENTRY - 80086	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/gtest-port.h
+2020 Apr 7 15:41:34:552186 - 12041 - ENTRY - 3963	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/gtest-port-arch.h
+2020 Apr 7 15:41:34:552202 - 12041 - ENTRY - 54337	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/gtest-internal.h
+2020 Apr 7 15:41:34:552215 - 12041 - ENTRY - 9716	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/gtest-type-util.h.pump
+2020 Apr 7 15:41:34:552306 - 12048 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/custom -a -b -B 1 -L --max-depth=2147483640 
+2020 Apr 7 15:41:34:552337 - 12041 - ENTRY - 9752	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/gtest-filepath.h
+2020 Apr 7 15:41:34:552355 - 12041 - ENTRY - 186064	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/gtest-type-util.h
+2020 Apr 7 15:41:34:552377 - 12041 - ENTRY - 13436	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/gtest-death-test-internal.h
+2020 Apr 7 15:41:34:552391 - 12041 - ENTRY - 33066	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/gtest-param-util.h
+2020 Apr 7 15:41:34:552405 - 12041 - ENTRY - 7005	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/gtest-string.h
+2020 Apr 7 15:41:34:552866 - 12042 - SEND_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdCXX/tmp
+2020 Apr 7 15:41:34:552903 - 12042 - EXIT - 0
+2020 Apr 7 15:41:34:553013 - 12032 - RECV_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdCXX/tmp
+2020 Apr 7 15:41:34:553050 - 12032 - SEND_PIPE - 44495	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdCXX
+2020 Apr 7 15:41:34:553061 - 12032 - EXIT - 0
+2020 Apr 7 15:41:34:553212 - 12012 - RECV_PIPE - 44495	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdCXX
+2020 Apr 7 15:41:34:553252 - 12012 - SEND_PIPE - 134665	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5
+2020 Apr 7 15:41:34:553293 - 12012 - EXIT - 0
+2020 Apr 7 15:41:34:553291 - 12003 - RECV_PIPE - 134665	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/3.14.5
+2020 Apr 7 15:41:34:553430 - 12003 - RECV_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles/CMakeTmp
+2020 Apr 7 15:41:34:553466 - 12003 - SEND_PIPE - 1087831	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles
+2020 Apr 7 15:41:34:553478 - 12003 - EXIT - 0
+2020 Apr 7 15:41:34:553488 - 12000 - RECV_PIPE - 1087831	../../../../Downloads/aeda1920_fp01/cmake-build-debug/CMakeFiles
+2020 Apr 7 15:41:34:553613 - 12000 - RECV_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/bin
+2020 Apr 7 15:41:34:554035 - 12044 - ENTRY - 5751	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir/build.make
+2020 Apr 7 15:41:34:554079 - 12044 - ENTRY - 89	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir/depend.make
+2020 Apr 7 15:41:34:554094 - 12044 - ENTRY - 43	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir/progress.make
+2020 Apr 7 15:41:34:554108 - 12044 - ENTRY - 108	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir/link.txt
+2020 Apr 7 15:41:34:554121 - 12044 - ENTRY - 44	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir/cmake_clean_target.cmake
+2020 Apr 7 15:41:34:554239 - 12049 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir/src -a -b -B 1 -L --max-depth=2147483640 
+2020 Apr 7 15:41:34:554270 - 12044 - ENTRY - 1003	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir/DependInfo.cmake
+2020 Apr 7 15:41:34:554287 - 12044 - ENTRY - 271	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir/cmake_clean.cmake
+2020 Apr 7 15:41:34:554302 - 12044 - ENTRY - 677	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir/flags.make
+2020 Apr 7 15:41:34:554644 - 12040 - ENTRY - 1153	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/cpp/utils.py
+2020 Apr 7 15:41:34:554684 - 12040 - ENTRY - 8293	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/cpp/gmock_class.py
+2020 Apr 7 15:41:34:554698 - 12040 - ENTRY - 11712	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/cpp/gmock_class_test.py
+2020 Apr 7 15:41:34:554712 - 12040 - ENTRY - 9752	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/cpp/tokenize.py
+2020 Apr 7 15:41:34:554732 - 12040 - ENTRY - 62925	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/cpp/ast.py
+2020 Apr 7 15:41:34:554746 - 12040 - ENTRY - 2004	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/cpp/keywords.py
+2020 Apr 7 15:41:34:554758 - 12040 - ENTRY - 0	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/cpp/__init__.py
+2020 Apr 7 15:41:34:554773 - 12040 - SEND_PIPE - 99935	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/cpp
+2020 Apr 7 15:41:34:554784 - 12040 - EXIT - 0
+2020 Apr 7 15:41:34:554909 - 12036 - RECV_PIPE - 99935	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator/cpp
+2020 Apr 7 15:41:34:554956 - 12036 - SEND_PIPE - 122051	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator
+2020 Apr 7 15:41:34:554967 - 12036 - EXIT - 0
+2020 Apr 7 15:41:34:555297 - 12045 - ENTRY - 1894	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal/custom/gmock-port.h
+2020 Apr 7 15:41:34:555336 - 12045 - ENTRY - 451	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal/custom/gmock-generated-actions.h.pump
+2020 Apr 7 15:41:34:555354 - 12045 - ENTRY - 1861	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal/custom/gmock-matchers.h
+2020 Apr 7 15:41:34:555390 - 12045 - ENTRY - 365	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal/custom/gmock-generated-actions.h
+2020 Apr 7 15:41:34:555403 - 12045 - ENTRY - 439	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal/custom/README.md
+2020 Apr 7 15:41:34:555419 - 12045 - SEND_PIPE - 9106	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal/custom
+2020 Apr 7 15:41:34:555432 - 12045 - EXIT - 0
+2020 Apr 7 15:41:34:555486 - 12047 - ENTRY - 304	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/generated/gmock.pc
+2020 Apr 7 15:41:34:555526 - 12047 - ENTRY - 311	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/generated/gtest_main.pc
+2020 Apr 7 15:41:34:555540 - 12047 - ENTRY - 1073	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/generated/GTestConfig.cmake
+2020 Apr 7 15:41:34:555553 - 12047 - ENTRY - 288	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/generated/gtest.pc
+2020 Apr 7 15:41:34:555564 - 12047 - ENTRY - 311	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/generated/gmock_main.pc
+2020 Apr 7 15:41:34:555576 - 12047 - ENTRY - 1386	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/generated/GTestConfigVersion.cmake
+2020 Apr 7 15:41:34:555592 - 12047 - SEND_PIPE - 7769	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/generated
+2020 Apr 7 15:41:34:555602 - 12047 - EXIT - 0
+2020 Apr 7 15:41:34:555910 - 12048 - ENTRY - 1858	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/custom/gtest-port.h
+2020 Apr 7 15:41:34:555949 - 12048 - ENTRY - 1843	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/custom/gtest.h
+2020 Apr 7 15:41:34:555932 - 12043 - ENTRY - 5952	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/build.make
+2020 Apr 7 15:41:34:555963 - 12048 - ENTRY - 2079	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/custom/gtest-printers.h
+2020 Apr 7 15:41:34:555970 - 12043 - ENTRY - 94	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/depend.make
+2020 Apr 7 15:41:34:555976 - 12048 - ENTRY - 1682	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/custom/README.md
+2020 Apr 7 15:41:34:555990 - 12043 - ENTRY - 43	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/progress.make
+2020 Apr 7 15:41:34:555994 - 12048 - SEND_PIPE - 11558	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/custom
+2020 Apr 7 15:41:34:556002 - 12043 - ENTRY - 124	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/link.txt
+2020 Apr 7 15:41:34:556004 - 12048 - EXIT - 0
+2020 Apr 7 15:41:34:556014 - 12043 - ENTRY - 49	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/cmake_clean_target.cmake
+2020 Apr 7 15:41:34:556102 - 12050 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/src -a -b -B 1 -L --max-depth=2147483640 
+2020 Apr 7 15:41:34:556130 - 12043 - ENTRY - 1145	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/DependInfo.cmake
+2020 Apr 7 15:41:34:556146 - 12043 - ENTRY - 292	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/cmake_clean.cmake
+2020 Apr 7 15:41:34:556162 - 12043 - ENTRY - 691	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/flags.make
+2020 Apr 7 15:41:34:556638 - 12051 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir -a -b -B 1 -L --max-depth=2147483641 
+2020 Apr 7 15:41:34:556691 - 12046 - ENTRY - 676	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/CMakeDirectoryInformation.cmake
+2020 Apr 7 15:41:34:556777 - 12052 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export -a -b -B 1 -L --max-depth=2147483641 
+2020 Apr 7 15:41:34:557082 - 12053 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir -a -b -B 1 -L --max-depth=2147483641 
+2020 Apr 7 15:41:34:557117 - 12046 - ENTRY - 2	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/progress.marks
+2020 Apr 7 15:41:34:557109 - 12049 - SEND_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir/src
+2020 Apr 7 15:41:34:557144 - 12049 - EXIT - 0
+2020 Apr 7 15:41:34:557250 - 12014 - RECV_PIPE - 122051	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts/generator
+2020 Apr 7 15:41:34:557257 - 12044 - RECV_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir/src
+2020 Apr 7 15:41:34:557294 - 12044 - SEND_PIPE - 16178	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir
+2020 Apr 7 15:41:34:557301 - 12008 - RECV_PIPE - 224020	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts
+2020 Apr 7 15:41:34:557306 - 12044 - EXIT - 0
+2020 Apr 7 15:41:34:557400 - 12008 - RECV_PIPE - 81129	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/src
+2020 Apr 7 15:41:34:557419 - 12008 - RECV_PIPE - 649856	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/test
+2020 Apr 7 15:41:34:557440 - 12008 - RECV_PIPE - 4879	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/cmake
+2020 Apr 7 15:41:34:557459 - 12014 - SEND_PIPE - 224020	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/scripts
+2020 Apr 7 15:41:34:557495 - 12038 - RECV_PIPE - 9106	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal/custom
+2020 Apr 7 15:41:34:557516 - 12014 - EXIT - 0
+2020 Apr 7 15:41:34:557507 - 12054 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export/lib -a -b -B 1 -L --max-depth=2147483640 
+2020 Apr 7 15:41:34:557566 - 12038 - SEND_PIPE - 53209	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal
+2020 Apr 7 15:41:34:557585 - 12038 - EXIT - 0
+2020 Apr 7 15:41:34:557725 - 12041 - RECV_PIPE - 11558	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal/custom
+2020 Apr 7 15:41:34:557782 - 12041 - SEND_PIPE - 413079	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal
+2020 Apr 7 15:41:34:557797 - 12041 - EXIT - 0
+2020 Apr 7 15:41:34:558138 - 12050 - SEND_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/src
+2020 Apr 7 15:41:34:558174 - 12050 - EXIT - 0
+2020 Apr 7 15:41:34:558259 - 12043 - RECV_PIPE - 4096	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir/src
+2020 Apr 7 15:41:34:558337 - 12043 - SEND_PIPE - 16582	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir
+2020 Apr 7 15:41:34:558354 - 12043 - EXIT - 0
+2020 Apr 7 15:41:34:558454 - 12034 - RECV_PIPE - 16582	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock_main.dir
+2020 Apr 7 15:41:34:558502 - 12034 - RECV_PIPE - 16178	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles/gmock.dir
+2020 Apr 7 15:41:34:558524 - 12034 - SEND_PIPE - 37534	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles
+2020 Apr 7 15:41:34:558534 - 12034 - EXIT - 0
+2020 Apr 7 15:41:34:558422 - 12051 - ENTRY - 5952	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/build.make
+2020 Apr 7 15:41:34:558585 - 12051 - ENTRY - 3278	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/depend.make
+2020 Apr 7 15:41:34:558607 - 12051 - ENTRY - 45	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/progress.make
+2020 Apr 7 15:41:34:558623 - 12051 - ENTRY - 124	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/link.txt
+2020 Apr 7 15:41:34:558640 - 12051 - ENTRY - 49	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/cmake_clean_target.cmake
+2020 Apr 7 15:41:34:558665 - 12021 - RECV_PIPE - 37534	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock/CMakeFiles
+2020 Apr 7 15:41:34:558723 - 12021 - SEND_PIPE - 75009	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock
+2020 Apr 7 15:41:34:558740 - 12021 - EXIT - 0
+2020 Apr 7 15:41:34:558755 - 12055 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/src -a -b -B 1 -L --max-depth=2147483640 
+2020 Apr 7 15:41:34:558804 - 12051 - ENTRY - 922	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/DependInfo.cmake
+2020 Apr 7 15:41:34:558828 - 12051 - ENTRY - 292	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/cmake_clean.cmake
+2020 Apr 7 15:41:34:558844 - 12051 - ENTRY - 7613	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/CXX.includecache
+2020 Apr 7 15:41:34:558894 - 12051 - ENTRY - 1736	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/depend.internal
+2020 Apr 7 15:41:34:558931 - 12051 - ENTRY - 515	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/flags.make
+2020 Apr 7 15:41:34:559012 - 12053 - ENTRY - 5751	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/build.make
+2020 Apr 7 15:41:34:559032 - 12035 - RECV_PIPE - 53209	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock/internal
+2020 Apr 7 15:41:34:559055 - 12053 - ENTRY - 4618	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/depend.make
+2020 Apr 7 15:41:34:559079 - 12035 - SEND_PIPE - 592150	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock
+2020 Apr 7 15:41:34:559073 - 12053 - ENTRY - 44	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/progress.make
+2020 Apr 7 15:41:34:559093 - 12035 - EXIT - 0
+2020 Apr 7 15:41:34:559101 - 12053 - ENTRY - 108	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/link.txt
+2020 Apr 7 15:41:34:559129 - 12053 - ENTRY - 44	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/cmake_clean_target.cmake
+2020 Apr 7 15:41:34:559154 - 12056 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export/lib/cmake -a -b -B 1 -L --max-depth=2147483639 
+2020 Apr 7 15:41:34:559205 - 12020 - RECV_PIPE - 592150	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include/gmock
+2020 Apr 7 15:41:34:559251 - 12020 - SEND_PIPE - 596246	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include
+2020 Apr 7 15:41:34:559247 - 12057 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/src -a -b -B 1 -L --max-depth=2147483640 
+2020 Apr 7 15:41:34:559279 - 12008 - RECV_PIPE - 596246	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/include
+2020 Apr 7 15:41:34:559286 - 12020 - EXIT - 0
+2020 Apr 7 15:41:34:559309 - 12053 - ENTRY - 780	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/DependInfo.cmake
+2020 Apr 7 15:41:34:559355 - 12053 - ENTRY - 271	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/cmake_clean.cmake
+2020 Apr 7 15:41:34:559380 - 12053 - ENTRY - 14035	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/CXX.includecache
+2020 Apr 7 15:41:34:559394 - 12053 - ENTRY - 2393	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/depend.internal
+2020 Apr 7 15:41:34:559407 - 12053 - ENTRY - 501	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/flags.make
+2020 Apr 7 15:41:34:559415 - 12008 - RECV_PIPE - 230824	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock/docs
+2020 Apr 7 15:41:34:559416 - 12037 - RECV_PIPE - 413079	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest/internal
+2020 Apr 7 15:41:34:559450 - 12008 - SEND_PIPE - 1804152	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock
+2020 Apr 7 15:41:34:559454 - 12037 - SEND_PIPE - 665972	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest
+2020 Apr 7 15:41:34:559462 - 12008 - EXIT - 0
+2020 Apr 7 15:41:34:559467 - 12037 - EXIT - 0
+2020 Apr 7 15:41:34:559614 - 12028 - RECV_PIPE - 665972	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include/gtest
+2020 Apr 7 15:41:34:559671 - 12028 - SEND_PIPE - 670068	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include
+2020 Apr 7 15:41:34:559691 - 12028 - EXIT - 0
+2020 Apr 7 15:41:34:559825 - 12006 - RECV_PIPE - 670068	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/include
+2020 Apr 7 15:41:34:559881 - 12006 - RECV_PIPE - 167562	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest/docs
+2020 Apr 7 15:41:34:559911 - 12006 - SEND_PIPE - 2542410	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest
+2020 Apr 7 15:41:34:559927 - 12006 - EXIT - 0
+2020 Apr 7 15:41:34:559982 - 12057 - ENTRY - 4166272	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+2020 Apr 7 15:41:34:560045 - 12057 - SEND_PIPE - 4170368	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/src
+2020 Apr 7 15:41:34:560028 - 12055 - ENTRY - 113416	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+2020 Apr 7 15:41:34:560062 - 12057 - EXIT - 0
+2020 Apr 7 15:41:34:560088 - 12055 - SEND_PIPE - 117512	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/src
+2020 Apr 7 15:41:34:560107 - 12055 - EXIT - 0
+2020 Apr 7 15:41:34:560103 - 12002 - RECV_PIPE - 2542410	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googletest
+2020 Apr 7 15:41:34:560165 - 12002 - RECV_PIPE - 19531	../../../../Downloads/aeda1920_fp01/lib/googletest-master/ci
+2020 Apr 7 15:41:34:560196 - 12002 - RECV_PIPE - 1804152	../../../../Downloads/aeda1920_fp01/lib/googletest-master/googlemock
+2020 Apr 7 15:41:34:560165 - 12058 - CREATE - ./simpledu -l ../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export/lib/cmake/GTest -a -b -B 1 -L --max-depth=2147483638 
+2020 Apr 7 15:41:34:560222 - 12002 - SEND_PIPE - 4402578	../../../../Downloads/aeda1920_fp01/lib/googletest-master
+2020 Apr 7 15:41:34:560272 - 12002 - EXIT - 0
+2020 Apr 7 15:41:34:560298 - 12053 - RECV_PIPE - 4170368	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir/src
+2020 Apr 7 15:41:34:560306 - 12051 - RECV_PIPE - 117512	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir/src
+2020 Apr 7 15:41:34:560348 - 12053 - SEND_PIPE - 4203009	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir
+2020 Apr 7 15:41:34:560350 - 12051 - SEND_PIPE - 142134	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir
+2020 Apr 7 15:41:34:560365 - 12051 - EXIT - 0
+2020 Apr 7 15:41:34:560364 - 12053 - EXIT - 0
+2020 Apr 7 15:41:34:560453 - 11999 - RECV_PIPE - 4402578	../../../../Downloads/aeda1920_fp01/lib/googletest-master
+2020 Apr 7 15:41:34:560484 - 12046 - RECV_PIPE - 142134	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest_main.dir
+2020 Apr 7 15:41:34:560511 - 11999 - SEND_PIPE - 4406674	../../../../Downloads/aeda1920_fp01/lib
+2020 Apr 7 15:41:34:560531 - 11999 - EXIT - 0
+2020 Apr 7 15:41:34:560539 - 11997 - RECV_PIPE - 4406674	../../../../Downloads/aeda1920_fp01/lib
+2020 Apr 7 15:41:34:560854 - 12058 - ENTRY - 2469	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export/lib/cmake/GTest/GTestTargets-debug.cmake
+2020 Apr 7 15:41:34:560972 - 12058 - ENTRY - 4159	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export/lib/cmake/GTest/GTestTargets.cmake
+2020 Apr 7 15:41:34:561011 - 12058 - SEND_PIPE - 10724	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export/lib/cmake/GTest
+2020 Apr 7 15:41:34:561034 - 12058 - EXIT - 0
+2020 Apr 7 15:41:34:561296 - 12056 - RECV_PIPE - 10724	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export/lib/cmake/GTest
+2020 Apr 7 15:41:34:561354 - 12056 - SEND_PIPE - 14820	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export/lib/cmake
+2020 Apr 7 15:41:34:561379 - 12056 - EXIT - 0
+2020 Apr 7 15:41:34:561529 - 12054 - RECV_PIPE - 14820	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export/lib/cmake
+2020 Apr 7 15:41:34:561574 - 12054 - SEND_PIPE - 18916	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export/lib
+2020 Apr 7 15:41:34:561587 - 12054 - EXIT - 0
+2020 Apr 7 15:41:34:561769 - 12052 - RECV_PIPE - 18916	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export/lib
+2020 Apr 7 15:41:34:561827 - 12052 - SEND_PIPE - 23012	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export
+2020 Apr 7 15:41:34:561841 - 12052 - EXIT - 0
+2020 Apr 7 15:41:34:561857 - 12046 - RECV_PIPE - 23012	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/Export
+2020 Apr 7 15:41:34:561986 - 12046 - RECV_PIPE - 4203009	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles/gtest.dir
+2020 Apr 7 15:41:34:562060 - 12046 - SEND_PIPE - 4372929	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles
+2020 Apr 7 15:41:34:562071 - 12046 - EXIT - 0
+2020 Apr 7 15:41:34:562200 - 12018 - RECV_PIPE - 4372929	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/CMakeFiles
+2020 Apr 7 15:41:34:562258 - 12018 - RECV_PIPE - 7769	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest/generated
+2020 Apr 7 15:41:34:562284 - 12018 - SEND_PIPE - 4411493	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest
+2020 Apr 7 15:41:34:562297 - 12018 - EXIT - 0
+2020 Apr 7 15:41:34:562308 - 12010 - RECV_PIPE - 4411493	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googletest
+2020 Apr 7 15:41:34:562424 - 12010 - RECV_PIPE - 75009	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master/googlemock
+2020 Apr 7 15:41:34:562488 - 12010 - SEND_PIPE - 4523320	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master
+2020 Apr 7 15:41:34:562499 - 12010 - EXIT - 0
+2020 Apr 7 15:41:34:562664 - 12005 - RECV_PIPE - 4523320	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib/googletest-master
+2020 Apr 7 15:41:34:562715 - 12005 - SEND_PIPE - 9074648	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib
+2020 Apr 7 15:41:34:562728 - 12005 - EXIT - 0
+2020 Apr 7 15:41:34:562913 - 12000 - RECV_PIPE - 9074648	../../../../Downloads/aeda1920_fp01/cmake-build-debug/lib
+2020 Apr 7 15:41:34:562994 - 12000 - SEND_PIPE - 10263071	../../../../Downloads/aeda1920_fp01/cmake-build-debug
+2020 Apr 7 15:41:34:563006 - 12000 - EXIT - 0
+2020 Apr 7 15:41:34:563135 - 11997 - RECV_PIPE - 10263071	../../../../Downloads/aeda1920_fp01/cmake-build-debug
+2020 Apr 7 15:41:34:563232 - 11997 - RECV_PIPE - 8332	../../../../Downloads/aeda1920_fp01/Tests
+2020 Apr 7 15:41:34:563270 - 11997 - SEND_PIPE - 14692680	../../../../Downloads/aeda1920_fp01
+2020 Apr 7 15:41:34:563281 - 11997 - EXIT - 0
+2020 Apr 7 15:41:34:569657 - 11996 - RECV_PIPE - 14692680	../../../../Downloads/aeda1920_fp01
+2020 Apr 7 15:41:34:569784 - 11996 - EXIT - 0
