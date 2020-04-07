@@ -199,6 +199,36 @@ int isDirectory(const char *path) {
     return S_ISDIR(statbuf.st_mode);
 }
 
+
+void processStringsWithSlash(char* string) {
+    int allSlashes = true;
+    int i;
+
+    if (strlen(string) == 1 && string[0] == '/') { // verifica se a string é "/"
+        return;
+    }
+
+    for (i = 0; i < strlen(string); i++) { // verifica se a string só é composta por /
+        if (string[i] != '/') {
+            allSlashes = false;
+        }
+    }
+    if (!allSlashes) {
+        for (i = strlen(string) - 1; i >= 0; i--) { // remove todos os / do fim da string
+            if (string[i] != '/') {
+                break;
+            }
+            else {
+                string[i] = '\0';
+            }
+        }
+    }
+    else {
+        string[0] = '/';
+        string[1] = '\0';
+    }
+}
+
 /**
  * Verifica se os argumentos passados na linha de comandos estão corretos.
  * Retorna 1 se está tudo OK, 0 caso haja algum erro.
@@ -286,6 +316,7 @@ int checkArguments(Arguments* arguments, int argc, char* argv[]) {
         else /*if (strstr(argv[i], ".") != NULL || strstr(argv[i], "/") != NULL) */{
             // se passarmos ~ como path, é convertido automaticamente para "/home/user" 	            
             if (isDirectory(argv[i])) {
+                processStringsWithSlash(argv[i]);
                 arguments->path = argv[i];
             }
             else {
