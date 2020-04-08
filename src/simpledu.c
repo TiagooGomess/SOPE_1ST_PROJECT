@@ -36,78 +36,6 @@ enum log_action {
     CREATE, EXIT, RECV_SIGNAL, SEND_SIGNAL, RECV_PIPE, SEND_PIPE, ENTRY
 };
 
-char *getLogActionName(enum log_action action) {
-    switch (action) {
-        case CREATE: return "CREATE";
-        case EXIT: return "EXIT";
-        case RECV_SIGNAL: return "RECV_SIGNAL";
-        case SEND_SIGNAL: return "SEND_SIGNAL";
-        case RECV_PIPE: return "RECV_PIPE";
-        case SEND_PIPE: return "SEND_PIPE";
-        case ENTRY: return "ENTRY";
-    }
-    return "";
-}
-
-/**
- * Regista uma ação no log_file.
- */
-void logInfo(int pid, enum log_action action, char *info) {
-    struct timeval t;
-    time_t a;
-    time(&a);
-    gettimeofday(&t, NULL);
-    char * str_instant = ctime(&a);
-    int str_size = strlen(str_instant);
-    str_instant[0] = str_instant[str_size - 5];
-    str_instant[1] = str_instant[str_size - 4];
-    str_instant[2] = str_instant[str_size - 3];
-    str_instant[3] = str_instant[str_size - 2];
-    str_instant[7] = str_instant[6];
-    str_instant[6] = str_instant[5];
-    str_instant[5] = str_instant[4];
-    str_instant[4] = ' ';
-    str_instant[str_size - 6] = ':';
-    str_instant[str_size - 5] = 0;
-    int micro_s = (t.tv_usec) % 1000000;
-    char micro[8];
-    if (micro_s < 100000)
-        sprintf(micro, "0%d", micro_s);
-    else if (micro_s < 10000)
-        sprintf(micro, "00%d", micro_s);
-    else if (micro_s < 1000)
-        sprintf(micro, "000%d", micro_s);
-    else if (micro_s < 100)
-        sprintf(micro, "0000%d", micro_s);
-    else if (micro_s < 10)
-        sprintf(micro, "00000%d", micro_s);
-    else
-        sprintf(micro, "%d", micro_s);
-    strcat(str_instant, micro);
-    
-
-    char str_to_print[FILENAME_MAX_LEN * 3];
-    int size = sprintf(str_to_print, "%s - %d - %s - %s\n", str_instant, pid, getLogActionName(action), info);
-
-    char logPath[PATH_MAX_LEN];
-    getcwd(logPath, PATH_MAX_LEN);
-    strcat(logPath, "/log.txt");
-
-    chmod(logPath, 0666);
-    log_file_fd = open(logPath, O_WRONLY | O_APPEND);
-    write(log_file_fd, str_to_print, size);
-    close(log_file_fd);
-}
-
-char *strArrToStr(char *arr[]) {
-    char *str = malloc(4096);
-    for (int i = 0; arr[i] != NULL; i++) {
-        strcat(str, arr[i]);
-        strcat(str, " ");
-    }
-    return str;
-}
-
 /**
  * Se um elemento do tipo int da struct não foi especificado nos argumentos da linha de comandos, fica
  * a 0 ou com um valor default. Caso seja especificado, fica a 1 ou com o valor especificado.
@@ -147,6 +75,81 @@ void initializeArgumentsStruct(Arguments* arguments) {
     arguments->defaultDisplay = true;
     arguments->pathEndsWithSlash = false;
 }
+
+char *getLogActionName(enum log_action action) {
+    switch (action) {
+        case CREATE: return "CREATE";
+        case EXIT: return "EXIT";
+        case RECV_SIGNAL: return "RECV_SIGNAL";
+        case SEND_SIGNAL: return "SEND_SIGNAL";
+        case RECV_PIPE: return "RECV_PIPE";
+        case SEND_PIPE: return "SEND_PIPE";
+        case ENTRY: return "ENTRY";
+    }
+    return "";
+}
+
+/**
+ * Regista uma ação no log_file.
+ */
+void logInfo(int pid, enum log_action action, char *info, Arguments *arguments) {
+    struct timeval t;
+    time_t a;
+    time(&a);
+    gettimeofday(&t, NULL);
+    char * str_instant = ctime(&a);
+    int str_size = strlen(str_instant);
+    str_instant[0] = str_instant[str_size - 5];
+    str_instant[1] = str_instant[str_size - 4];
+    str_instant[2] = str_instant[str_size - 3];
+    str_instant[3] = str_instant[str_size - 2];
+    str_instant[7] = str_instant[6];
+    str_instant[6] = str_instant[5];
+    str_instant[5] = str_instant[4];
+    str_instant[4] = ' ';
+    str_instant[str_size - 6] = ':';
+    str_instant[str_size - 5] = 0;
+    int micro_s = (t.tv_usec) % 1000000;
+    char micro[8];
+    if (micro_s < 100000)
+        sprintf(micro, "0%d", micro_s);
+    else if (micro_s < 10000)
+        sprintf(micro, "00%d", micro_s);
+    else if (micro_s < 1000)
+        sprintf(micro, "000%d", micro_s);
+    else if (micro_s < 100)
+        sprintf(micro, "0000%d", micro_s);
+    else if (micro_s < 10)
+        sprintf(micro, "00000%d", micro_s);
+    else
+        sprintf(micro, "%d", micro_s);
+    strcat(str_instant, micro);
+    
+
+    char str_to_print[FILENAME_MAX_LEN * 3];
+    int size = sprintf(str_to_print, "%s - %d - %s - %s\n", str_instant, pid, getLogActionName(action), info);
+
+    char logPath[PATH_MAX_LEN];
+    getcwd(logPath, PATH_MAX_LEN);
+    strcat(logPath, "/");
+    strcat(logPath, arguments->log_filename);
+
+    chmod(logPath, 0666);
+    log_file_fd = open(logPath, O_WRONLY | O_APPEND);
+    write(log_file_fd, str_to_print, size);
+    close(log_file_fd);
+}
+
+char *strArrToStr(char *arr[]) {
+    char *str = malloc(4096);
+    for (int i = 0; arr[i] != NULL; i++) {
+        strcat(str, arr[i]);
+        strcat(str, " ");
+    }
+    return str;
+}
+
+
 
 
 /**
@@ -408,12 +411,12 @@ void STDIN_ToPipeRead(int* readFds, int* fd, int* readIndex) {
     close(fd[WRITE]);
 }
 
-void PIPEFN_ToPipeWrite(int* fd) {
+void PIPEFN_ToPipeWrite(int* fd, Arguments *arguments) {
 
     if(PIPE_FILE_NO != fd[WRITE]) {
         if(dup2(fd[WRITE], PIPE_FILE_NO) != PIPE_FILE_NO) {
             fprintf(stderr, "An error occurred while completing the operation 2!\n");
-            logInfo(getpid(), EXIT, "2");
+            logInfo(getpid(), EXIT, "2", arguments);
             exit(2);
         }
         close(fd[WRITE]);
@@ -444,7 +447,7 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
             char toReadLog[1024];
             strcpy(toReadLog, toRead);
             toReadLog[bytesRead-1] = 0;
-            logInfo(getpid(), RECV_PIPE, toReadLog);
+            logInfo(getpid(), RECV_PIPE, toReadLog, arguments);
 
             sscanf(toRead, "%d%s", &tempSize, toSend); // Read SIZE
             
@@ -462,9 +465,11 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
    
     
     if(STDOUisPIPE_FN()) { // Last parent 
-        logInfo(getpid(), EXIT, "0"); // 
         if(strcmp(arguments->path, ".") == 0) {
-            char filename[PATH_MAX_LEN] = "./log.txt";
+            char* filename = (char*) malloc((PATH_MAX_LEN) * sizeof(char));
+            strcpy(filename, "./");
+            strcat(filename, arguments->log_filename);
+
             struct stat stat_entry;
             stat(filename, &stat_entry);
             
@@ -492,19 +497,17 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
             strcat(arguments->path, "/");
         }
         sprintf(toSend, "%-d%s\t%-s\n", (int) ceil(currentDirSize / (float) arguments->blockSize), arguments->blockSizeString, arguments->path); // Reconstruct PATH
-        write(PIPE_FILE_NO, toSend, strlen(toSend));
     }    
-    else {
+    else
         sprintf(toSend, "%-d\t%-s\n", currentDirSize, arguments->path); // Reconstruct PATH
-        int size_written = write(PIPE_FILE_NO, toSend, strlen(toSend)); // -> É quando ele envia informação para o pai.
 
-        char toSendLog[PATH_MAX_LEN];
-        strcpy(toSendLog, toSend);
-        toSendLog[size_written - 1] = 0;
-        logInfo(getpid(), SEND_PIPE, toSendLog);    
-        logInfo(getpid(), EXIT, "0");
-    }    
+    int size_written = write(PIPE_FILE_NO, toSend, strlen(toSend)); // -> É quando ele envia informação para o pai.
 
+    char toSendLog[PATH_MAX_LEN];
+    strcpy(toSendLog, toSend);
+    toSendLog[size_written - 1] = 0;
+    logInfo(getpid(), SEND_PIPE, toSendLog, arguments);
+    
     close(PIPE_FILE_NO);
 }
 
@@ -514,21 +517,21 @@ void printSizeAndLocation(Arguments* arguments, int size, char* filename, int is
         if (isLink) {
             if (blockSizeIsString(arguments)) {
                 sprintf(toScreen, "%-d%s\t%-s", size, arguments->blockSizeString, filename);
-                logInfo(getpid(), ENTRY, toScreen);
+                logInfo(getpid(), ENTRY, toScreen, arguments);
             }   
             else {
                 sprintf(toScreen, "%-d\t%-s", size, filename);
-                logInfo(getpid(), ENTRY, toScreen);
+                logInfo(getpid(), ENTRY, toScreen, arguments);
             }
         }
         else {
             if (blockSizeIsString(arguments)) {
                 sprintf(toScreen, "%-d%s\t%-s", size, arguments->blockSizeString, filename);
-                logInfo(getpid(), ENTRY, toScreen);
+                logInfo(getpid(), ENTRY, toScreen, arguments);
             }
             else {
                 sprintf(toScreen, "%-d\t%-s", size, filename);
-                logInfo(getpid(), ENTRY, toScreen);
+                logInfo(getpid(), ENTRY, toScreen, arguments);
             }
         }
     }
@@ -536,21 +539,21 @@ void printSizeAndLocation(Arguments* arguments, int size, char* filename, int is
         if (isLink) {
             if (blockSizeIsString(arguments)) {
                 sprintf(toScreen, "0%s\t%-s", arguments->blockSizeString, filename);
-                logInfo(getpid(), ENTRY, toScreen);
+                logInfo(getpid(), ENTRY, toScreen, arguments);
             }   
             else {
                 sprintf(toScreen, "0\t%-s", filename);
-                logInfo(getpid(), ENTRY, toScreen);
+                logInfo(getpid(), ENTRY, toScreen, arguments);
             }
         }
         else {
             if (blockSizeIsString(arguments)) {
                 sprintf(toScreen, "%-d%s\t%-s", size, arguments->blockSizeString, filename);
-                logInfo(getpid(), ENTRY, toScreen);
+                logInfo(getpid(), ENTRY, toScreen, arguments);
             }
             else {
                 sprintf(toScreen, "%-d\t%-s", size, filename);
-                logInfo(getpid(), ENTRY, toScreen);
+                logInfo(getpid(), ENTRY, toScreen, arguments);
             }
         }
     }
@@ -567,7 +570,7 @@ void executeDU(Arguments* arguments, char* programPath) {
 
     if ((dir = opendir(arguments->path)) == NULL) {
         perror(arguments->path);
-        logInfo(getpid(), EXIT, "4");
+        logInfo(getpid(), EXIT, "4", arguments);
 
         exit(4);
     }
@@ -579,7 +582,8 @@ void executeDU(Arguments* arguments, char* programPath) {
     while ((dentry = readdir(dir)) != NULL) {
 
         sprintf(filename, "%s/%s", arguments->path, dentry->d_name); 
-        if(strcmp("./log.txt", filename) == 0) // LOG file can only be processed at the end... Because it is being written during all the process...
+        //if(strcmp("./log.txt", filename) == 0) // LOG file can only be processed at the end... Because it is being written during all the process...
+        if(strcmp(arguments->log_filename, filename) == 0)
             continue;
 
         if (arguments->dereference) 
@@ -647,7 +651,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[2] = filename;
                     reproduceArgumentsToExec(arguments, args, true);
                     
-                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
+                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args), arguments);
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -662,14 +666,14 @@ void executeDU(Arguments* arguments, char* programPath) {
 
 
                     reproduceArgumentsToExec(arguments, args, false);
-                    PIPEFN_ToPipeWrite(fd);
+                    PIPEFN_ToPipeWrite(fd, arguments);
                 
                     close(fd[READ]);
 
                     // printf("\n--- %s | %s ---\n", args[0], args[2]);
                     execv(args[0], &args[0]);
                     printf("Error captured while executing execv call!\n");
-                    logInfo(getpid(), EXIT, "6");            
+                    logInfo(getpid(), EXIT, "6", arguments);            
                     exit(6);
                 }
                 else {
@@ -743,7 +747,7 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[2] = (char *) malloc(PATH_MAX_LEN * sizeof(char));
                     args[2] = filename;
                     reproduceArgumentsToExec(arguments, args, true);
-                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args));
+                    logInfo(pids[pidIndex - 1], CREATE, strArrToStr(args), arguments);
                     continue;
                 }
                 else if(pids[pidIndex - 1] == 0) { // Child (Analises another directory)
@@ -757,13 +761,13 @@ void executeDU(Arguments* arguments, char* programPath) {
                     args[2] = filename;
 
                     reproduceArgumentsToExec(arguments, args, false);
-                    PIPEFN_ToPipeWrite(fd);
+                    PIPEFN_ToPipeWrite(fd, arguments);
                     close(fd[READ]);
                     // printf("\n--- %s | %s ---\n", args[0], args[2]);
 
                     execv(args[0], &args[0]);
                     printf("Error captured while executing execv call!\n");
-                    logInfo(getpid(), EXIT, "6");
+                    logInfo(getpid(), EXIT, "6", arguments);
                     
                     exit(6);
                 }
@@ -775,34 +779,30 @@ void executeDU(Arguments* arguments, char* programPath) {
     }  
 
     terminateProcess(currentDirSize, arguments, readFds, readIndex);
-    //logInfo(getpid(), EXIT, "0");
+    logInfo(getpid(), EXIT, "0", arguments);
 
 }
 
 
 int main(int argc, char* argv[]) {
-    if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
-        fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
-        logInfo(getpid(), EXIT, "1");        
-        exit(1);
-    }
-    
-    if(putenv("LOG_FILENAME=log.txt") == -1) // It's just internal... Doesn't get outside shell
-    {
-        fprintf(stderr, "Putenv call failed!\n");
-        exit(1);
-    } 
 
-    // printf("%s\n", getenv("LOG_FILENAME"));
-    //printf("%d\n", getppid());
     Arguments arguments;
 
     initializeArgumentsStruct(&arguments);
 
     if (!checkArguments(&arguments, argc, argv)) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
-        logInfo(getpid(), EXIT, "2");
+        //logInfo(getpid(), EXIT, "2", &arguments); // TODO (arranjar forma de poder descomentar isto)
         exit(2);
+    }
+    if (!arguments.log_filename) { // se log_filename for NULL, porque a variável de ambiente não foi definida
+        arguments.log_filename = (char*) malloc(PATH_MAX_LEN * sizeof(char));
+        strcpy(arguments.log_filename,"log.txt");
+    }
+    if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
+        fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
+        logInfo(getpid(), EXIT, "1", &arguments);        
+        exit(1);
     }
 
     verifyWritingPipe();
@@ -810,8 +810,8 @@ int main(int argc, char* argv[]) {
     if(STDOUisPIPE_FN()) {
         char logPath[PATH_MAX_LEN];
         getcwd(logPath, PATH_MAX_LEN);
-        strcat(logPath, "/log.txt");
-        
+        strcat(logPath, "/");
+        strcat(logPath, arguments.log_filename);
         close(open(logPath, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXG | S_IRWXU));
     }
     
@@ -820,8 +820,5 @@ int main(int argc, char* argv[]) {
 
     executeDU(&arguments, argv[0]);
 
-    
     exit(0);
 }
-
-
