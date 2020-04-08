@@ -425,7 +425,10 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
 
 
         while(true) {
-            if(wait(NULL) != -1)
+            printf("1\n");
+            printf("%d\n", getpid());
+            printf("%d\n", pids[index]);
+            if(waitpid(pids[index], NULL, WNOHANG) != 0)
                 break;
         }
             
@@ -434,6 +437,9 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
 
 
         while(true) { // Read SIZE \t PATH -> Lê a informação dos subdiretórios.
+            printf("2\n");
+            printf("%d\n", getpid());
+            printf("%d\n", pids[index]);
             if((bytesRead = read(readFds[index], toRead, PATH_MAX_LEN)) != -1)
                 break;
         }
@@ -773,14 +779,13 @@ void sigint_handler(int sig) {
         sprintf(sig_str, "%d", sig);
         logInfo(getpid(), RECV_SIGNAL, sig_str);
         
-        //char final_str[100];
-        printf("\n\n\n\n ABC %d \n\n\n\n", pidsSize);
+        char final_str[100];
         for (int i = 0; i < pidsSize; i++) {
-            /*sprintf(final_str, "%s %d", sig_str, pids[i]);
-            logInfo(getpid(), SEND_SIGNAL, final_str);*/
+            sprintf(final_str, "%s %d", sig_str, pids[i]);
+            logInfo(getpid(), SEND_SIGNAL, final_str);
             kill(pids[i], SIGTSTP);
         }
-        printf("Are you sure you want to quit? (yes/no)\n");
+        printf("\nAre you sure you want to quit? (yes/no)\n");
         char answer[30];
         int size_read;
         while ((size_read = read(STDIN_FILENO, answer, 30)) > 0) {
@@ -802,23 +807,21 @@ void sigint_handler(int sig) {
 
 void sigtstp_handler(int sig) {
     char sigNumber[SIGNAL_LOG_LEN];
-    /*sprintf(sigNumber, "%d", sig);
-    logInfo(getpid(), RECV_SIGNAL, sigNumber);*/
+    sprintf(sigNumber, "%d", sig);
+    logInfo(getpid(), RECV_SIGNAL, sigNumber);
     
     
-    char finalStr[100];
-    strcpy(finalStr, sigNumber);
+    char finalStr[200];
+    char auxFinal[100];
+    strcpy(auxFinal, sigNumber);
     
-    printf("%d\n", pidsSize);
     for (int i = 0; i < pidsSize; i++) {
-        /*sprintf(finalStr, "%s %d", finalStr, pids[i]);
+        sprintf(finalStr, "%s %d", auxFinal, pids[i]);
         logInfo(getpid(), SEND_SIGNAL, finalStr);
-        strcpy(finalStr, sigNumber);*/
 
         kill(pids[i], SIGTSTP);
     }
 
-    printf("|%d|\n", getpid());
 
     sigset_t mask;
     sigfillset(&mask);
@@ -829,21 +832,19 @@ void sigtstp_handler(int sig) {
 
 void sigterm_handler(int sig) {
     char sigNumber[SIGNAL_LOG_LEN];
-    /*sprintf(sigNumber, "%d", sig);
-    logInfo(getpid(), RECV_SIGNAL, sigNumber);*/
+    sprintf(sigNumber, "%d", sig);
+    logInfo(getpid(), RECV_SIGNAL, sigNumber);
 
     
-    char finalStr[100];
-    strcpy(finalStr, sigNumber);
+    char finalStr[200];
+    char auxFinal[100];
+    strcpy(auxFinal, sigNumber);
     
-    printf("||%d||\n", getpid());
     for (int i = 0; i < pidsSize; i++) {
-        /*sprintf(finalStr, "%s %d", finalStr, pids[i]);
+        sprintf(finalStr, "%s %d", auxFinal, pids[i]);
         logInfo(getpid(), SEND_SIGNAL, finalStr);
-        strcpy(finalStr, sigNumber);*/
 
         kill(pids[i], SIGTERM);
-        printf("--%d--\n", pids[i]);
     }
 
 
@@ -857,20 +858,19 @@ void sigterm_handler(int sig) {
 
 void sigcont_handler(int sig) {
     char sigNumber[SIGNAL_LOG_LEN];
-    /*sprintf(sigNumber, "%d", sig);
-    logInfo(getpid(), RECV_SIGNAL, sigNumber);*/
+    sprintf(sigNumber, "%d", sig);
+    logInfo(getpid(), RECV_SIGNAL, sigNumber);
     
-    char finalStr[100];
-    strcpy(finalStr, sigNumber);
+    char finalStr[200];
+    char auxFinal[100];
+    strcpy(auxFinal, sigNumber);
+
     for (int i = 0; i < pidsSize; i++) {
-        /*sprintf(finalStr, "%s %d", finalStr, pids[i]);
+        sprintf(finalStr, "%s %d", auxFinal, pids[i]);
         logInfo(getpid(), SEND_SIGNAL, finalStr);
-        strcpy(finalStr, sigNumber);*/
 
         kill(pids[i], SIGCONT);
-        printf("-%d-\n", pids[i]);
     }
-    printf("%d\n", getpid());
 }
 
 void enableHandler() {
