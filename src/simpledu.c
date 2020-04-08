@@ -32,7 +32,7 @@
 #define SIGNAL_LOG_LEN 30
 
 pid_t pids[MAX_FORKS_LEN];
-int pidsSize;
+int pidsSize = 0;
 
 int log_file_fd;
 
@@ -392,8 +392,15 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
 
     for(int index = 0; index < readIndex; index++) {
         exitPid = wait(NULL);
+        //printf("Print parents...\n");
+        //printf("%d\n", exitPid);
+        if(exitPid == -1) {
+            //printf("ENTERED\n");
+            index--;
+            continue;
+        }    
         if((bytesRead = read(readFds[index], toRead, PATH_MAX_LEN)) != 0 && exitPid != -1) { // Read SIZE \t PATH -> Lê a informação dos subdiretórios.
-            
+            //printf("...\n");
             char toReadLog[1024];
             strcpy(toReadLog, toRead);
             toReadLog[bytesRead-1] = 0;
@@ -409,10 +416,44 @@ void terminateProcess(int currentDirSize, Arguments* arguments, int* readFds, in
                 write(STDOUT_FILENO, toRead, strlen(toRead)); 
             }    
         }   
-        
+        //printf("End\n");
         close(readFds[index]);
     }
    
+   /*for(int index = 0; index < readIndex; index++) {
+        printf("HELLO\n");
+
+
+        while(true) {
+            if(wait(NULL) != -1)
+                break;
+        }
+            
+        //printf("Print parents...\n");
+        //printf("%d\n", exitPid);
+
+
+        while(true) { // Read SIZE \t PATH -> Lê a informação dos subdiretórios.
+            if((bytesRead = read(readFds[index], toRead, PATH_MAX_LEN)) != -1)
+                break;
+        }
+
+        char toReadLog[1024];
+        strcpy(toReadLog, toRead);
+        toReadLog[bytesRead-1] = 0;
+        logInfo(getpid(), RECV_PIPE, toReadLog);
+        sscanf(toRead, "%d%s", &tempSize, toSend); // Read SIZE
+        
+        if(!arguments->separateDirs)
+            currentDirSize += tempSize;                    
+        
+        if(arguments->maxDepth > 0) {
+            sprintf(toRead, "%-d%s\t%-s\n", (int) ceil(tempSize / (float) arguments->blockSize), arguments->blockSizeString, toSend); // Reconstruct PATH
+            write(STDOUT_FILENO, toRead, strlen(toRead));
+        }
+        //printf("End\n");
+        close(readFds[index]);
+    }*/
     
     if(getpid() == getpgrp()) { // Last parent 
         if(strcmp(arguments->path, ".") == 0) {
@@ -527,6 +568,7 @@ void executeDU(Arguments* arguments, char* programPath) {
         if(strcmp("./log.txt", filename) == 0) // LOG file can only be processed at the end... Because it is being written during all the process...
             continue;
 
+        printf("%s\n", filename);
         if (arguments->dereference) 
             stat(filename, &stat_entry);
         else
@@ -742,22 +784,13 @@ void sigint_handler(int sig) {
         char answer[30];
         int size_read;
         while ((size_read = read(STDIN_FILENO, answer, 30)) > 0) {
-            printf("...........................................\n\n");
             answer[size_read - 1] = 0;
             if (strcmp(answer, "yes") == 0 || strcmp(answer, "y") == 0) {
-                for (int i = 0; i < pidsSize; i++) {
-                    /*sprintf(final_str, "%s %d", sig_str, pids[i]);
-                    logInfo(getpid(), SEND_SIGNAL, final_str);*/
-                    kill(pids[i], SIGTERM);
-                }
+                raise(SIGTERM);
                 break;
             }
             else if (strcmp(answer, "no") == 0 || strcmp(answer, "n") == 0) {
-                for (int i = 0; i < pidsSize; i++) {
-                    /*sprintf(final_str, "%s %d", sig_str, pids[i]);
-                    logInfo(getpid(), SEND_SIGNAL, final_str);*/
-                    kill(pids[i], SIGCONT);
-                }
+                raise(SIGCONT);
                 break;
             }
         }
@@ -776,6 +809,7 @@ void sigtstp_handler(int sig) {
     char finalStr[100];
     strcpy(finalStr, sigNumber);
     
+    printf("%d\n", pidsSize);
     for (int i = 0; i < pidsSize; i++) {
         /*sprintf(finalStr, "%s %d", finalStr, pids[i]);
         logInfo(getpid(), SEND_SIGNAL, finalStr);
@@ -783,6 +817,9 @@ void sigtstp_handler(int sig) {
 
         kill(pids[i], SIGTSTP);
     }
+
+    printf("|%d|\n", getpid());
+
     sigset_t mask;
     sigfillset(&mask);
     sigdelset(&mask, SIGCONT);
@@ -799,12 +836,20 @@ void sigterm_handler(int sig) {
     char finalStr[100];
     strcpy(finalStr, sigNumber);
     
+    printf("||%d||\n", getpid());
     for (int i = 0; i < pidsSize; i++) {
         /*sprintf(finalStr, "%s %d", finalStr, pids[i]);
         logInfo(getpid(), SEND_SIGNAL, finalStr);
         strcpy(finalStr, sigNumber);*/
 
-        kill(pids[i], SIGSTOP);
+        kill(pids[i], SIGTERM);
+        printf("--%d--\n", pids[i]);
+    }
+
+
+    pid_t exitPid;
+    while((exitPid = wait(NULL)) != -1) {
+        // printf("%d\n", exitPid);
     }
     
     exit(sig);
@@ -823,7 +868,9 @@ void sigcont_handler(int sig) {
         strcpy(finalStr, sigNumber);*/
 
         kill(pids[i], SIGCONT);
+        printf("-%d-\n", pids[i]);
     }
+    printf("%d\n", getpid());
 }
 
 void enableHandler() {
@@ -861,6 +908,7 @@ void enableHandler() {
     sigaction(SIGCONT, &act, NULL);
 }
 int main(int argc, char* argv[], char** envp) {
+    printf("%d\n", getpid());
     if (argc < 2 || (strcmp(argv[1], "-l") != 0 && strcmp(argv[1], "--count-links") != 0)) {
         fprintf(stderr, "Usage: %s -l [path] [-a] [-b] [-B size] [-L] [-S] [--max-depth=N]\n", argv[0]);
         logInfo(getpid(), EXIT, "1");        
@@ -895,6 +943,7 @@ int main(int argc, char* argv[], char** envp) {
         arguments.blockSize = DEFAULT_BLOCK_SIZE;
 
     executeDU(&arguments, argv[0]);
+    sleep(1);
     
     exit(0);
 }
