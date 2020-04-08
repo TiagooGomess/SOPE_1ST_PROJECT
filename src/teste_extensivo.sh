@@ -55,8 +55,8 @@ fi
 # On Downloads folder
 # flags -L -a -b (read bytes from all files)
 echo "TEST4 | -a -b -L on Downloads"
-(./simpledu -l /home/tiago/Downloads -L -a -b || echo $?) | sort -k2 > ~/tmp/teste_simpledu.txt
-(du -l /home/tiago/Downloads -L -a -b || echo $?) | sort -k2 > ~/tmp/teste_du.txt
+(./simpledu -l /home/whitelizard/Downloads -L -a -b || echo $?) | sort -k2 > ~/tmp/teste_simpledu.txt
+(du -l /home/whitelizard/Downloads -L -a -b || echo $?) | sort -k2 > ~/tmp/teste_du.txt
 
 DIFF=$(diff -q ~/tmp/teste_simpledu.txt ~/tmp/teste_du.txt)
 if [ "$DIFF" ]
